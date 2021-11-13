@@ -1,0 +1,29 @@
+{
+  "name": "NFText",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/wotori-studio/NFText",
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@emotion/cache": "latest",
+    "@emotion/react": "latest",
+    "@emotion/server": "latest",
+    "@emotion/styled": "latest",
+    "@mui/material": "latest",
+    "@react-three/drei": "^7.20.5",
+    "@react-three/fiber": "^7.0.19",
+    "clsx": "latest",
+    "next": "latest",
+    "prop-types": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "three": "^0.134.0"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+  }
+}
