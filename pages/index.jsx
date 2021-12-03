@@ -3,23 +3,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Link from "../src/Link";
 import CubeScene from "../src/3D/cube";
-import axios from "axios";
-import { useEffect, useState } from "react";
-
-function NftLoad() {
-  const [img, setImg] = useState(null);
-
-  useEffect(() => {
-    axios.get("/api/nft/query").then((response) => {
-      let data = response.data.data;
-      let url = data.token_uri_data.image.slice(7);
-      let convertedUrl = `https://ipfs.io/ipfs/${url}`;
-      setImg(convertedUrl);
-    });
-  }, []);
-
-  return <img src={img} />;
-}
+import NftLoad from "../src/components/nftLoad";
 
 export default function Index() {
   return (
