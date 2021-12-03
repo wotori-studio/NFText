@@ -14,7 +14,6 @@ function NftLoad() {
       let data = response.data.data;
       let url = data.token_uri_data.image.slice(7);
       let convertedUrl = `https://ipfs.io/ipfs/${url}`;
-      console.log(convertedUrl);
       setImg(convertedUrl);
     });
   }, []);
