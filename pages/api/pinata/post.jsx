@@ -1,3 +1,5 @@
+// just a refference of post api
+
 const storImage = (req, res) => {
   if (req.method !== "POST") {
     console.log(req);
