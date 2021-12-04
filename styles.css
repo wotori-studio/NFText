@@ -1,0 +1,64 @@
+.hide {
+  display: none;
+}
+
+.flexy {
+  display: flex;
+}
+
+input[type="submit"],
+.custom_file_btn {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 23px;
+
+  background-color: #00ffc2;
+  color: #fff;
+
+  border-width: 0px;
+  width: 127px;
+  height: 36px;
+}
+
+.custom_btn {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 23px;
+
+  background-color: #00ffc2;
+  color: #fff;
+
+  border-width: 0px;
+  width: 127px;
+  height: 36px;
+}
+
+.custom_file_btn {
+  display: flex;
+  justify-content: center;
+  margin: 0px 17px 12px 0px;
+}
+
+.custom_file_btn div {
+  margin: auto 0px;
+}
+
+.vertical_alignment {
+  display: flex;
+  justify-content: center;
+  height: 36px;
+}
+
+.result {
+  margin: auto 0px;
+  color: #afafaf;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 23px;
+}
