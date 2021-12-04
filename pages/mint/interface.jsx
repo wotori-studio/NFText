@@ -43,6 +43,13 @@ export default function Uploader() {
 
   return (
     <>
+      <style jsx>
+        {`
+          .flexy {
+            display: flex;
+          }
+        `}
+      </style>
       <div className="flexy">
         <div>
           <label className="custom_file_btn">
