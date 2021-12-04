@@ -1,6 +1,7 @@
 import Uploader from "./interface";
 
 const index = () => {
+  /* TODO: import style as modules https://nextjs.org/blog/styling-next-with-styled-jsx */
   return (
     <>
       <style jsx>
