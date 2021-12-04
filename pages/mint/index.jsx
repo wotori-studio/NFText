@@ -15,19 +15,31 @@ const index = () => {
 
   const handleSubmission = () => {
     const formData = new FormData();
+    const apiUrl = "https://api.pinata.cloud/pinning/pinFileToIPFS";
+    formData.append("file", selectedFile);
 
-    formData.append("File", selectedFile);
-
-    // axios.post("/api/pinata/post", { data: "data" }).then((resp) => {
-    //   console.log("response data: ", resp);
-    // });
-
-    fetch("/api/pinata/post", {
-      method: "POST",
-      body: formData,
-    }).then((resp) => {
-      console.log(resp);
+    const metadata = JSON.stringify({
+      name: "TheCat#003",
+      keyvalues: {
+        wallet_address: "archway1sfpyg3jnvqzf4ser62vpeqjdtvet3mfzp2v7za",
+      },
     });
+    formData.append("pinataMetadata", metadata);
+
+    const apiKey = process.env.NEXT_PUBLIC_APP_PINATA_API_KEY;
+    const secretKey = process.env.NEXT_PUBLIC_APP_PINATA_SECRET_API_KEY;
+
+    axios
+      .post(apiUrl, formData, {
+        headers: {
+          "Content-Type": `multipart/form-data; boundary= ${formData._boundary}`,
+          pinata_api_key: apiKey,
+          pinata_secret_api_key: secretKey,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+      });
   };
 
   return (
