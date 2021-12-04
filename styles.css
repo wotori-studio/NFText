@@ -2,10 +2,6 @@
   display: none;
 }
 
-.flexy {
-  display: flex;
-}
-
 input[type="submit"],
 .custom_file_btn {
   font-family: Roboto;
