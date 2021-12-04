@@ -18,7 +18,7 @@ export default function Uploader() {
     formData.append("file", selectedFile);
 
     const metadata = JSON.stringify({
-      name: "TheCat#003",
+      name: selectedFile.name,
       keyvalues: {
         wallet_address: "archway1sfpyg3jnvqzf4ser62vpeqjdtvet3mfzp2v7za",
       },
