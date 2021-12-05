@@ -4,8 +4,8 @@ import axios from "axios";
 export default function Uploader(props) {
   const [mode, setMode] = useState("");
   useEffect(() => {
+    // without useEffect causing Infinity loop
     setMode(props.mode);
-    console.log("Oooo", mode);
   });
 
   const [selectedFile, setSelectedFile] = useState("");
@@ -72,7 +72,6 @@ export default function Uploader(props) {
       </style>
       <div className="flexy">
         <div>
-          {console.log("mode", mode)}
           {mode === "img" || mode == "gltf" ? (
             <div>
               <label className="custom_file_btn">
@@ -80,9 +79,7 @@ export default function Uploader(props) {
                 <input className="hide" type="file" onChange={changeHandler} />
               </label>
             </div>
-          ) : (
-            <div></div>
-          )}
+          ) : null}
 
           <button className="custom_btn" onClick={handleSubmission}>
             upload
@@ -93,14 +90,13 @@ export default function Uploader(props) {
           <div className="vertical_alignment">
             <div className="result">{selectedFile.name}</div>
           </div>
-        ) : (
-          <div />
-        )}
-        
+        ) : null}
       </div>
-      <div className="div-pad-top">
-        <img className="img" src={imgLink ? imgLink : null}></img>
-      </div>
+      {mode === "img" ? (
+        <div className="div-pad-top">
+          <img className="img" src={imgLink ? imgLink : null}></img>
+        </div>
+      ) : null}
     </>
   );
 }
