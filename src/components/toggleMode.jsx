@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 export default function ToggleMode() {
+  // not used after lifting state up
   const [textMode, setTextMode] = useState(false);
   const [imgMode, setImgMode] = useState(false);
   const [gltfMode, setGltfMode] = useState(false);
