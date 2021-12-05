@@ -12,11 +12,23 @@ export default function ToggleMode() {
     ["gltf", activeGlts],
   ];
 
-  const handleClick = (e) => {
-    console.log(e);
-    // setActiveText(true);
-    // setActiveImg(true);
-    // setActiveGlts(true);
+  const handleClick = (item) => {
+    console.log(item);
+    if (item[0] === "gltf") {
+      setActiveText(false);
+      setActiveImg(false);
+      setActiveGlts(true);
+    }
+    if (item[0] === "text") {
+      setActiveText(true);
+      setActiveImg(false);
+      setActiveGlts(false);
+    }
+    if (item[0] === "img") {
+      setActiveText(false);
+      setActiveImg(true);
+      setActiveGlts(false);
+    }
   };
 
   return (
