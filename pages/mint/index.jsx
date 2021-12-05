@@ -91,7 +91,7 @@ const index = () => {
           </div>
         </div>
         <div className="uploader-img">
-          <Uploader />
+          <Uploader mode="img" />
         </div>
         <div className="uploader-text">text</div>
         <div className="uploader-paint">paint</div>
