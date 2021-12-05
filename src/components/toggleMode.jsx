@@ -1,31 +1,31 @@
 import { useState } from "react";
 
 export default function ToggleMode() {
-  const [activeText, setActiveText] = useState(false);
-  const [activeImg, setActiveImg] = useState(false);
-  const [activeGlts, setActiveGlts] = useState(false);
+  const [textMode, setTextMode] = useState(false);
+  const [imgMode, setImgMode] = useState(false);
+  const [gltfMode, setGltfMode] = useState(false);
 
   let buttons = [
-    ["text", activeText],
-    ["img", activeImg],
-    ["gltf", activeGlts],
+    ["text", textMode],
+    ["img", imgMode],
+    ["gltf", gltfMode],
   ];
 
   const handleClick = (item) => {
     if (item[0] === "gltf") {
-      setActiveText(false);
-      setActiveImg(false);
-      setActiveGlts(true);
+      setTextMode(false);
+      setImgMode(false);
+      setGltfMode(true);
     }
     if (item[0] === "text") {
-      setActiveText(true);
-      setActiveImg(false);
-      setActiveGlts(false);
+      setTextMode(true);
+      setImgMode(false);
+      setGltfMode(false);
     }
     if (item[0] === "img") {
-      setActiveText(false);
-      setActiveImg(true);
-      setActiveGlts(false);
+      setTextMode(false);
+      setImgMode(true);
+      setGltfMode(false);
     }
   };
 
