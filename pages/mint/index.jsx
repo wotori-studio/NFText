@@ -40,21 +40,21 @@ const index = () => {
             display: flex;
             justify-content: space-between;
           }
-          .div-pad {
+          .div-main {
             padding-top: 100px;
             padding-left: 550px;
             padding-right: 550px;
           }
-          .div-pad-bot {
+          .div-menu {
             padding-bottom: 50px;
           }
-          .uploader {
-            display: true;
+          .uploader-img {
+            display: ${imgMode ? true : 'none'};
           }
         `}
       </style>
-      <div className="div-pad">
-        <div className="div-pad-bot">
+      <div className="div-main">
+        <div className="div-menu">
           <div className="flexy">
             {modes.map((item) => {
               return (
