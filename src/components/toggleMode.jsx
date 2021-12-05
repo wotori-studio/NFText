@@ -1,5 +1,4 @@
 import { useState } from "react";
-import ButtonState from "./button_2";
 
 export default function ToggleMode() {
   const [activeText, setActiveText] = useState(false);

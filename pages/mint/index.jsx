@@ -15,13 +15,21 @@ const index = () => {
           .div-pad-bot {
             padding-bottom: 50px;
           }
+          .uploader {
+            display: true;
+          }
         `}
       </style>
       <div className="div-pad">
         <div className="div-pad-bot">
           <ToggleMode />
         </div>
-        <Uploader />
+        <div className="uploader-img">
+          <Uploader />
+        </div>
+        <div className="uploader-text"></div>
+        <div className="uploader-gltf"></div>
+        {/* based on Cosmos Archway project. */}
       </div>
     </>
   );
