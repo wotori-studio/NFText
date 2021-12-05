@@ -1,9 +1,10 @@
-import Uploader from "/src/components/uploader";
+import Uploader from "/src/components/uploader/main";
 import { useState } from "react";
 
 const index = () => {
   /* TODO: import style as modules https://nextjs.org/blog/styling-next-with-styled-jsx */
 
+  const [curMode, setCurMode] = useState("");
   const [textMode, setTextMode] = useState(false);
   const [paintMode, setPaintMode] = useState(false);
   const [imgMode, setImgMode] = useState(false);
@@ -17,6 +18,8 @@ const index = () => {
   ];
 
   const handleClick = (item) => {
+    setCurMode(item[0]);
+
     if (item[0] === "gltf") {
       setTextMode(false);
       setImgMode(false);
@@ -59,18 +62,6 @@ const index = () => {
           .div-menu {
             padding-bottom: 50px;
           }
-          .uploader-img {
-            display: ${imgMode ? true : "none"};
-          }
-          .uploader-paint {
-            display: ${paintMode ? true : "none"};
-          }
-          .uploader-text {
-            display: ${textMode ? true : "none"};
-          }
-          .uploader-gltf {
-            display: ${gltfMode ? true : "none"};
-          }
         `}
       </style>
       <div className="div-main">
@@ -90,12 +81,9 @@ const index = () => {
             })}
           </div>
         </div>
-        <div className="uploader-img">
-          <Uploader mode="img" />
+        <div className="uploader">
+          <Uploader mode={curMode} />
         </div>
-        <div className="uploader-text">text</div>
-        <div className="uploader-paint">paint</div>
-        <div className="uploader-gltf">3d</div>
         {/* based on Cosmos Archway project. */}
       </div>
     </>
