@@ -1,3 +1,4 @@
+import ToggleMode from "../../src/components/toggleMode";
 import Uploader from "/src/components/uploader";
 
 const index = () => {
@@ -11,6 +12,9 @@ const index = () => {
           }
         `}
       </style>
+      <div>
+        <ToggleMode />
+      </div>
       <div className="WTF">
         <Uploader />
       </div>

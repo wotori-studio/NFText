@@ -49,6 +49,21 @@ input[type="submit"],
   height: 36px;
 }
 
+.custom_btn_not_active {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 23px;
+
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+
+  border-width: 0px;
+  width: 127px;
+  height: 36px;
+}
+
 .result {
   margin: auto 0px;
   color: #afafaf;
