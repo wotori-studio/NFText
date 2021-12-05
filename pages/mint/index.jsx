@@ -49,7 +49,13 @@ const index = () => {
             padding-bottom: 50px;
           }
           .uploader-img {
-            display: ${imgMode ? true : 'none'};
+            display: ${imgMode ? true : "none"};
+          }
+          .uploader-text {
+            display: ${textMode ? true : "none"};
+          }
+          .uploader-gltf {
+            display: ${gltfMode ? true : "none"};
           }
         `}
       </style>
@@ -73,8 +79,8 @@ const index = () => {
         <div className="uploader-img">
           <Uploader />
         </div>
-        <div className="uploader-text"></div>
-        <div className="uploader-gltf"></div>
+        <div className="uploader-text">TEXT</div>
+        <div className="uploader-gltf">3D</div>
         {/* based on Cosmos Archway project. */}
       </div>
     </>
