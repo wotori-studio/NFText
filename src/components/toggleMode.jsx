@@ -13,7 +13,6 @@ export default function ToggleMode() {
   ];
 
   const handleClick = (item) => {
-    console.log(item);
     if (item[0] === "gltf") {
       setActiveText(false);
       setActiveImg(false);
@@ -33,16 +32,29 @@ export default function ToggleMode() {
 
   return (
     <>
-      {buttons.map((item) => {
-        return (
-          <button
-            className={item[1] ? "custom_btn" : "custom_btn_not_active"}
-            onClick={() => handleClick(item)}
-          >
-            {item[0]}
-          </button>
-        );
-      })}
+      <style jsx>
+        {`
+          .flexy {
+            display: flex;
+            justify-content: space-between;
+          }
+        `}
+      </style>
+
+      <div className="flexy">
+        {buttons.map((item) => {
+          return (
+            <div>
+              <button
+                className={item[1] ? "custom_btn" : "custom_btn_not_active"}
+                onClick={() => handleClick(item)}
+              >
+                {item[0]}
+              </button>
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 }

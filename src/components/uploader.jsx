@@ -4,6 +4,7 @@ import axios from "axios";
 export default function Uploader() {
   const [selectedFile, setSelectedFile] = useState("");
   const [isSelected, setSelected] = useState(false);
+  const [imgLink, setImgLink] = useState(null);
 
   const changeHandler = (e) => {
     const file = e.target.files[0];
@@ -38,6 +39,8 @@ export default function Uploader() {
       })
       .then((res) => {
         console.log(res.data);
+        let hash = res.data.IpfsHash;
+        setImgLink(`https://ipfs.io/ipfs/${hash}`);
       });
   };
 
@@ -48,6 +51,17 @@ export default function Uploader() {
           .flexy {
             display: flex;
           }
+          .img {
+            display: ${imgLink ? true : 'none'};
+            max-width: 400px;
+            max-heigh: 400px;
+            border-style: solid;
+            border-width: 1px;
+            padding-top: 20px;
+          }
+          .div-pad-top {
+            padding-top: 13px;
+          }
         `}
       </style>
       <div className="flexy">
@@ -57,13 +71,16 @@ export default function Uploader() {
             <input className="hide" type="file" onChange={changeHandler} />
           </label>
           <button className="custom_btn" onClick={handleSubmission}>
-            upload{" "}
+            upload
           </button>
         </div>
 
         <div className="vertical_alignment">
           <div className="result">{selectedFile.name}</div>
         </div>
+      </div>
+      <div className="div-pad-top">
+        <img className="img" src={imgLink ? imgLink : null}></img>
       </div>
     </>
   );

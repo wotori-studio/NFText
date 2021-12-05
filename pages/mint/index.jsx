@@ -7,15 +7,20 @@ const index = () => {
     <>
       <style jsx>
         {`
-          .WTF {
-            margin: 50px;
+          .div-pad {
+            padding-top: 100px;
+            padding-left: 550px;
+            padding-right: 550px;
+          }
+          .div-pad-bot {
+            padding-bottom: 50px;
           }
         `}
       </style>
-      <div>
-        <ToggleMode />
-      </div>
-      <div className="WTF">
+      <div className="div-pad">
+        <div className="div-pad-bot">
+          <ToggleMode />
+        </div>
         <Uploader />
       </div>
     </>
