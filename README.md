@@ -12,4 +12,14 @@ More info at [wotori.com](https://wotori.com)
 % yarn install
 % yarn dev
 ```
+
+#### congifure .env file
+- copy-paste `env.template` && rename It to `.env`
+- fill .env constnts with real values
+- you should have pinata API keys to run the current version of software
   
+## Features
+- upload Img
+- upload text (in progress)
+- upload painting (in progress)
+- upload 3d model with .gltf extention (in progress)

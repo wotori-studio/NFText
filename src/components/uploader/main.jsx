@@ -17,6 +17,7 @@ export default function Uploader(props) {
     console.log(file);
     setSelectedFile(file);
     setSelected(true);
+    // TODO: check if file is in propper format. (.png/ .jpg for img and .gltf for 3D)
   };
 
   const handleSubmission = () => {
