@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import axios from "axios";
 import { Container } from "@mui/material";
 import CubeScene from "../../3D/cube";
+import Monkey from "../3D/Monkey";
+import Chick from "../3D/Chick";
 
 export default function Uploader(props) {
   const [mode, setMode] = useState("");
