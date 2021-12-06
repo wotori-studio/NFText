@@ -141,6 +141,10 @@ export default function Uploader(props) {
         ) : null}
       </div>
 
+      <div>
+        {mode === "paint" ? <div>Paint interface should be here</div> : null}
+      </div>
+
       {mintReady || mode === "text" || mode === "paint" ? (
         <button className="custom_btn" onClick={handleMint}>
           mint

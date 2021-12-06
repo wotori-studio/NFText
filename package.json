@@ -23,6 +23,8 @@
     "prop-types": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "react-painter": "^0.4.0",
+    "styled-jsx": "^4.0.1",
     "three": "^0.134.0"
   },
   "scripts": {
