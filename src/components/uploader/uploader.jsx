@@ -85,6 +85,10 @@ export default function Uploader(props) {
           .div-img {
             padding-top: 13px;
           }
+          .text-box {
+            width: 372px;
+            height: 121px;
+          }
         `}
       </style>
       <div /*img and gltf*/>
@@ -129,8 +133,15 @@ export default function Uploader(props) {
         ) : null}
       </div>
 
+      <div>
+        {mode === "text" ? (
+          <div>
+            <textarea className="text-box">Imagine ...</textarea>
+          </div>
+        ) : null}
+      </div>
 
-      {mintReady ? (
+      {mintReady || mode === "text" || mode === "paint" ? (
         <button className="custom_btn" onClick={handleMint}>
           mint
         </button>
