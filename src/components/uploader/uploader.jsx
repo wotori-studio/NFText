@@ -87,40 +87,48 @@ export default function Uploader(props) {
           }
         `}
       </style>
-      <div className="flexy">
-        <div>
+      <div /*img and gltf*/>
+        <div className="flexy">
+          <div>
+            {mode === "img" || mode == "gltf" ? (
+              <div>
+                <label className="custom_file_btn">
+                  <div>select file</div>
+                  <input
+                    className="hide"
+                    type="file"
+                    onChange={changeHandler}
+                  />
+                </label>
+                <button className="custom_btn" onClick={handleSubmission}>
+                  upload
+                </button>
+              </div>
+            ) : null}
+          </div>
+
           {mode === "img" || mode == "gltf" ? (
-            <div>
-              <label className="custom_file_btn">
-                <div>select file</div>
-                <input className="hide" type="file" onChange={changeHandler} />
-              </label>
-              <button className="custom_btn" onClick={handleSubmission}>
-                upload
-              </button>
+            // display selected file name
+            <div className="vertical_alignment">
+              <div className="result">{selectedFile.name}</div>
             </div>
           ) : null}
         </div>
 
-        {mode === "img" || mode == "gltf" ? (
-          // display selected file name
-          <div className="vertical_alignment">
-            <div className="result">{selectedFile.name}</div>
+        {mode === "img" ? (
+          // display img div
+          <div className="div-img">
+            <img className="img" src={imgLink ? imgLink : null}></img>
           </div>
+        ) : null}
+        {mode === "gltf" ? (
+          // display 3D convas
+          <Container sx={{ height: 500 }}>
+            <ThreeScene />
+          </Container>
         ) : null}
       </div>
 
-      {mode === "img" ? (
-        <div className="div-img">
-          <img className="img" src={imgLink ? imgLink : null}></img>
-        </div>
-      ) : null}
-
-      {mode === "gltf" ? (
-        <Container sx={{ height: 500 }}>
-          <ThreeScene />
-        </Container>
-      ) : null}
 
       {mintReady ? (
         <button className="custom_btn" onClick={handleMint}>

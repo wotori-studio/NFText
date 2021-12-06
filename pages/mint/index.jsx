@@ -1,7 +1,7 @@
-import Uploader from "/src/components/uploader/uploader";
 import { useState } from "react";
 import Wallet from "../../src/components/wallet/main";
 import ToggleRootMode from "../../src/components/toggleMode_2";
+import Uploader from "../../src/components/uploader/uploader";
 
 const index = () => {
   /* TODO: import style as modules https://nextjs.org/blog/styling-next-with-styled-jsx */
