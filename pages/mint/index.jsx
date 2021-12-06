@@ -1,5 +1,6 @@
 import Uploader from "/src/components/uploader/main";
 import { useState } from "react";
+import Wallet from "../../src/components/wallet/main";
 
 const index = () => {
   /* TODO: import style as modules https://nextjs.org/blog/styling-next-with-styled-jsx */
@@ -48,6 +49,7 @@ const index = () => {
 
   return (
     <>
+     <Wallet />
       <style jsx>
         {`
           .flexy {
@@ -65,6 +67,7 @@ const index = () => {
         `}
       </style>
       <div className="div-main">
+       
         <div className="div-menu">
           <div className="flexy">
             {modes.map((item) => {

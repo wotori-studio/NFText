@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Container } from "@mui/material";
+import CubeScene from "../../3D/cube";
 
 export default function Uploader(props) {
   const [mode, setMode] = useState("");
@@ -11,6 +13,7 @@ export default function Uploader(props) {
   const [selectedFile, setSelectedFile] = useState("");
   const [isSelected, setSelected] = useState(false); // TODO: if selected make clickable upload button
   const [imgLink, setImgLink] = useState(null);
+  const [consoleResponse, setConsoleResponse] = useState("");
 
   const changeHandler = (e) => {
     const file = e.target.files[0];
@@ -51,6 +54,13 @@ export default function Uploader(props) {
       });
   };
 
+  const handleMint = () => {
+    console.log("start minting...");
+    axios.get("/api/bash").then((response) => {
+      console.log(response);
+    });
+  };
+
   return (
     <>
       <style jsx>
@@ -59,14 +69,14 @@ export default function Uploader(props) {
             display: flex;
           }
           .img {
-            display: ${imgLink ? true : "none"};
+            display: ${imgLink && mode === "img" ? true : "none"};
             max-width: 400px;
             max-heigh: 400px;
             border-style: solid;
             border-width: 1px;
             padding-top: 20px;
           }
-          .div-pad-top {
+          .div-img {
             padding-top: 13px;
           }
         `}
@@ -93,11 +103,22 @@ export default function Uploader(props) {
           </div>
         ) : null}
       </div>
+
       {mode === "img" ? (
-        <div className="div-pad-top">
+        <div className="div-img">
           <img className="img" src={imgLink ? imgLink : null}></img>
         </div>
       ) : null}
+
+      {mode === "gltf" ? (
+        <Container sx={{ height: 500 }}>
+          <CubeScene />
+        </Container>
+      ) : null}
+
+      <button className="custom_btn" onClick={handleMint}>
+        mint
+      </button>
     </>
   );
 }
