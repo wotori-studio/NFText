@@ -1,11 +1,7 @@
 import React, { Suspense, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import Monkey from "../components/3D/Monkey";
 import { OrbitControls } from "@react-three/drei";
 import Chick from "../components/3D/Chick";
-
-// sample for testing and development purpose from:
-// https://codesandbox.io/s/rrppl0y8l4?file=/src/App.js:0-1220
 
 function Box(props) {
   const ref = useRef();

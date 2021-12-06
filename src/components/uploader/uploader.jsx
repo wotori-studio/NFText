@@ -1,16 +1,17 @@
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Container } from "@mui/material";
-import CubeScene from "../../3D/cube";
-import Monkey from "../3D/Monkey";
-import Chick from "../3D/Chick";
+import ThreeScene from "../../3D/cube";
 
 export default function Uploader(props) {
   const [mode, setMode] = useState("");
   useEffect(() => {
     // without useEffect causing Infinity loop
+    // updating programm mode state
     setMode(props.mode);
   });
+
+  const [mintReady, setMintReady] = useState(false);
 
   const [selectedFile, setSelectedFile] = useState("");
   const [isSelected, setSelected] = useState(false); // TODO: if selected make clickable upload button
@@ -52,7 +53,10 @@ export default function Uploader(props) {
       .then((res) => {
         console.log(res.data);
         let hash = res.data.IpfsHash;
-        setImgLink(`https://ipfs.io/ipfs/${hash}`);
+        if (mode === "img") {
+          setImgLink(`https://ipfs.io/ipfs/${hash}`);
+          setMintReady(true);
+        }
       });
   };
 
@@ -91,15 +95,15 @@ export default function Uploader(props) {
                 <div>select file</div>
                 <input className="hide" type="file" onChange={changeHandler} />
               </label>
+              <button className="custom_btn" onClick={handleSubmission}>
+                upload
+              </button>
             </div>
           ) : null}
-
-          <button className="custom_btn" onClick={handleSubmission}>
-            upload
-          </button>
         </div>
 
         {mode === "img" || mode == "gltf" ? (
+          // display selected file name
           <div className="vertical_alignment">
             <div className="result">{selectedFile.name}</div>
           </div>
@@ -114,13 +118,15 @@ export default function Uploader(props) {
 
       {mode === "gltf" ? (
         <Container sx={{ height: 500 }}>
-          <CubeScene />
+          <ThreeScene />
         </Container>
       ) : null}
 
-      <button className="custom_btn" onClick={handleMint}>
-        mint
-      </button>
+      {mintReady ? (
+        <button className="custom_btn" onClick={handleMint}>
+          mint
+        </button>
+      ) : null}
     </>
   );
 }
