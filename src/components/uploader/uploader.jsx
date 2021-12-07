@@ -5,6 +5,7 @@ import ThreeScene from "../../3D/cube";
 
 export default function Uploader(props) {
   const [mode, setMode] = useState("");
+
   useEffect(() => {
     // without useEffect causing Infinity loop
     // updating programm mode state
@@ -62,6 +63,11 @@ export default function Uploader(props) {
 
   const handleMint = () => {
     console.log("start minting...");
+
+    let address = localStorage.getItem("address");
+    let mnemonic = localStorage.getItem("mnemonic");
+    console.log(address, mnemonic);
+
     axios.get("/api/bash").then((response) => {
       console.log(response);
     });

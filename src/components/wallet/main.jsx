@@ -9,16 +9,15 @@ export default function Wallet() {
   const [btnValue, setBtnValue] = useState("Login");
 
   useEffect(() => {
-    localStorage.setItem("key#1", input1);
-    localStorage.setItem("key#2", input2);
+    localStorage.setItem("address", input1);
+    localStorage.setItem("mnemonic", input2);
     localStorage.setItem("key#3", input3);
   }, []);
 
   const changes = (event) => {
-      listDir()
     if (btnValue === "Login" && input1 && input2) {
-      localStorage.setItem("key#1", input1);
-      localStorage.setItem("key#2", input2);
+      localStorage.setItem("address", input1);
+      localStorage.setItem("mnemonic", input2);
       localStorage.setItem("key#3", input3);
 
       setInputClass(`${inputClass} hidden`);
@@ -70,7 +69,7 @@ export default function Wallet() {
             /* Positioning */
             position: fixed;
             z-index: 999999;
-            top: 60px;
+            top: 180px;
             left: -200px;
 
             /* Panel Font */
@@ -211,7 +210,7 @@ export default function Wallet() {
         <div className="side-body">
           <input
             type="password"
-            placeholder="account addres"
+            placeholder="address"
             className={inputClass}
             value={input1}
             onChange={(e) => setInput1(e.target.value)}
