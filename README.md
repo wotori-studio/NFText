@@ -1,8 +1,9 @@
 # NFText - _from text to virtual world._
 <img src="https://ipfs.io/ipfs/QmWTvKbPeWDwNQMFgbmWzciq7NNcwsQcBgV5jLNNhPNwF6" style="width:200px" />
 
-
+## Concept
 This project about collaboration between writers and artists in NFT creation.
+The goal to allow all people participate in art and vitual world creation. Even If you can't draw, start from text, Imagine the character and mint the description as NFT. Then someone who ggod at painting and 3D will join your Idea and at the and you'll have a visualisation of text and group NFT that able to live in web 3.0 and virtual worlds...
 More info at [wotori.com](https://wotori.com)
 
 ## Features
@@ -13,6 +14,9 @@ More info at [wotori.com](https://wotori.com)
 - display all artist`s NFT (in progress)
 - share NFT with others (in progress)
 - trade NFTs (in progress)
+
+## Basic Interface
+![image](https://user-images.githubusercontent.com/10486621/145106617-964b6460-7ce4-49ce-9b90-0f310039bb6f.png)
 
 ## Development & Requirements
 
