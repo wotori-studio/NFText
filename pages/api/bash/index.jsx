@@ -4,6 +4,6 @@
 import { execSync } from "child_process";
 
 export default function cmd(req, res) {
-  const output = execSync("ls -a", { encoding: "utf-8" });
+  const output = execSync("ls ./contracts/", { encoding: "utf-8" });
   res.status(200).json({ output: output });
 }
