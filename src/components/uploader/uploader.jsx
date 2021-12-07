@@ -82,6 +82,11 @@ export default function Uploader(props) {
             border-width: 1px;
             padding-top: 20px;
           }
+          .web-gl {
+            margin-top: 20px;
+            border-style: solid;
+            border-width: 1px;
+          }
           .div-img {
             padding-top: 13px;
           }
@@ -127,19 +132,19 @@ export default function Uploader(props) {
         ) : null}
         {mode === "gltf" ? (
           // display 3D convas
-          <div>
-            <iframe
+          <div className="web-gl">
+            {/* <iframe
               width="600px"
               height="400px"
               src={
                 "https://wotori.mypinata.cloud/ipfs/QmUR2XyUZvGvsNMmLBA5joPduT4f95jSMGzzzmCkckKSF4/?object=Qmb3yAjLrrrchdShAwSG1hKwJ4fN8zsAN4Vrhw9ahSQtCz&filename=monkey.glb"
               }
-            ></iframe>
+            ></iframe> */}
+            <Container sx={{ height: 500 }}>
+              <ThreeScene />
+            </Container>
           </div>
-        ) : // <Container sx={{ height: 500 }}>
-        //   <ThreeScene />
-        // </Container>
-        null}
+        ) : null}
       </div>
 
       <div>

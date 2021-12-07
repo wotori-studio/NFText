@@ -26,11 +26,11 @@ function Box(props) {
 
 export default function ThreeScene() {
   return (
-    <Canvas>
+    <Canvas camera={{ position: [0, 0, 3] }}>
       <OrbitControls />
       <Suspense fallback={null}>
-        {/* <Chick scale={[25, 25, 25]} /> */}
-        <ThreeFileLoader />
+        <Chick scale={[25, 25, 25]} position={[0, -1, 0]} />
+        {/* <ThreeFileLoader /> */}
       </Suspense>
       <ambientLight intensity={1} />
       <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
