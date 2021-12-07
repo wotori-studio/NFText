@@ -28,9 +28,9 @@ export default function ThreeScene() {
   return (
     <Canvas>
       <OrbitControls />
-      {/* <ThreeFileLoader /> */}
       <Suspense fallback={null}>
-        <Chick scale={[25, 25, 25]} />
+        {/* <Chick scale={[25, 25, 25]} /> */}
+        <ThreeFileLoader />
       </Suspense>
       <ambientLight intensity={1} />
       <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
