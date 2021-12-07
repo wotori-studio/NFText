@@ -15,7 +15,6 @@ const index = () => {
 
   let modes = [
     ["text", textMode],
-    ["paint", paintMode],
     ["img", imgMode],
     ["gltf", gltfMode],
   ];

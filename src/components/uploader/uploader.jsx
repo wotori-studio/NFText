@@ -127,10 +127,19 @@ export default function Uploader(props) {
         ) : null}
         {mode === "gltf" ? (
           // display 3D convas
-          <Container sx={{ height: 500 }}>
-            <ThreeScene />
-          </Container>
-        ) : null}
+          <div>
+            <iframe
+              width="600px"
+              height="400px"
+              src={
+                "https://wotori.mypinata.cloud/ipfs/QmUR2XyUZvGvsNMmLBA5joPduT4f95jSMGzzzmCkckKSF4/?object=Qmb3yAjLrrrchdShAwSG1hKwJ4fN8zsAN4Vrhw9ahSQtCz&filename=monkey.glb"
+              }
+            ></iframe>
+          </div>
+        ) : // <Container sx={{ height: 500 }}>
+        //   <ThreeScene />
+        // </Container>
+        null}
       </div>
 
       <div>
