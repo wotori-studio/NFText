@@ -30,7 +30,7 @@ export default function ToggleRootMode() {
             justify-content: center;
           }
           .div-padding {
-            padding: 20px;
+            padding-bottom: 25px;
           }
         `}
       </style>
