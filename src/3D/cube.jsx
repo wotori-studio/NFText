@@ -2,6 +2,7 @@ import React, { Suspense, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import Chick from "../components/3D/Chick";
+import ThreeFileLoader from "../components/3D/Loader";
 
 function Box(props) {
   const ref = useRef();
@@ -27,6 +28,7 @@ export default function ThreeScene() {
   return (
     <Canvas>
       <OrbitControls />
+      {/* <ThreeFileLoader /> */}
       <Suspense fallback={null}>
         <Chick scale={[25, 25, 25]} />
       </Suspense>
