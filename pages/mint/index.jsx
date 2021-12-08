@@ -1,10 +1,13 @@
-import Uploader from "/src/components/uploader/main";
 import { useState } from "react";
+import Wallet from "../../src/components/wallet/main";
+import ToggleRootMode from "../../src/components/toggleMode_2";
+import Uploader from "../../src/components/uploader/uploader";
 
 const index = () => {
   /* TODO: import style as modules https://nextjs.org/blog/styling-next-with-styled-jsx */
 
   const [curMode, setCurMode] = useState("");
+
   const [textMode, setTextMode] = useState(false);
   const [paintMode, setPaintMode] = useState(false);
   const [imgMode, setImgMode] = useState(false);
@@ -12,7 +15,6 @@ const index = () => {
 
   let modes = [
     ["text", textMode],
-    ["paint", paintMode],
     ["img", imgMode],
     ["gltf", gltfMode],
   ];
@@ -48,6 +50,7 @@ const index = () => {
 
   return (
     <>
+      <Wallet />
       <style jsx>
         {`
           .flexy {
@@ -66,6 +69,7 @@ const index = () => {
       </style>
       <div className="div-main">
         <div className="div-menu">
+          <ToggleRootMode />
           <div className="flexy">
             {modes.map((item) => {
               return (
