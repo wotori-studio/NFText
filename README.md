@@ -20,6 +20,8 @@ More info at [wotori.com](https://wotori.com)
 
 ## Development & Requirements
 
+To run project localy you need to have an api key for Pinata file storage.
+
 #### Install Archway core
 - Install `archwayd` and `cli` following tutorial at archway [documentation](https://docs.archway.io/docs/create/getting-started/install)
 
