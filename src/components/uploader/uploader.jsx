@@ -76,15 +76,19 @@ export default function Uploader(props) {
         metaProxy.name = nftTitle;
         metaProxy.description = textNft;
         if (mode === "img") metaProxy.type = "img";
-        if (mode === "text") metaProxy.type = "text";
+        if (mode === "text") {
+          metaProxy.type = "text";
+        }
         if (mode === "gltf") metaProxy.type = "gltf";
 
         console.log("metaProxy collected:", metaProxy);
 
-        uploadPinataMeta(imgLink, metaProxy).then((data) => {
-          setMetaDataLink(data);
-          console.log("Metadata uploaded", data);
-        });
+        uploadPinataMeta(`https://ipfs.io/ipfs/${hash}`, metaProxy).then(
+          (data) => {
+            setMetaDataLink(data);
+            console.log("Metadata uploaded", data);
+          }
+        );
       });
   };
 
@@ -95,6 +99,9 @@ export default function Uploader(props) {
 
   const handleMint = () => {
     console.log("start minting...");
+    let address = localStorage.getItem("address");
+    let mnemonic = localStorage.getItem("mnemonic");
+    console.log(`address: ${address}, mnemonic: ${mnemonic}`);
     console.log("metaData:", metaDataLink);
 
     // prepare data structure for minting
@@ -104,9 +111,16 @@ export default function Uploader(props) {
       minter: address,
     };
 
-    let address = localStorage.getItem("address");
-    let mnemonic = localStorage.getItem("mnemonic");
-    console.log(`address: ${address}, mnemonic: ${mnemonic}`);
+    const smContractArgs = {
+      mint: {
+        token_id: "1",
+        owner: address,
+        token_uri: metaDataLink,
+        external_url: "https://wotori.com",
+      },
+    };
+    console.log("data for contract deployment:", smContractData);
+    console.log("data for NFT minting:", smContractArgs);
 
     axios.get("/api/bash").then((response) => {
       console.log(response);
