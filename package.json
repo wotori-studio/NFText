@@ -18,10 +18,13 @@
     "@react-three/fiber": "^7.0.19",
     "axios": "^0.24.0",
     "clsx": "latest",
+    "gltfjsx": "^4.5.2",
     "next": "latest",
     "prop-types": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "react-painter": "^0.4.0",
+    "styled-jsx": "^4.0.1",
     "three": "^0.134.0"
   },
   "scripts": {
