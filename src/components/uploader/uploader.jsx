@@ -14,12 +14,12 @@ export default function Uploader(props) {
   });
 
   const [mintReady, setMintReady] = useState(false);
-  const [metaData, setMetaDataLink] = useState("");
+  const [metaDataLink, setMetaDataLink] = useState("");
+  const [metaData, setMetaData] = useState("");
 
   const [selectedFile, setSelectedFile] = useState("");
   const [isSelected, setSelected] = useState(false); // TODO: if selected make clickable upload button
   const [imgLink, setImgLink] = useState(null);
-  const [consoleResponse, setConsoleResponse] = useState("");
 
   const changeHandler = (e) => {
     const file = e.target.files[0];
@@ -29,9 +29,15 @@ export default function Uploader(props) {
     // TODO: check if file is in propper format. (.png/ .jpg for img and .gltf for 3D)
   };
 
+  const [textNft, setTextNft] = useState("");
+  const handleText = (e) => {
+    setTextNft(e.target.value);
+  };
+
   const handleSubmission = () => {
-    const formData = new FormData();
-    formData.append("file", selectedFile);
+    const apiKey = process.env.NEXT_PUBLIC_APP_PINATA_API_KEY;
+    const secretKey = process.env.NEXT_PUBLIC_APP_PINATA_SECRET_API_KEY;
+    const apiUrl = process.env.NEXT_PUBLIC_APP_PINATA_API_URL;
 
     const metadata = JSON.stringify({
       name: selectedFile.name,
@@ -39,11 +45,17 @@ export default function Uploader(props) {
         wallet_address: "archway1sfpyg3jnvqzf4ser62vpeqjdtvet3mfzp2v7za",
       },
     });
+    let formData = new FormData();
     formData.append("pinataMetadata", metadata);
 
-    const apiKey = process.env.NEXT_PUBLIC_APP_PINATA_API_KEY;
-    const secretKey = process.env.NEXT_PUBLIC_APP_PINATA_SECRET_API_KEY;
-    const apiUrl = process.env.NEXT_PUBLIC_APP_PINATA_API_URL;
+    if (mode !== "text") {
+      formData.append("file", selectedFile);
+    }
+
+    if (mode === "text") {
+      var file = new Blob([textNft], { type: "text/plain;charset=urg-8" });
+      formData.append("file", file, "nftext.txt");
+    }
 
     //upload
     axios
@@ -57,30 +69,44 @@ export default function Uploader(props) {
       .then((res) => {
         console.log("File uploaded:", res.data);
         let hash = res.data.IpfsHash;
-        if (mode === "img") {
-          setImgLink(`https://ipfs.io/ipfs/${hash}`);
-          setMintReady(true);
-          uploadPinataMeta(imgLink).then((data) => {
-            setMetaDataLink(data);
-            console.log("Metadata uploaded", data);
-          });
-        }
+        if (mode === "img") setImgLink(`https://ipfs.io/ipfs/${hash}`);
+        setMintReady(true);
+
+        let metaProxy = {};
+        metaProxy.name = nftTitle;
+        metaProxy.description = textNft;
+        if (mode === "img") metaProxy.type = "img";
+        if (mode === "text") metaProxy.type = "text";
+        if (mode === "gltf") metaProxy.type = "gltf";
+
+        console.log("metaProxy collected:", metaProxy);
+
+        uploadPinataMeta(imgLink, metaProxy).then((data) => {
+          setMetaDataLink(data);
+          console.log("Metadata uploaded", data);
+        });
       });
+  };
+
+  const [nftTitle, setNftTitle] = useState("");
+  const handleInputChange = (e) => {
+    setNftTitle(e.target.value);
   };
 
   const handleMint = () => {
     console.log("start minting...");
-    console.log("metaData:", metaData);
+    console.log("metaData:", metaDataLink);
+
     // prepare data structure for minting
     const smContractData = {
-      name: "artic",
+      name: nftTitle,
       symbol: "nft",
-      minter: "archway1sfpyg3jnvqzf4ser62vpeqjdtvet3mfzp2v7za",
+      minter: address,
     };
 
     let address = localStorage.getItem("address");
     let mnemonic = localStorage.getItem("mnemonic");
-    console.log(address, mnemonic);
+    console.log(`address: ${address}, mnemonic: ${mnemonic}`);
 
     axios.get("/api/bash").then((response) => {
       console.log(response);
@@ -114,9 +140,17 @@ export default function Uploader(props) {
             width: 372px;
             height: 121px;
           }
+          .padding-upload {
+            margin-bottom: 10px;
+          }
         `}
       </style>
       <div /*img and gltf*/>
+        <input
+          type="text"
+          placeholder="NFT`s title"
+          onChange={handleInputChange}
+        />
         <div className="flexy">
           <div>
             {mode === "img" || mode == "gltf" ? (
@@ -170,7 +204,14 @@ export default function Uploader(props) {
       <div>
         {mode === "text" ? (
           <div>
-            <textarea className="text-box">Imagine ...</textarea>
+            <textarea className="text-box" onChange={handleText}>
+              Imagine ...
+            </textarea>
+            <div className="padding-upload">
+              <button className="custom_btn" onClick={handleSubmission}>
+                upload
+              </button>
+            </div>
           </div>
         ) : null}
       </div>
