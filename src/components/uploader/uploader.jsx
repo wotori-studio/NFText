@@ -2,39 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Container } from "@mui/material";
 import ThreeScene from "../../3D/cube";
-
-function uploadPinataMeta(ipfsFileUrl, apiUrl, apiKey, secretKey) {
-  let meta = {
-    name: " meta.name",
-    description: "meta.description",
-    external_url: "meta.external_url",
-    image: ipfsFileUrl,
-    attributes: [
-      {
-        trait_type: "type",
-        value: "meta.type",
-      },
-    ],
-  };
-
-  var file = new Blob([JSON.stringify(meta)], {
-    type: "text/plain;charset=utf-8",
-  });
-  const formData = new FormData();
-  formData.append("file", file, "meta.txt");
-
-  axios
-    .post(apiUrl, formData, {
-      headers: {
-        "Content-Type": `multipart/form-data; boundary= ${formData._boundary}`,
-        pinata_api_key: apiKey,
-        pinata_secret_api_key: secretKey,
-      },
-    })
-    .then((res) => {
-      console.log("Meta Uploaded:", res.data);
-    });
-}
+import uploadPinataMeta from "../../tools/uploader/metaUploader";
 
 export default function Uploader(props) {
   const [mode, setMode] = useState("");
@@ -46,6 +14,7 @@ export default function Uploader(props) {
   });
 
   const [mintReady, setMintReady] = useState(false);
+  const [metaData, setMetaDataLink] = useState("");
 
   const [selectedFile, setSelectedFile] = useState("");
   const [isSelected, setSelected] = useState(false); // TODO: if selected make clickable upload button
@@ -61,7 +30,6 @@ export default function Uploader(props) {
   };
 
   const handleSubmission = () => {
-    const apiUrl = "https://api.pinata.cloud/pinning/pinFileToIPFS";
     const formData = new FormData();
     formData.append("file", selectedFile);
 
@@ -75,6 +43,7 @@ export default function Uploader(props) {
 
     const apiKey = process.env.NEXT_PUBLIC_APP_PINATA_API_KEY;
     const secretKey = process.env.NEXT_PUBLIC_APP_PINATA_SECRET_API_KEY;
+    const apiUrl = process.env.NEXT_PUBLIC_APP_PINATA_API_URL;
 
     //upload
     axios
@@ -91,13 +60,17 @@ export default function Uploader(props) {
         if (mode === "img") {
           setImgLink(`https://ipfs.io/ipfs/${hash}`);
           setMintReady(true);
-          uploadPinataMeta(imgLink, apiUrl, apiKey, secretKey);
+          uploadPinataMeta(imgLink).then((data) => {
+            setMetaDataLink(data);
+            console.log("Metadata uploaded", data);
+          });
         }
       });
   };
 
   const handleMint = () => {
     console.log("start minting...");
+    console.log("metaData:", metaData);
     // prepare data structure for minting
     const smContractData = {
       name: "artic",
