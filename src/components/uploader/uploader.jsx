@@ -3,6 +3,39 @@ import axios from "axios";
 import { Container } from "@mui/material";
 import ThreeScene from "../../3D/cube";
 
+function uploadPinataMeta(ipfsFileUrl, apiUrl, apiKey, secretKey) {
+  let meta = {
+    name: " meta.name",
+    description: "meta.description",
+    external_url: "meta.external_url",
+    image: ipfsFileUrl,
+    attributes: [
+      {
+        trait_type: "type",
+        value: "meta.type",
+      },
+    ],
+  };
+
+  var file = new Blob([JSON.stringify(meta)], {
+    type: "text/plain;charset=utf-8",
+  });
+  const formData = new FormData();
+  formData.append("file", file, "meta.txt");
+
+  axios
+    .post(apiUrl, formData, {
+      headers: {
+        "Content-Type": `multipart/form-data; boundary= ${formData._boundary}`,
+        pinata_api_key: apiKey,
+        pinata_secret_api_key: secretKey,
+      },
+    })
+    .then((res) => {
+      console.log("Meta Uploaded:", res.data);
+    });
+}
+
 export default function Uploader(props) {
   const [mode, setMode] = useState("");
 
@@ -28,8 +61,8 @@ export default function Uploader(props) {
   };
 
   const handleSubmission = () => {
-    const formData = new FormData();
     const apiUrl = "https://api.pinata.cloud/pinning/pinFileToIPFS";
+    const formData = new FormData();
     formData.append("file", selectedFile);
 
     const metadata = JSON.stringify({
@@ -43,6 +76,7 @@ export default function Uploader(props) {
     const apiKey = process.env.NEXT_PUBLIC_APP_PINATA_API_KEY;
     const secretKey = process.env.NEXT_PUBLIC_APP_PINATA_SECRET_API_KEY;
 
+    //upload
     axios
       .post(apiUrl, formData, {
         headers: {
@@ -52,17 +86,24 @@ export default function Uploader(props) {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        console.log("File uploaded:", res.data);
         let hash = res.data.IpfsHash;
         if (mode === "img") {
           setImgLink(`https://ipfs.io/ipfs/${hash}`);
           setMintReady(true);
+          uploadPinataMeta(imgLink, apiUrl, apiKey, secretKey);
         }
       });
   };
 
   const handleMint = () => {
     console.log("start minting...");
+    // prepare data structure for minting
+    const smContractData = {
+      name: "artic",
+      symbol: "nft",
+      minter: "archway1sfpyg3jnvqzf4ser62vpeqjdtvet3mfzp2v7za",
+    };
 
     let address = localStorage.getItem("address");
     let mnemonic = localStorage.getItem("mnemonic");
