@@ -5,9 +5,11 @@ export default async function uploadPinataMeta(ipfsFileUrl, meta) {
   const secretKey = process.env.NEXT_PUBLIC_APP_PINATA_SECRET_API_KEY;
   const apiUrl = process.env.NEXT_PUBLIC_APP_PINATA_API_URL;
 
+
+  let description = meta.description.substr(0, 20)
   let metaProxy = {
     name: meta.name,
-    description: meta.description,
+    description: description,
     external_url: "https://wotori.com",
     image: ipfsFileUrl,
     attributes: [

@@ -85,7 +85,7 @@ export default function Uploader(props) {
 
         uploadPinataMeta(`https://ipfs.io/ipfs/${hash}`, metaProxy).then(
           (data) => {
-            setMetaDataLink(data);
+            setMetaDataLink(data.IpfsHash);
             console.log("Metadata uploaded", data);
           }
         );
