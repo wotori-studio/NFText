@@ -6,9 +6,9 @@ import Uploader from "../../src/components/uploader/uploader";
 const index = () => {
   /* TODO: import style as modules https://nextjs.org/blog/styling-next-with-styled-jsx */
 
-  const [curMode, setCurMode] = useState("");
+  const [curMode, setCurMode] = useState("text");
 
-  const [textMode, setTextMode] = useState(false);
+  const [textMode, setTextMode] = useState(true);
   const [paintMode, setPaintMode] = useState(false);
   const [imgMode, setImgMode] = useState(false);
   const [gltfMode, setGltfMode] = useState(false);
