@@ -57,6 +57,30 @@
     "deployments": [
       {
         "type": "instatiate",
+        "address": "archway18n6vjr8c7209tcncej3m8a8y0yrd7z4sh8mrjs",
+        "chainId": "constantine-1",
+        "data": "{\"height\":\"87747\",\"txhash\":\"E19C8085803C8351CE6B781548DD5F2C6AD131828410F0F447BB73CCF5FD728C\",\"data\":\"0A3F0A0B696E7374616E746961746512300A2E6172636877617931386E36766A7238633732303974636E63656A336D3861387930797264377A347368386D726A73\",\"raw_log\":\"[{\\\"events\\\":[{\\\"type\\\":\\\"instantiate\\\",\\\"attributes\\\":[{\\\"key\\\":\\\"_contract_address\\\",\\\"value\\\":\\\"archway18n6vjr8c7209tcncej3m8a8y0yrd7z4sh8mrjs\\\"},{\\\"key\\\":\\\"code_id\\\",\\\"value\\\":\\\"69\\\"}]},{\\\"type\\\":\\\"message\\\",\\\"attributes\\\":[{\\\"key\\\":\\\"action\\\",\\\"value\\\":\\\"instantiate\\\"},{\\\"key\\\":\\\"module\\\",\\\"value\\\":\\\"wasm\\\"},{\\\"key\\\":\\\"sender\\\",\\\"value\\\":\\\"archway1an03m8y9jgk0ddsyuc6wjxkafl9vlq5aj68wx2\\\"}]}]}]\",\"logs\":[{\"events\":[{\"type\":\"instantiate\",\"attributes\":[{\"key\":\"_contract_address\",\"value\":\"archway18n6vjr8c7209tcncej3m8a8y0yrd7z4sh8mrjs\"},{\"key\":\"code_id\",\"value\":\"69\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"instantiate\"},{\"key\":\"module\",\"value\":\"wasm\"},{\"key\":\"sender\",\"value\":\"archway1an03m8y9jgk0ddsyuc6wjxkafl9vlq5aj68wx2\"}]}]}],\"gas_wanted\":\"180060\",\"gas_used\":\"149676\"}"
+      },
+      {
+        "type": "create",
+        "codeId": "69",
+        "chainId": "constantine-1",
+        "data": "{\"height\":\"87742\",\"txhash\":\"D8657813C076A62E399F52DD4ADEA593339B081D1B735A2E7B7691A803E37FF9\",\"data\":\"0A100A0A73746F72652D636F646512020845\",\"raw_log\":\"[{\\\"events\\\":[{\\\"type\\\":\\\"message\\\",\\\"attributes\\\":[{\\\"key\\\":\\\"action\\\",\\\"value\\\":\\\"store-code\\\"},{\\\"key\\\":\\\"module\\\",\\\"value\\\":\\\"wasm\\\"},{\\\"key\\\":\\\"sender\\\",\\\"value\\\":\\\"archway1an03m8y9jgk0ddsyuc6wjxkafl9vlq5aj68wx2\\\"}]},{\\\"type\\\":\\\"store_code\\\",\\\"attributes\\\":[{\\\"key\\\":\\\"code_id\\\",\\\"value\\\":\\\"69\\\"}]}]}]\",\"logs\":[{\"events\":[{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"store-code\"},{\"key\":\"module\",\"value\":\"wasm\"},{\"key\":\"sender\",\"value\":\"archway1an03m8y9jgk0ddsyuc6wjxkafl9vlq5aj68wx2\"}]},{\"type\":\"store_code\",\"attributes\":[{\"key\":\"code_id\",\"value\":\"69\"}]}]}],\"gas_wanted\":\"1658641\",\"gas_used\":\"1286252\"}"
+      },
+      {
+        "type": "instatiate",
+        "address": "archway1jrt6xl83klw33suykttpn0dgdcfygs5d68yax4",
+        "chainId": "constantine-1",
+        "data": "{\"height\":\"87658\",\"txhash\":\"811FC8C62DC9616C1DA1A81B0C126D0DE79AC817A92573D8FD901E709E387680\",\"data\":\"0A3F0A0B696E7374616E746961746512300A2E61726368776179316A727436786C38336B6C7733337375796B7474706E3064676463667967733564363879617834\",\"raw_log\":\"[{\\\"events\\\":[{\\\"type\\\":\\\"instantiate\\\",\\\"attributes\\\":[{\\\"key\\\":\\\"_contract_address\\\",\\\"value\\\":\\\"archway1jrt6xl83klw33suykttpn0dgdcfygs5d68yax4\\\"},{\\\"key\\\":\\\"code_id\\\",\\\"value\\\":\\\"68\\\"}]},{\\\"type\\\":\\\"message\\\",\\\"attributes\\\":[{\\\"key\\\":\\\"action\\\",\\\"value\\\":\\\"instantiate\\\"},{\\\"key\\\":\\\"module\\\",\\\"value\\\":\\\"wasm\\\"},{\\\"key\\\":\\\"sender\\\",\\\"value\\\":\\\"archway1an03m8y9jgk0ddsyuc6wjxkafl9vlq5aj68wx2\\\"}]}]}]\",\"logs\":[{\"events\":[{\"type\":\"instantiate\",\"attributes\":[{\"key\":\"_contract_address\",\"value\":\"archway1jrt6xl83klw33suykttpn0dgdcfygs5d68yax4\"},{\"key\":\"code_id\",\"value\":\"68\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"instantiate\"},{\"key\":\"module\",\"value\":\"wasm\"},{\"key\":\"sender\",\"value\":\"archway1an03m8y9jgk0ddsyuc6wjxkafl9vlq5aj68wx2\"}]}]}],\"gas_wanted\":\"180060\",\"gas_used\":\"149676\"}"
+      },
+      {
+        "type": "create",
+        "codeId": "68",
+        "chainId": "constantine-1",
+        "data": "{\"height\":\"87358\",\"txhash\":\"95CCC0C9FDE88CE0A2E83673AB19903008F0631931D8B6F2421D961DD5559A13\",\"data\":\"0A100A0A73746F72652D636F646512020844\",\"raw_log\":\"[{\\\"events\\\":[{\\\"type\\\":\\\"message\\\",\\\"attributes\\\":[{\\\"key\\\":\\\"action\\\",\\\"value\\\":\\\"store-code\\\"},{\\\"key\\\":\\\"module\\\",\\\"value\\\":\\\"wasm\\\"},{\\\"key\\\":\\\"sender\\\",\\\"value\\\":\\\"archway1an03m8y9jgk0ddsyuc6wjxkafl9vlq5aj68wx2\\\"}]},{\\\"type\\\":\\\"store_code\\\",\\\"attributes\\\":[{\\\"key\\\":\\\"code_id\\\",\\\"value\\\":\\\"68\\\"}]}]}]\",\"logs\":[{\"events\":[{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"store-code\"},{\"key\":\"module\",\"value\":\"wasm\"},{\"key\":\"sender\",\"value\":\"archway1an03m8y9jgk0ddsyuc6wjxkafl9vlq5aj68wx2\"}]},{\"type\":\"store_code\",\"attributes\":[{\"key\":\"code_id\",\"value\":\"68\"}]}]}],\"gas_wanted\":\"1658641\",\"gas_used\":\"1286252\"}"
+      },
+      {
+        "type": "instatiate",
         "address": "archway1fuaym3wkqvts8r9vafd77q00jxuplacca2ta97",
         "chainId": "constantine-1",
         "data": "{\"height\":\"72595\",\"txhash\":\"001FDEBD16806C9E60E621A085CFC9491C8FFB2273824C664C648EDE3585D1E7\",\"data\":\"0A3F0A0B696E7374616E746961746512300A2E6172636877617931667561796D33776B717674733872397661666437377130306A7875706C616363613274613937\",\"raw_log\":\"[{\\\"events\\\":[{\\\"type\\\":\\\"instantiate\\\",\\\"attributes\\\":[{\\\"key\\\":\\\"_contract_address\\\",\\\"value\\\":\\\"archway1fuaym3wkqvts8r9vafd77q00jxuplacca2ta97\\\"},{\\\"key\\\":\\\"code_id\\\",\\\"value\\\":\\\"66\\\"}]},{\\\"type\\\":\\\"message\\\",\\\"attributes\\\":[{\\\"key\\\":\\\"action\\\",\\\"value\\\":\\\"instantiate\\\"},{\\\"key\\\":\\\"module\\\",\\\"value\\\":\\\"wasm\\\"},{\\\"key\\\":\\\"sender\\\",\\\"value\\\":\\\"archway1vkpq5jaefj4424zvjgnuejjt3ymarv6frsey66\\\"}]}]}]\",\"logs\":[{\"events\":[{\"type\":\"instantiate\",\"attributes\":[{\"key\":\"_contract_address\",\"value\":\"archway1fuaym3wkqvts8r9vafd77q00jxuplacca2ta97\"},{\"key\":\"code_id\",\"value\":\"66\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"instantiate\"},{\"key\":\"module\",\"value\":\"wasm\"},{\"key\":\"sender\",\"value\":\"archway1vkpq5jaefj4424zvjgnuejjt3ymarv6frsey66\"}]}]}],\"gas_wanted\":\"179978\",\"gas_used\":\"149613\"}"
@@ -111,6 +135,6 @@
       }
     ]
   },
-  "path": "/home/wotori/git/crypto/NFText/contracts/cw721",
+  "path": "/Users/wotorimovako/git/wotori/NFText/contracts/cw721",
   "type": "Increment"
 }
