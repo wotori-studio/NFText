@@ -4,7 +4,6 @@
 ## Concept
 This project about collaboration between writers and artists in NFT creation.
 The goal to allow all people participate in art and vitual world creation. Even If you can't draw, start from text, Imagine the character and mint the description as NFT. Then someone who ggod at painting and 3D will join your Idea and at the and you'll have a visualisation of text and group NFT that able to live in web 3.0 and virtual worlds...
-More info at [wotori.com](https://wotori.com)
 
 ## Features
 Current release:
@@ -19,6 +18,11 @@ In progress:
 - mint NFT (in progress)
 - mint NFT based on others NFT (in progress)
 - display all artist`s NFT (in progress)
+
+## Stack
+- react
+- nextjs
+- check dependincies in package.json for more info
 
 ## Data Structures
 ### IPFS
@@ -83,6 +87,17 @@ nextjs project will handle server size for contracts deployments and archway usa
 - fill .env constnts with real values
 - you should have pinata API keys to run the current version of softwarenft
 
+## Manual deploy commands
+deploy contract
+```cmd
+% archway deploy --args '{"name":"TheCat", "symbol":"CAT", "minter":"archway1rwaxa4c2mqtne7x6d8klngu5ynu663zw7h9y32"}'
+```
+mint nft
+```cmd
+`% archway tx --args '{"mint":{"token_id":"1", "owner":"archway1rwaxa4c2mqtne7x6d8klngu5ynu663zw7h9y32", "token_uri":"ipfs://QmWTvKbPeWDwNQMFgbmWzciq7NNcwsQcBgV5jLNNhPNwF6", "external_url":"https://wotori.com"}}'
+```
+query minten nft
+`% archway query contract-state smart --args '{ "nft_info":{"token_id":"1"} }'`
 ## Userful commands :
 
 Query all deployed contracts by adddres:

@@ -8,8 +8,8 @@ import Wallet from "../../src/components/wallet/main";
 
 export default function index() {
   const RPC = process.env.NEXT_PUBLIC_APP_RPC_ADDRESS;
-  const contractAddress = ""
-  const mnemonic = ""
+  const contractAddress = "";
+  const mnemonic = "";
   const BECH32_PREFIX = useState("archway");
   // console.log(RPC, contractAddress, mnemonic, BECH32_PREFIX); TODO: for  a some reason this executes for many times
 
@@ -18,13 +18,6 @@ export default function index() {
   const [swClient, setCwClient] = useState("");
   const [queryHandler, setQueryHandler] = useState({});
   const [gasPrice, setGasPrice] = useState("");
-
-  useEffect(() => {
-    contractAddress = localStorage.getItem("address");
-    mnemonic = localStorage.getItem("mnemonic");
-    init();
-    
-  }, []);
 
   async function init() {
     const mnemonic = process.env.NEXT_PUBLIC_APP_ACCOUNT_MNEMONIC;
@@ -53,14 +46,21 @@ export default function index() {
     return userData;
   }
 
-  const handleClick = () => {
-    console.log(user);
-    console.log(RPC, contractAddress, mnemonic, BECH32_PREFIX); 
-  };
+  async function handleClick() {
+    console.log(RPC, contractAddress, mnemonic, BECH32_PREFIX);
+
+    contractAddress = localStorage.getItem("address");
+    mnemonic = localStorage.getItem("mnemonic");
+
+    let userData = await init();
+    const contract = "archway1kpez2mty6lsy9yzqeqjtkk6yhgtmqrrx5kqakk";
+    let entrypoint = { nft_info: { token_id: "1" } };
+    let query = await userData.queryHandler(contract, entrypoint);
+    console.log("QURIED WITH HOOKS:", query)
+  }
   return (
     <div>
       <Wallet />
-
       <button className="custom_btn" onClick={handleClick}>
         Hello
       </button>
