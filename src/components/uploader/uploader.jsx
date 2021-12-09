@@ -146,6 +146,7 @@ export default function Uploader(props) {
             margin-top: 20px;
             border-style: solid;
             border-width: 1px;
+            min-width: 380px;
           }
           .div-img {
             padding-top: 13px;
