@@ -1,11 +1,11 @@
 import { useState } from "react";
 import Uploader from "../../src/components/uploader/uploader";
+import Browser from "./NftBrowser";
 
-const EditingMode = () => {
+export default function ModeSelector(props) {
   /* TODO: import style as modules https://nextjs.org/blog/styling-next-with-styled-jsx */
 
   const [curMode, setCurMode] = useState("text");
-
   const [textMode, setTextMode] = useState(true);
   const [paintMode, setPaintMode] = useState(false);
   const [imgMode, setImgMode] = useState(false);
@@ -76,13 +76,15 @@ const EditingMode = () => {
             })}
           </div>
         </div>
-        <div className="uploader">
-          <Uploader mode={curMode} />
-        </div>
+        {props.mode === "create" ? (
+          <div className="uploader">
+            <Uploader mode={curMode} />
+          </div>
+        ) : (
+          <Browser mode={curMode}/>
+        )}
         {/* based on Cosmos Archway project.  TODO: Add to bottom */}
       </div>
     </>
   );
-};
-
-export default EditingMode;
+}

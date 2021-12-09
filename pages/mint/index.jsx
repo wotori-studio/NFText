@@ -1,12 +1,12 @@
-import EditingMode from "./EditingMode";
+import EditingMode from "./ModeSelector";
 import Wallet from "../../src/components/wallet/main";
-import ToggleRootMode from "../../src/components/toggleMode_2";
 import styles from "./Styles.module.css";
-import { useEffect, useState } from "react";
-import ExploreMode from "./ExploreMode";
+import { useState } from "react";
+import ModeSelector from "./ModeSelector";
 
 export default function Index() {
-  const [createMode, setCreateMode] = useState(false);
+  const [curMode, setCurMode] = useState("create");
+  const [createMode, setCreateMode] = useState(true);
   const [exploreMode, setExploreMode] = useState(false);
 
   let modes = [
@@ -16,10 +16,12 @@ export default function Index() {
 
   const handleClick = (item) => {
     if (item[0] === "create") {
+      setCurMode("create");
       setCreateMode(true);
       setExploreMode(false);
     }
     if (item[0] === "explore") {
+      setCurMode("explore");
       setCreateMode(false);
       setExploreMode(true);
     }
@@ -42,8 +44,7 @@ export default function Index() {
         })}
       </div>
       <Wallet />
-      {createMode ? <EditingMode /> : null}
-      {exploreMode ? <ExploreMode /> : null}
+      <ModeSelector mode={curMode} />
     </div>
   );
 }
