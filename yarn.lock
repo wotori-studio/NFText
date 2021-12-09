@@ -331,7 +331,7 @@
 
 "@cosmjs/cosmwasm-stargate@^0.26.5":
   version "0.26.5"
-  resolved "https://registry.npmjs.org/@cosmjs/cosmwasm-stargate/-/cosmwasm-stargate-0.26.5.tgz"
+  resolved "https://registry.yarnpkg.com/@cosmjs/cosmwasm-stargate/-/cosmwasm-stargate-0.26.5.tgz#c73f4630eaa632ef389a305c23361d03d4341cde"
   integrity sha512-JPANO7sEw50UNqC+lWes3SblZoAD6mNS1zRnZEOXtkQ78p7wxY29iYakVGy5cPw+3u7fUawnT985bNA8mIA+YA==
   dependencies:
     "@cosmjs/amino" "0.26.5"

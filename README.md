@@ -7,14 +7,59 @@ The goal to allow all people participate in art and vitual world creation. Even 
 More info at [wotori.com](https://wotori.com)
 
 ## Features
-- upload Img to ipfs (img, painting and 3d in progress)
-- basic wallet auth (in progress. move from .env to interface)
+Current release:
+- basic interface for minting different types of assets.
+- upload text, Img and gltf to ipfs
+- basic sliding wallet auth
+- IPFS data upload
+- data stractures for minting generator
+  
+In progress:
+- draw picture directly in browser (in progress)
 - mint NFT (in progress)
 - mint NFT based on others NFT (in progress)
 - display all artist`s NFT (in progress)
-- share NFT with others (in progress)
-- trade NFTs (in progress)
 
+## Data Structures
+### IPFS
+On pressing upload file, dApp upload 2 objects to IPFS. 
+1st is - the content and 2nd it the meta. Meta is the information that will be stored in the blockchain handling file url.
+- meta looks like this one.
+- at '"mage" key we have ipfs direct link to document (.txt, .img, .gltf)
+```json
+{
+    "name": "Super Man",
+    "description": "Flying Around......",
+    "external_url": "https://wotori.com",
+    "image": "https://ipfs.io/ipfs/QmTEKokkHKCpRXMZZyGp9WYVdWTfrYquZzbT2nRGHVyDSf",
+    "attributes":
+    [
+        {
+            "trait_type": "type",
+            "value": "text"
+        }
+    ]
+}
+```
+### Minting
+pressing `mint` button generate 2 data stractures:
+- 1st - for deploy smart contract 
+```json
+{
+    "name": "The Cat",
+    "symbol": "nft",
+    "minter": "archway1an03m8y9jgk0ddsyuc6wjxkafl9vlq5aj68wx2"
+}
+```
+- 2nd - mint the cw721 token
+```json
+{
+    "token_id": "1",
+    "owner": "archway1an03m8y9jgk0ddsyuc6wjxkafl9vlq5aj68wx2",
+    "token_uri": "QmevKbQwEqQ5XRSkpU41cnBF7pdb4CNuqUGcrHVLbBQxji",
+    "external_url": "https://wotori.com"
+}
+```
 ## Basic Interface
 ![image](https://user-images.githubusercontent.com/10486621/145106617-964b6460-7ce4-49ce-9b90-0f310039bb6f.png)
 
@@ -37,3 +82,36 @@ nextjs project will handle server size for contracts deployments and archway usa
 - copy-paste `env.template` && rename It to `.env`
 - fill .env constnts with real values
 - you should have pinata API keys to run the current version of softwarenft
+
+## Userful commands :
+
+Query all deployed contracts by adddres:
+```cmd
+archwayd query txs --events 'message.sender=archway1an03m8y9jgk0ddsyuc6wjxkafl9vlq5aj68wx2&message.action=instantiate' --chain-id constantine-1 --node https://rpc.constantine-1.archway.tech:443
+```
+
+Query for an account balance:
+```
+cmd
+archwayd query account archway1d7ws4qklzpy8qkzuuvjc0u4gcndfkkxhze7kfy --chain-id constantine-1 --node https://rpc.constantine-1.archway.tech:443
+```
+
+Create CW optimized WASM
+```cmd
+docker run --rm -v $(pwd):/code --mount type=volume,source="$(basename "$(pwd)")_cache",target=/code/target --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry cosmwasm/rust-optimizer:0.12.1
+```
+
+Copy optimized WASM to docker container:
+```cmd
+cp artifacts/YOUR_WASM_FILENAME.wasm /var/tmp/.archwayd/YOUR_WASM_FILENAME.wasm```
+
+Upload WASM to Constantine:
+```cmd
+archwayd tx wasm store YOUR_WASM_FILENAME.wasm --from YOUR_WALLET_LABEL --chain-id constantine-1 --node https://rpc.constantine-1.archway.tech:443 --gas-prices 0.002uconst --gas auto --gas-adjustment 1.3
+```
+
+Deploy instance of uploaded WASM (you need your code id from the upload tx response of the previous step)
+```cmd
+archwayd tx wasm instantiate $CODE_ID '{"reward_address":"archway1d7ws4qklzpy8qkzuuvjc0u4gcndfkkxhze7kfy","gas_rebate_to_user":false,"instantiation_request":"eyJjb3VudCI6MH0=","collect_premium":false,"premium_percentage_charged":0}' --from docker --label "My deployment label" --chain-id constantine-1 --node https://rpc.constantine-1.archway.tech:443 --gas-prices 0.002uconst --gas auto --gas-adjustment 1.3 -y
+```
+commands provided by Drew | Archway Team.
