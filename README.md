@@ -118,11 +118,12 @@ docker run --rm -v $(pwd):/code --mount type=volume,source="$(basename "$(pwd)")
 
 Copy optimized WASM to docker container:
 ```cmd
-cp artifacts/YOUR_WASM_FILENAME.wasm /var/tmp/.archwayd/YOUR_WASM_FILENAME.wasm```
+cp artifacts/cw721.wasm /var/tmp/.archwayd/cw721.wasm 
+```
 
 Upload WASM to Constantine:
 ```cmd
-archwayd tx wasm store YOUR_WASM_FILENAME.wasm --from YOUR_WALLET_LABEL --chain-id constantine-1 --node https://rpc.constantine-1.archway.tech:443 --gas-prices 0.002uconst --gas auto --gas-adjustment 1.3
+docker run -it --volume=/var/tmp/.archwayd:/root/.archway drewstaylor/archwayd tx wasm store cw721.wasm --from archway1rwaxa4c2mqtne7x6d8klngu5ynu663zw7h9y32 --chain-id constantine-1 --node https://rpc.constantine-1.archway.tech:443 --gas-prices 0.002uconst --gas auto --gas-adjustment 1.3
 ```
 
 Deploy instance of uploaded WASM (you need your code id from the upload tx response of the previous step)
