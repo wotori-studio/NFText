@@ -50,9 +50,12 @@ pressing `mint` button generate 2 data stractures:
 - 1st - for deploy smart contract 
 ```json
 {
-    "name": "The Cat",
-    "symbol": "nft",
-    "minter": "archway1an03m8y9jgk0ddsyuc6wjxkafl9vlq5aj68wx2"
+    "mint":
+    {
+        "name": "The Cat",
+        "symbol": "nft",
+        "minter": "archway1an03m8y9jgk0ddsyuc6wjxkafl9vlq5aj68wx2"
+    }
 }
 ```
 - 2nd - mint the cw721 token
@@ -94,7 +97,7 @@ deploy contract
 ```
 mint nft
 ```cmd
-`% archway tx --args '{"mint":{"token_id":"1", "owner":"archway1rwaxa4c2mqtne7x6d8klngu5ynu663zw7h9y32", "token_uri":"ipfs://QmWTvKbPeWDwNQMFgbmWzciq7NNcwsQcBgV5jLNNhPNwF6", "external_url":"https://wotori.com"}}'
+`% archway tx --args '{"mint":{"token_id":"1", "owner":"archway1vdr32zdmwmwmwz2cxd3wecxjp5ml5pvc4kuhhy", "token_uri":"ipfs://QmWTvKbPeWDwNQMFgbmWzciq7NNcwsQcBgV5jLNNhPNwF6", "external_url":"https://wotori.com"}}'
 ```
 query minten nft
 `% archway query contract-state smart --args '{ "nft_info":{"token_id":"1"} }'`

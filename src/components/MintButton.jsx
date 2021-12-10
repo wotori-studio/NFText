@@ -1,6 +1,48 @@
 import axios from "axios";
-import { useEffect } from "react";
 import { useState } from "react";
+
+// mock for testing purposes
+let deployData = {
+  height: "102491",
+  txhash: "10A6150DD1D599CCCA99788389133EB5CE282773C5217C7F64D5C84C110FAF6F",
+  data: "0A110A0A73746F72652D636F6465120308B001",
+  raw_log:
+    '[{"events":[{"type":"message","attributes":[{"key":"action","value":"store-code"},{"key":"module","value":"wasm"},{"key":"sender","value":"archway1vdr32zdmwmwmwz2cxd3wecxjp5ml5pvc4kuhhy"}]},{"type":"store_code","attributes":[{"key":"code_id","value":"176"}]}]}]',
+  logs: [
+    {
+      events: [
+        {
+          type: "message",
+          attributes: [
+            {
+              key: "action",
+              value: "store-code",
+            },
+            {
+              key: "module",
+              value: "wasm",
+            },
+            {
+              key: "sender",
+              value: "archway1vdr32zdmwmwmwz2cxd3wecxjp5ml5pvc4kuhhy",
+            },
+          ],
+        },
+        {
+          type: "store_code",
+          attributes: [
+            {
+              key: "code_id",
+              value: "176",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  gas_wanted: "1659200",
+  gas_used: "1286682",
+};
 
 export default function MintButton(props) {
   const deployLink = "/api/bash/deploy";
@@ -31,6 +73,7 @@ export default function MintButton(props) {
         console.log("base64 ready: ", base64);
         return response.data;
       });
+    console.log("base64 generated:", base64);
 
     // prepare data structure for Minting
     const smContractArgs = {
@@ -48,49 +91,7 @@ export default function MintButton(props) {
     console.log("data for contract deployment:", smContractData);
     console.log("data for NFT minting:", smContractArgs);
 
-    // const deployData = await deploySmContract();
-    let deployData = {
-      height: "102491",
-      txhash:
-        "10A6150DD1D599CCCA99788389133EB5CE282773C5217C7F64D5C84C110FAF6F",
-      data: "0A110A0A73746F72652D636F6465120308B001",
-      raw_log:
-        '[{"events":[{"type":"message","attributes":[{"key":"action","value":"store-code"},{"key":"module","value":"wasm"},{"key":"sender","value":"archway1vdr32zdmwmwmwz2cxd3wecxjp5ml5pvc4kuhhy"}]},{"type":"store_code","attributes":[{"key":"code_id","value":"176"}]}]}]',
-      logs: [
-        {
-          events: [
-            {
-              type: "message",
-              attributes: [
-                {
-                  key: "action",
-                  value: "store-code",
-                },
-                {
-                  key: "module",
-                  value: "wasm",
-                },
-                {
-                  key: "sender",
-                  value: "archway1vdr32zdmwmwmwz2cxd3wecxjp5ml5pvc4kuhhy",
-                },
-              ],
-            },
-            {
-              type: "store_code",
-              attributes: [
-                {
-                  key: "code_id",
-                  value: "176",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      gas_wanted: "1659200",
-      gas_used: "1286682",
-    };
+    const deployData = await deploySmContract();
 
     console.log(
       "sm-contract deployed! Response data structure parsed, yahoo!!!:",

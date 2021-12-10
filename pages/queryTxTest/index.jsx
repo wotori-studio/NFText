@@ -15,7 +15,7 @@ export default function index() {
 
   const [user, setUser] = useState("");
   const [userAddress, setUserAddress] = useState("");
-  const [swClient, setCwClient] = useState("");
+  const [cwClient, setCwClient] = useState("");
   const [queryHandler, setQueryHandler] = useState({});
   const [gasPrice, setGasPrice] = useState("");
 
@@ -46,7 +46,7 @@ export default function index() {
     return userData;
   }
 
-  async function handleClick() {
+  async function handleQueryClick() {
     console.log(RPC, contractAddress, mnemonic, BECH32_PREFIX);
 
     contractAddress = localStorage.getItem("address");
@@ -56,13 +56,36 @@ export default function index() {
     const contract = "archway1kpez2mty6lsy9yzqeqjtkk6yhgtmqrrx5kqakk";
     let entrypoint = { nft_info: { token_id: "1" } };
     let query = await userData.queryHandler(contract, entrypoint);
-    console.log("QURIED WITH HOOKS:", query)
+    console.log("QURIED WITH HOOKS:", query);
   }
+
+  async function handleExecuteClick() {
+    console.log("Hello");
+    let userData = await init();
+    // Prepare Tx
+    let entrypoint = {
+      mint: {
+        name: "The Cat",
+        symbol: "nft",
+        minter: "archway1an03m8y9jgk0ddsyuc6wjxkafl9vlq5aj68wx2",
+      },
+    };
+
+    let txFee = calculateFee(300_000, userData.gasPrice);
+
+    let tx = userData.client.execute(userAddress, 176, entrypoint, txFee);
+    console.log("Minting TX", tx);
+    return null;
+  }
+
   return (
     <div>
       <Wallet />
-      <button className="custom_btn" onClick={handleClick}>
-        Hello
+      <button className="custom_btn" onClick={handleExecuteClick}>
+        Execute
+      </button>
+      <button className="custom_btn" onClick={handleQueryClick}>
+        Query
       </button>
     </div>
   );
