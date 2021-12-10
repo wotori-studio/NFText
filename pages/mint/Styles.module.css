@@ -1,0 +1,14 @@
+.divCenter {
+  padding-top: 100px;
+  padding-left: 250px;
+  padding-right: 250px;
+}
+
+.flexy {
+  display: flex;
+  justify-content: center;
+}
+
+.divPadding {
+  padding-bottom: 25px;
+}

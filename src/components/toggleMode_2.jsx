@@ -2,12 +2,12 @@ import { useState } from "react";
 
 export default function ToggleRootMode() {
   // not used after lifting state up
-  const [CreateMode, setCreateMode] = useState(false);
-  const [ExploreMode, setExploreMode] = useState(false);
+  const [createMode, setCreateMode] = useState(false);
+  const [exploreMode, setExploreMode] = useState(false);
 
   let buttons = [
-    ["create", CreateMode],
-    ["explore", ExploreMode],
+    ["create", createMode],
+    ["explore", exploreMode],
   ];
 
   const handleClick = (item) => {
