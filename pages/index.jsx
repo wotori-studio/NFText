@@ -18,8 +18,8 @@ export default function Index() {
         <Container sx={{ height: 500 }}>
           <CubeScene />
         </Container>
-        <Link href="/about" color="secondary">
-          about
+        <Link href="/mint" color="secondary">
+          Create
         </Link>
       </Box>
     </Container>
