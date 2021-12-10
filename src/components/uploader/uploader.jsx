@@ -3,6 +3,7 @@ import axios from "axios";
 import { Container } from "@mui/material";
 import ThreeScene from "../../3D/cube";
 import uploadPinataMeta from "../../tools/uploader/metaUploader";
+import MintButton from "../mintButton";
 
 export default function Uploader(props) {
   const [mode, setMode] = useState("");
@@ -97,36 +98,7 @@ export default function Uploader(props) {
     setNftTitle(e.target.value);
   };
 
-  const handleMint = () => {
-    console.log("start minting...");
-    let address = localStorage.getItem("address");
-    let mnemonic = localStorage.getItem("mnemonic");
-    console.log(`address: ${address}, mnemonic: ${mnemonic}`);
-    console.log("metaData:", metaDataLink);
-
-    // prepare data structure for minting
-    const smContractData = {
-      name: nftTitle,
-      symbol: "nft",
-      minter: address,
-    };
-
-    const smContractArgs = {
-      mint: {
-        token_id: "1",
-        owner: address,
-        token_uri: metaDataLink,
-        external_url: "https://wotori.com",
-      },
-    };
-    console.log("data for contract deployment:", smContractData);
-    console.log("data for NFT minting:", smContractArgs);
-
-    axios.get("/api/bash/deploy").then((response) => {
-      console.log("Deployed:", response);
-      let terminalResp = JSON.parse(response.data.output);
-    });
-  };
+  const handleMint = () => {};
 
   return (
     <>
@@ -237,9 +209,9 @@ export default function Uploader(props) {
       </div>
 
       {mintReady || mode === "text" || mode === "paint" ? (
-        <button className="custom_btn" onClick={handleMint}>
-          mint
-        </button>
+        <div>
+          <MintButton nftTitle={nftTitle} metaDataLink={metaDataLink} />
+        </div>
       ) : null}
     </>
   );
