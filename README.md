@@ -12,8 +12,10 @@ Current release:
 - basic sliding wallet auth
 - IPFS data upload
 - data stractures for minting generator
+- wasm sm-contract deployment through the backend and docker with archwayd
   
 In progress:
+- instantiate contract from front-end (in progress)
 - draw picture directly in browser (in progress)
 - mint NFT (in progress)
 - mint NFT based on others NFT (in progress)
