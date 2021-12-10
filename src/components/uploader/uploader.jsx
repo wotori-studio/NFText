@@ -3,7 +3,7 @@ import axios from "axios";
 import { Container } from "@mui/material";
 import ThreeScene from "../../3D/cube";
 import uploadPinataMeta from "../../tools/uploader/metaUploader";
-import MintButton from "../mintButton";
+import MintButton from "../MintButton";
 
 export default function Uploader(props) {
   const [mode, setMode] = useState("");
