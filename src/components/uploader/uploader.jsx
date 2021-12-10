@@ -122,8 +122,9 @@ export default function Uploader(props) {
     console.log("data for contract deployment:", smContractData);
     console.log("data for NFT minting:", smContractArgs);
 
-    axios.get("/api/bash").then((response) => {
-      console.log(response);
+    axios.get("/api/bash/deploy").then((response) => {
+      console.log("Deployed:", response);
+      let terminalResp = JSON.parse(response.data.output);
     });
   };
 

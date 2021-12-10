@@ -100,37 +100,49 @@ query minten nft
 `% archway query contract-state smart --args '{ "nft_info":{"token_id":"1"} }'`
 ## Userful commands :
 
-bash into archway`s docker
+### setup for contract deployment without a password
+- create a test wallet: `archwayd keys add testwallet --keyring-backend test`
+- now we can do like this (will no any question from CLI): 
+- `archwayd tx wasm store cw721.wasm --from testwallet --keyring-backend=test --chain-id constantine-1 --node https://rpc.constantine-1.archway.tech:443 --gas-prices 0.002uconst --gas auto --gas-adjustment 1.3 -y`
+
+### bash into archway`s docker:
 `docker run -it --volume=/var/tmp/.archwayd:/root/.archway --entrypoint sh archwaynetwork/archwayd`
 
-Query all deployed contracts by adddres:
+### Query all deployed contracts by adddres:
 ```cmd
 archwayd query txs --events 'message.sender=archway1an03m8y9jgk0ddsyuc6wjxkafl9vlq5aj68wx2&message.action=instantiate' --chain-id constantine-1 --node https://rpc.constantine-1.archway.tech:443
 ```
 
-Query for an account balance:
+### Query for an account balance:
 ```
 cmd
 archwayd query account archway1d7ws4qklzpy8qkzuuvjc0u4gcndfkkxhze7kfy --chain-id constantine-1 --node https://rpc.constantine-1.archway.tech:443
 ```
 
-Create CW optimized WASM
+### Create CW optimized WASM
 ```cmd
 docker run --rm -v $(pwd):/code --mount type=volume,source="$(basename "$(pwd)")_cache",target=/code/target --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry cosmwasm/rust-optimizer:0.12.1
 ```
 
-Copy optimized WASM to docker container:
+### Copy optimized WASM to docker container:
 ```cmd
 cp artifacts/cw721.wasm /var/tmp/.archwayd/cw721.wasm 
 ```
 
-Upload WASM to Constantine:
+### Upload WASM to Constantine:
 ```cmd
-docker run -it --volume=/var/tmp/.archwayd:/root/.archway archwaynetwork/archwayd tx wasm store cw721.wasm --from archway1rwaxa4c2mqtne7x6d8klngu5ynu663zw7h9y32 --chain-id constantine-1 --node https://rpc.constantine-1.archway.tech:443 --gas-prices 0.002uconst --gas auto --gas-adjustment 1.3
+docker run -it --volume=/var/tmp/.archwayd:/root/.archway archwaynetwork/archwayd tx wasm store cw721.wasm --from user_wallet --chain-id constantine-1 --node https://rpc.constantine-1.archway.tech:443 --gas-prices 0.002uconst --gas auto --gas-adjustment 1.3
 ```
 
-Deploy instance of uploaded WASM (you need your code id from the upload tx response of the previous step)
+no console input mode with test wallet:
+```cmd
+archwayd tx wasm store cw721.wasm --from testwallet --keyring-backend=test --chain-id constantine-1 --node https://rpc.constantine-1.archway.tech:443 --gas-prices 0.002uconst --gas auto --gas-adjustment 1.3 -y
+```
+
+### Deploy instance of uploaded WASM (you need your code id from the upload tx response of the previous step)
 ```cmd
 archwayd tx wasm instantiate $CODE_ID '{"reward_address":"archway1d7ws4qklzpy8qkzuuvjc0u4gcndfkkxhze7kfy","gas_rebate_to_user":false,"instantiation_request":"eyJjb3VudCI6MH0=","collect_premium":false,"premium_percentage_charged":0}' --from docker --label "My deployment label" --chain-id constantine-1 --node https://rpc.constantine-1.archway.tech:443 --gas-prices 0.002uconst --gas auto --gas-adjustment 1.3 -y
 ```
-commands provided by Drew | Archway Team.
+
+
+most of useful commands provided by Drew | Archway Team in Archway`s Discord chanel.
