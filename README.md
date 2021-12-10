@@ -17,7 +17,6 @@ Current release:
 In progress:
 - instantiate contract from front-end (in progress)
 - draw picture directly in browser (in progress)
-- mint NFT (in progress)
 - mint NFT based on others NFT (in progress)
 - display all artist`s NFT (in progress)
 
