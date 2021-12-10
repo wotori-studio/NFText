@@ -123,7 +123,7 @@ cp artifacts/cw721.wasm /var/tmp/.archwayd/cw721.wasm
 
 Upload WASM to Constantine:
 ```cmd
-docker run -it --volume=/var/tmp/.archwayd:/root/.archway drewstaylor/archwayd tx wasm store cw721.wasm --from archway1rwaxa4c2mqtne7x6d8klngu5ynu663zw7h9y32 --chain-id constantine-1 --node https://rpc.constantine-1.archway.tech:443 --gas-prices 0.002uconst --gas auto --gas-adjustment 1.3
+docker run -it --volume=/var/tmp/.archwayd:/root/.archway drewstaylor/archwayd tx wasm store cw721.wasm --from WALLET_LABEL --chain-id constantine-1 --node https://rpc.constantine-1.archway.tech:443 --gas-prices 0.002uconst --gas auto --gas-adjustment 1.3
 ```
 
 Deploy instance of uploaded WASM (you need your code id from the upload tx response of the previous step)
