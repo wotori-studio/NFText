@@ -3,7 +3,7 @@
 
 ## Concept
 This project about collaboration between writers and artists in NFT creation.
-The goal to allow all people participate in art and vitual world creation. Even If you can't draw, start from text, Imagine the character and mint the description as NFT. Then someone who ggod at painting and 3D will join your Idea and at the and you'll have a visualisation of text and group NFT that able to live in web 3.0 and virtual worlds...
+The goal to allow all people participate in art and vitual world creation. Even If you can't draw, start from text, Imagine the character and mint the description as NFT. Then someone who good at painting and 3D will join your Idea and at the and you'll have a visualisation of text and group NFT that able to live in web 3.0 and virtual worlds...
 
 ## Features
 Current release:
@@ -77,8 +77,8 @@ pressing `mint` button generate 2 data stractures:
 To run project localy you need to have an api key for Pinata file storage.
 
 #### Install Archway core
-- Install `archwayd` and `cli` following tutorial at archway [documentation](https://docs.archway.io/docs/create/getting-started/install)
-- You have to build smart contracts at least one time localy, so the app will be able to work with predeployed wasm file.
+- Install `archwayd` with docker and `cli` following tutorial at archway [documentation](https://docs.archway.io/docs/create/getting-started/install)
+- You have to build smart contracts at least one time localy (right from contracts/cw721/), so the app will be able to work with predeployed wasm file.
 - Also at this point you need to generate test wallet with name "testwallet" and request funds to it with 'archway faucet'
 
 #### Install the dependencies and start the server.
