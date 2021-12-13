@@ -129,8 +129,13 @@ docker run --rm -v $(pwd):/code --mount type=volume,source="$(basename "$(pwd)")
 ```
 
 ### Copy optimized WASM to docker container:
+from contract`s folder
 ```cmd
 cp artifacts/cw721.wasm /var/tmp/.archwayd/cw721.wasm 
+```
+from project root
+```cmd
+cp contracts/cw721/artifacts/cw721.wasm /var/tmp/.archwayd/cw721.wasm 
 ```
 
 ### Upload WASM to Constantine:

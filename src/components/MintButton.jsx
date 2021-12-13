@@ -95,7 +95,8 @@ export default function MintButton(props) {
 
     console.log(
       "sm-contract deployed! Response data structure parsed, yahoo!!!:",
-      deployData
+      deployData,
+      `code_id: ${deployData.logs[0].events[1].attributes[0].value}`
     );
   };
 

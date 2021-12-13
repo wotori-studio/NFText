@@ -1,0 +1,12 @@
+FROM node:lts-alpine3.13
+RUN apk add --update docker openrc
+RUN apk add nano
+RUN  echo "alias archwayd='docker run archwaynetwork/archwayd'" > .bashrc && source ~/.bashrc
+RUN mkdir /var/tmp/.archwayd/
+RUN npm install -g @archwayhq/cli
+
+WORKDIR /app
+ADD . /app/
+RUN npm install
+
+CMD ["yarn", "dev"]

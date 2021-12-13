@@ -1,0 +1,2 @@
+# here could be rust core with building features, if wasm compiled files wasn't provided
+FROM rust:alpine3.13

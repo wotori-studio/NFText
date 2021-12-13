@@ -1,0 +1,26 @@
+# currently not used becouse Dockerfile solve the issue of nesting archwayd inside the dapp
+
+version: '3'
+
+services:
+
+  dapp:
+    build:
+      context: .
+      dockerfile: DockerfileDapp
+    privileged: true
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/code
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  archway:
+    build:
+      context: .
+      dockerfile: DockerfileArchway
+    privileged: true
+    volumes:
+      - "./contracts/:/contracts/"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    command: docker pull archwaynetwork/archwayd && archwayd
