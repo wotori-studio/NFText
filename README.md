@@ -15,6 +15,7 @@ Current release:
 - wasm sm-contract deployment through the backend and docker with archwayd
   
 In progress:
+- [docker-compose](https://github.com/wotori-studio/NFText/pull/4) (for robust startup without any environment configuration needed with Archwayd)
 - instantiate contract from front-end (in progress)
 - draw picture directly in browser (in progress)
 - mint NFT based on others NFT (in progress)
@@ -48,7 +49,7 @@ On pressing upload file, dApp upload 2 objects to IPFS.
 ```
 ### Minting
 pressing `mint` button generate 2 data stractures:
-- 1st - for deploy smart contract 
+- 1st - for deploy cw721 smart contract 
 ```json
 {
     "mint":
@@ -77,6 +78,8 @@ To run project localy you need to have an api key for Pinata file storage.
 
 #### Install Archway core
 - Install `archwayd` and `cli` following tutorial at archway [documentation](https://docs.archway.io/docs/create/getting-started/install)
+- You have to build smart contracts at least one time localy, so the app will be able to work with predeployed wasm file.
+- Also at this point you need to generate test wallet with name "testwallet" and request funds to it with 'archway faucet'
 
 #### Install the dependencies and start the server.
 
@@ -86,10 +89,22 @@ To run project localy you need to have an api key for Pinata file storage.
 ```
 nextjs project will handle server size for contracts deployments and archway usage.
 
+App`s interface will be at http://localhost:3000/mint
+
 #### congifure .env file
 - copy-paste `env.template` && rename It to `.env`
 - fill .env constnts with real values
 - you should have pinata API keys to run the current version of softwarenft
+```
+NEXT_PUBLIC_APP_RPC_ADDRESS="https://rpc.constantine-1.archway.tech:443"
+NEXT_PUBLIC_APP_CONTRACT_ADDRESS=""
+NEXT_PUBLIC_APP_ACCOUNT_ADDRESS=""
+NEXT_PUBLIC_APP_ACCOUNT_MNEMONIC=""
+
+NEXT_PUBLIC_APP_PINATA_API_URL=""
+NEXT_PUBLIC_APP_PINATA_API_KEY=""
+NEXT_PUBLIC_APP_PINATA_SECRET_API_KEY=""
+```
 
 ## Manual deploy commands
 deploy contract
