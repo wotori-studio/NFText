@@ -31,6 +31,7 @@ export default function Index() {
     <div className={styles.divCenter}>
       <div className={styles.flexy}>
         {modes.map((item) => {
+          // map create and explore toggle menu
           return (
             <div className={styles.divPadding}>
               <button
