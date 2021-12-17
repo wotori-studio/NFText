@@ -1,8 +1,8 @@
-import Wallet from "/src/components/wallet/main";
-import styles from "/src/styles/Styles.module.css";
+import EditingMode from "./ModeSelector";
+import Wallet from "../../src/components/wallet/main";
+import styles from "./Styles.module.css";
 import { useState } from "react";
-import ModeSelector from "/src/mint/ModeSelector";
-
+import ModeSelector from "./ModeSelector";
 
 export default function Index() {
   const [curMode, setCurMode] = useState("create");
@@ -31,7 +31,6 @@ export default function Index() {
     <div className={styles.divCenter}>
       <div className={styles.flexy}>
         {modes.map((item) => {
-          // map create and explore toggle menu
           return (
             <div className={styles.divPadding}>
               <button
