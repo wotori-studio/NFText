@@ -98,8 +98,6 @@ export default function Uploader(props) {
     setNftTitle(e.target.value);
   };
 
-  const handleMint = () => {};
-
   return (
     <>
       <style jsx>
