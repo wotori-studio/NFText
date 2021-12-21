@@ -45,7 +45,6 @@ export default function Index() {
           );
         })}
       </div>
-      <Wallet />
       <ModeSelector mode={curMode} />
     </div>
   );
