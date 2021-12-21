@@ -32,5 +32,8 @@
     "build": "next build",
     "start": "next start",
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.4"
   }
 }
