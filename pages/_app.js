@@ -10,7 +10,7 @@ import "../styles.css";
 import { SigningCosmWasmProvider } from "../src/context/cosmwasm";
 const clientSideEmotionCache = createEmotionCache();
 
-export default function MyApp(props) {
+export default function App(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   return (
@@ -29,7 +29,7 @@ export default function MyApp(props) {
   );
 }
 
-MyApp.propTypes = {
+App.propTypes = {
   Component: PropTypes.elementType.isRequired,
   emotionCache: PropTypes.object,
   pageProps: PropTypes.object.isRequired,
