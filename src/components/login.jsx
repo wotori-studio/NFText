@@ -7,6 +7,7 @@ export default function LoginWallet() {
       console.log("start login", walletAddress);
       connectWallet();
     } else {
+      console.log("Disconnecting", walletAddress);
       disconnect();
     }
   };
