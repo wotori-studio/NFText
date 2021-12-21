@@ -20,12 +20,12 @@ export default function index() {
   const [gasPrice, setGasPrice] = useState("");
 
   async function init() {
-    const mnemonic = process.env.NEXT_PUBLIC_APP_ACCOUNT_MNEMONIC;
+    const mnemonic = localStorage.getItem("mnemonic");
     let user = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
       prefix: BECH32_PREFIX,
     });
 
-    let userAddress = process.env.NEXT_PUBLIC_APP_ACCOUNT_ADDRESS;
+    let userAddress = localStorage.getItem("address");
     let cwClient = await SigningCosmWasmClient.connectWithSigner(RPC, user);
     let queryHandler = await cwClient.queryClient.wasm.queryContractSmart;
     let gasPrice = GasPrice.fromString("0.002uconst");
@@ -53,8 +53,8 @@ export default function index() {
     mnemonic = localStorage.getItem("mnemonic");
 
     let userData = await init();
-    const contract = "archway1kpez2mty6lsy9yzqeqjtkk6yhgtmqrrx5kqakk";
-    let entrypoint = { nft_info: { token_id: "1" } };
+    const contract = process.env.NEXT_PUBLIC_APP_CONTRACT_ADDRESS;
+    let entrypoint = { nft_info: { token_id: "2" } };
     let query = await userData.queryHandler(contract, entrypoint);
     console.log("QURIED WITH HOOKS:", query);
   }
