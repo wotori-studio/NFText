@@ -18,6 +18,7 @@ export const connectKeplr = async () => {
   if (!window.getOfflineSigner || !window.keplr) {
     alert("Please install keplr extension");
   } else {
+    console.log("keplr defined...")
     if (window.keplr.experimentalSuggestChain) {
       const stakingDenom = convertFromMicroDenom(
         process.env.NEXT_PUBLIC_STAKING_DENOM || "ucons"

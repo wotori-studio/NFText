@@ -33,7 +33,8 @@ export const useSigningCosmWasmClient = (): ISigningCosmWasmClientContext => {
     setLoading(true);
 
     try {
-      await connectKeplr;
+      console.log("connecting...");
+      connectKeplr();
 
       // enable website to access kepler
       await (window as any).keplr.enable(PUBLIC_CHAIN_ID);
@@ -44,6 +45,7 @@ export const useSigningCosmWasmClient = (): ISigningCosmWasmClientContext => {
       );
 
       // make client
+      console.log("Make Client...");
       setClient(await CosmWasmClient.connect(PUBLIC_RPC_ENDPOINT));
 
       // make client
