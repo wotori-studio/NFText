@@ -18,7 +18,7 @@ export default function Browser(props) {
         console.log(`number of tokens: ${res.count}`);
 
         const promises = [];
-        for (let i = 1; i <= res.count; i++) {
+        for (let i = 6; i <= res.count; i++) {
           promises.push(
             signingClient.queryContractSmart(PUBLIC_CW721_CONTRACT, {
               nft_info: { token_id: i + "" },
