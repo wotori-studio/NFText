@@ -1,7 +1,7 @@
 import Wallet from "/src/components/wallet/main";
 import styles from "/src/styles/Styles.module.css";
 import { useState } from "react";
-import ModeSelector from "/src/mint/ModeSelector";
+import ModeSelector from "../src/mint/ModeSelector";
 import { useSigningClient } from "../src/context/cosmwasm";
 
 export default function Index() {
@@ -46,7 +46,7 @@ export default function Index() {
       <div className={styles.divCenter}>
         <div className={`${styles.flexy} ${styles.divPadding}`}>
           <button
-            class={connect ? "custom_btn_not_active" : "custom_btn"}
+            className={connect ? "custom_btn_not_active" : "custom_btn"}
             onClick={handleConnect}
           >
             {connect ? "disconnect" : "connect"}
