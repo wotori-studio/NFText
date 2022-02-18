@@ -38,7 +38,7 @@ export default function Browser(props) {
                 name: decodedMetadata.name,
                 href: `/items/${i + 1}`,
                 imageSrc:
-                  decodedMetadata.image || "https://dummyimage.com/404x404",
+                  decodedMetadata.content || "https://dummyimage.com/404x404",
               };
             });
             return items;

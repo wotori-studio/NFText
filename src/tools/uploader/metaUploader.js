@@ -1,6 +1,9 @@
 import axios from "axios";
 
 export default async function uploadPinataMeta(ipfsFileUrl, meta) {
+  /*
+  Old function for meta upload to IPFS. It's not reasonable as we can store meta just  as base64 in uri
+  */
   const apiKey = process.env.NEXT_PUBLIC_APP_PINATA_API_KEY;
   const secretKey = process.env.NEXT_PUBLIC_APP_PINATA_SECRET_API_KEY;
   const apiUrl = process.env.NEXT_PUBLIC_APP_PINATA_API_URL;

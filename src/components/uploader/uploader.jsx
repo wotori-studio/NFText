@@ -16,11 +16,10 @@ export default function Uploader(props) {
 
   const [mintReady, setMintReady] = useState(false);
   const [metaDataLink, setMetaDataLink] = useState("");
-  const [metaData, setMetaData] = useState("");
 
   const [selectedFile, setSelectedFile] = useState("");
   const [isSelected, setSelected] = useState(false); // TODO: if selected make clickable upload button
-  const [imgLink, setImgLink] = useState(null);
+  const [contentLink, setContentLink] = useState(null);
 
   const changeHandler = (e) => {
     const file = e.target.files[0];
@@ -43,7 +42,7 @@ export default function Uploader(props) {
     const metadata = JSON.stringify({
       name: selectedFile.name,
       keyvalues: {
-        wallet_address: "archway1sfpyg3jnvqzf4ser62vpeqjdtvet3mfzp2v7za",
+        test: "test",
       },
     });
     let formData = new FormData();
@@ -70,26 +69,8 @@ export default function Uploader(props) {
       .then((res) => {
         console.log("File uploaded:", res.data);
         let hash = res.data.IpfsHash;
-        if (mode === "img") setImgLink(`https://ipfs.io/ipfs/${hash}`);
+        setContentLink(`https://ipfs.io/ipfs/${hash}`);
         setMintReady(true);
-
-        let metaProxy = {};
-        metaProxy.name = nftTitle;
-        metaProxy.description = textNft;
-        if (mode === "img") metaProxy.type = "img";
-        if (mode === "text") {
-          metaProxy.type = "text";
-        }
-        if (mode === "gltf") metaProxy.type = "gltf";
-
-        console.log("metaProxy collected:", metaProxy);
-
-        uploadPinataMeta(`https://ipfs.io/ipfs/${hash}`, metaProxy).then(
-          (data) => {
-            setMetaDataLink(data.IpfsHash);
-            console.log("Metadata uploaded", data);
-          }
-        );
       });
   };
 
@@ -106,7 +87,7 @@ export default function Uploader(props) {
             display: flex;
           }
           .img {
-            display: ${imgLink && mode === "img" ? true : "none"};
+            display: ${contentLink && mode === "img" ? true : "none"};
             max-width: 400px;
             max-heigh: 400px;
             border-style: solid;
@@ -167,7 +148,7 @@ export default function Uploader(props) {
         {mode === "img" ? (
           // display img div
           <div className="div-img">
-            <img className="img" src={imgLink ? imgLink : null}></img>
+            <img className="img" src={contentLink ? contentLink : null}></img>
           </div>
         ) : null}
         {mode === "gltf" ? (
@@ -208,7 +189,11 @@ export default function Uploader(props) {
 
       {mintReady || mode === "text" || mode === "paint" ? (
         <div>
-          <MintButton nftTitle={nftTitle} metaDataLink={metaDataLink} />
+          <MintButton
+            nftTitle={nftTitle}
+            contentLink={contentLink}
+            type={mode}
+          />
         </div>
       ) : null}
     </>
