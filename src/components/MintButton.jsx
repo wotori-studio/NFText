@@ -1,5 +1,6 @@
-import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSigningClient } from "../context/cosmwasm";
+import { calculateFee } from "@cosmjs/stargate";
 
 // mock for testing purposes
 let deployData = {
@@ -44,59 +45,68 @@ let deployData = {
   gas_used: "1286682",
 };
 
-export default function MintButton(props) {
-  const deployLink = "/api/bash/deploy";
-  const [deployInfo, setDeployInfo] = useState();
+const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT || "";
 
-  const deploySmContract = async () => {
-    const response = await axios.get(deployLink);
-    const respData = await JSON.parse(response.data.output);
-    return respData;
-  };
+export default function MintButton(props) {
+  const { walletAddress, signingClient, connectWallet } = useSigningClient();
+  const [nftTokenId, setNftTokenId] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!signingClient) return;
+
+    // Gets minted NFT amount
+    signingClient
+      .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
+      .then((response) => {
+        setNftTokenId(response.count + 1);
+        console.log("TokenID", nftTokenId);
+      })
+      .catch((error) => {
+        alert(`Error! ${error.message}`);
+        console.log(
+          "Error signingClient.queryContractSmart() num_tokens: ",
+          error
+        );
+      });
+  }, [signingClient, alert]);
 
   const handleMint = async () => {
     console.log("start minting...");
-    setDeployInfo(null);
-    let address = localStorage.getItem("address");
-    let mnemonic = localStorage.getItem("mnemonic");
 
-    // prepare data structure deploy
-    const smContractData = {
-      name: props.nftTitle,
-      symbol: "nft",
-      minter: address,
-    };
-
-    const base64 = await axios
-      .post("/api/base64", smContractData)
-      .then((response) => {
-        console.log("base64 ready: ", base64);
-        return response.data;
-      });
-    console.log("base64 generated:", base64);
-
-    // prepare data structure for Minting
-    const smContractArgs = {
-      mint: {
-        token_id: "1",
-        owner: address,
-        token_uri: props.metaDataLink,
-        external_url: "https://wotori.com",
-      },
-    };
-
-    //debug
-    console.log(`address: ${address}, mnemonic: ${mnemonic}`);
-    console.log("metaData:", props.metaDataLink);
-    console.log("data for contract deployment:", smContractData);
-    console.log("data for NFT minting:", smContractArgs);
-
-    const deployData = await deploySmContract();
-
+    const metadata = `{"name": "${props.nftTitle}", "description": "${props.metaDataLink}", "image": "${props.metaDataLink}"}`;
+    const encodedMetadata = Buffer.from(metadata).toString("base64");
     console.log(
-      "sm-contract deployed! Response data structure parsed, yahoo!!!:",
-      deployData
+      `{"name": ${props.nftTitle}, "description": "${props.metaDataLink}", "image": "${props.metaDataLink}"}`
     );
+    console.log(`data:application/json;base64, ${encodedMetadata}`);
+
+    if (!signingClient) return;
+
+    signingClient
+      ?.execute(
+        walletAddress, // sender address
+        PUBLIC_CW721_CONTRACT, // cw721-base contract
+        {
+          mint: {
+            token_id: nftTokenId.toString(),
+            owner: `${walletAddress}`,
+            token_uri: `data:application/json;base64, ${encodedMetadata}`,
+          },
+        }, // msg
+        calculateFee(300_000, "20uconst")
+      )
+      .then((response) => {
+        console.log(response);
+        setNftTokenId(nftTokenId + 1);
+        setLoading(false);
+        alert("Successfully minted!");
+      })
+      .catch((error) => {
+        setLoading(false);
+        alert(`Error! ${error.message}`);
+        console.log("Error signingClient?.execute(): ", error);
+      });
   };
 
   return (
