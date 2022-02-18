@@ -18,7 +18,7 @@ export default function LoginWallet() {
 
   return (
     <button
-      class={connect ? "custom_btn_not_active" : "custom_btn"}
+      className={connect ? "custom_btn_not_active" : "custom_btn"}
       onClick={handleConnect}
     >
       {connect ? "disconnect" : "connect"}

@@ -83,7 +83,6 @@ export default function ModeSelector(props) {
         ) : (
           <Browser mode={curMode}/>
         )}
-        {/* based on Cosmos Archway project.  TODO: Add to bottom */}
       </div>
     </>
   );
