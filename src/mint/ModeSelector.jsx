@@ -81,7 +81,7 @@ export default function ModeSelector(props) {
             <Uploader mode={curMode} />
           </div>
         ) : (
-          <Browser mode={curMode}/>
+          <Browser mode={curMode} />
         )}
       </div>
     </>
