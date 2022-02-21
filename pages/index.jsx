@@ -1,4 +1,3 @@
-import Wallet from "/src/components/wallet/main";
 import styles from "/src/styles/Styles.module.css";
 import { useState } from "react";
 import ModeSelector from "../src/mint/ModeSelector";
