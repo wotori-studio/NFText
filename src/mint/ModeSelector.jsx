@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Uploader from "/src/components/uploader/uploader";
+import Uploader from "../components/uploader/uploader";
 import Browser from "./NftBrowser";
 
 export default function ModeSelector(props) {

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Container } from "@mui/material";
 import ThreeScene from "../../3D/cube";
-import uploadPinataMeta from "../../tools/uploader/metaUploader";
 import MintButton from "../MintButton";
 
 export default function Uploader(props) {
@@ -187,15 +186,13 @@ export default function Uploader(props) {
         {mode === "paint" ? <div>Paint interface should be here</div> : null}
       </div>
 
-      {mintReady || mode === "text" || mode === "paint" ? (
-        <div>
-          <MintButton
-            nftTitle={nftTitle}
-            contentLink={contentLink}
-            type={mode}
-          />
-        </div>
-      ) : null}
+      <div>
+        <MintButton
+          nftTitle={nftTitle}
+          contentLink={contentLink}
+          type={mode}
+        />
+      </div>
     </>
   );
 }
