@@ -10,9 +10,11 @@ const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT || "";
 
 export default function Uploader(props) {
   const [mode, setMode] = useState("");
+  const [nftTitle, setNftTitle] = useState("");
   const { walletAddress, signingClient, connectWallet } = useSigningClient();
   const [nftTokenId, setNftTokenId] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [filePreview, setFilePreview] = useState(null)
 
   useEffect(() => {
     if (!signingClient) return;
@@ -38,9 +40,9 @@ export default function Uploader(props) {
     // updating programm mode state
     setMode(props.mode);
   });
+
   const [textNft, setTextNft] = useState("");
   const [mintReady, setMintReady] = useState(false);
-  const [metaDataLink, setMetaDataLink] = useState("");
 
   const [selectedFile, setSelectedFile] = useState("");
   const [isSelected, setSelected] = useState(false); // TODO: if selected make clickable upload button
@@ -49,10 +51,11 @@ export default function Uploader(props) {
   const changeHandler = (e) => {
     const file = e.target.files[0];
     console.log(file);
-    alert("Upload the file?")
     setSelectedFile(file);
     setSelected(true);
     // TODO: check if file is in propper format. (.png/ .jpg for img and .gltf for 3D)
+    setFilePreview(URL.createObjectURL(file))
+    console.log(filePreview)
   };
 
   const handleText = (e) => {
@@ -61,7 +64,7 @@ export default function Uploader(props) {
   const handleInputChange = (e) => {
     setNftTitle(e.target.value);
   };
-  const uploadPinata = () => {
+  async function uploadPinata(){
     const apiKey = process.env.NEXT_PUBLIC_APP_PINATA_API_KEY;
     const secretKey = process.env.NEXT_PUBLIC_APP_PINATA_SECRET_API_KEY;
     const apiUrl = process.env.NEXT_PUBLIC_APP_PINATA_API_URL;
@@ -102,7 +105,7 @@ export default function Uploader(props) {
   };
 
   const handleMint = async () => {
-    uploadPinata()
+    await uploadPinata()
     const metadata = JSON.stringify({
       title: nftTitle,
       content: contentLink,
@@ -141,7 +144,6 @@ export default function Uploader(props) {
       });
   };
 
-  const [nftTitle, setNftTitle] = useState("");
 
 
   return (
@@ -209,9 +211,10 @@ export default function Uploader(props) {
 
         {mode === "img" ? (
           // display img div
-          <div className="div-img">
-            <img className="img" src={contentLink ? contentLink : null}></img>
-          </div>
+        <img src={filePreview} 
+              alt="preview image" 
+              width="400" height="400"
+              />
         ) : null}
         {mode === "gltf" ? (
           // display 3D convas
@@ -243,7 +246,6 @@ export default function Uploader(props) {
       <div>
         {mode === "paint" ? <div>Paint interface should be here</div> : null}
       </div>
-
       <div>
         <button className="custom_btn" onClick={handleMint}>
           mint
