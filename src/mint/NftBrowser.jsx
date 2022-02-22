@@ -7,6 +7,7 @@ export default function Browser(props) {
   const { walletAddress, signingClient, connectWallet } = useSigningClient();
   const [nft, setNft] = useState([]);
 
+  let EXCLUDE_LIST = [8]
   useEffect(() => {
     if (!signingClient || walletAddress.length === 0) {
       connectWallet();
@@ -19,12 +20,15 @@ export default function Browser(props) {
         console.log(`number of tokens: ${res.count}`);
 
         const promises = [];
-        for (let i = 6; i <= res.count; i++) {
+
+        for (let i = 1; i <= res.count; i++) {
+          if (!EXCLUDE_LIST.includes(i)) {
           promises.push(
             signingClient.queryContractSmart(PUBLIC_CW721_CONTRACT, {
               nft_info: { token_id: i + "" },
             })
           );
+          }
         }
 
         Promise.all(promises)
@@ -62,24 +66,26 @@ export default function Browser(props) {
   }, [signingClient, walletAddress, alert]);
 
   return (
-    <>
-      <p>{props.mode} browser mode in developmen...</p>
+    <div style={{display: 'flex', 
+    justifyContent: 'space-between',
+    flexWrap: 'wrap'
+    }}>
       {nft.map(item => (
         <>
-        <h3>{item.name}</h3>
-        {item.type ==="img" ? (
+        {item.type ==="img" && props.mode === "img" ? (
         <div>
-          {item.type}
-          <img src={item.content} />
+          <h3>{item.name}</h3>
+          <img src={item.content} width="250" height="250"/>
         </div>
         ) : null}
-        {item.type ==="text" ? (
+        {item.type ==="text" && props.mode === "text" ? (
         <div>
+          <h3>{item.name}</h3>
           <TextBox text_link={item.content}/>
         </div>
         ) : null}
         </>
       ))}
-    </>
+    </div>
   );
 }
