@@ -4,15 +4,41 @@ import { Container } from "@mui/material";
 import ThreeScene from "../../3D/cube";
 import MintButton from "../MintButton";
 
+import { useSigningClient } from "../../context/cosmwasm";
+import { calculateFee } from "@cosmjs/stargate";
+const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT || "";
+
 export default function Uploader(props) {
   const [mode, setMode] = useState("");
+  const { walletAddress, signingClient, connectWallet } = useSigningClient();
+  const [nftTokenId, setNftTokenId] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!signingClient) return;
+
+    // Gets minted NFT amount
+    signingClient
+      .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
+      .then((response) => {
+        setNftTokenId(response.count + 1);
+        console.log("TokenID", nftTokenId);
+      })
+      .catch((error) => {
+        alert(`Error! ${error.message}`);
+        console.log(
+          "Error signingClient.queryContractSmart() num_tokens: ",
+          error
+        );
+      });
+  }, [signingClient, alert]);
 
   useEffect(() => {
     // without useEffect causing Infinity loop
     // updating programm mode state
     setMode(props.mode);
   });
-
+  const [textNft, setTextNft] = useState("");
   const [mintReady, setMintReady] = useState(false);
   const [metaDataLink, setMetaDataLink] = useState("");
 
@@ -23,17 +49,19 @@ export default function Uploader(props) {
   const changeHandler = (e) => {
     const file = e.target.files[0];
     console.log(file);
+    alert("Upload the file?")
     setSelectedFile(file);
     setSelected(true);
     // TODO: check if file is in propper format. (.png/ .jpg for img and .gltf for 3D)
   };
 
-  const [textNft, setTextNft] = useState("");
   const handleText = (e) => {
     setTextNft(e.target.value);
   };
-
-  const handleSubmission = () => {
+  const handleInputChange = (e) => {
+    setNftTitle(e.target.value);
+  };
+  const uploadPinata = () => {
     const apiKey = process.env.NEXT_PUBLIC_APP_PINATA_API_KEY;
     const secretKey = process.env.NEXT_PUBLIC_APP_PINATA_SECRET_API_KEY;
     const apiUrl = process.env.NEXT_PUBLIC_APP_PINATA_API_URL;
@@ -73,10 +101,48 @@ export default function Uploader(props) {
       });
   };
 
-  const [nftTitle, setNftTitle] = useState("");
-  const handleInputChange = (e) => {
-    setNftTitle(e.target.value);
+  const handleMint = async () => {
+    uploadPinata()
+    const metadata = JSON.stringify({
+      title: nftTitle,
+      content: contentLink,
+      type: props.mode,
+    });
+
+    const encodedMetadata = Buffer.from(metadata).toString("base64");
+    console.log(metadata);
+    console.log(`data:application/json;base64, ${encodedMetadata}`);
+
+    if (!signingClient) return;
+
+    signingClient
+      ?.execute(
+        walletAddress, // sender address
+        PUBLIC_CW721_CONTRACT, // cw721-base contract
+        {
+          mint: {
+            token_id: nftTokenId.toString(),
+            owner: `${walletAddress}`,
+            token_uri: `data:application/json;base64, ${encodedMetadata}`,
+          },
+        }, // msg
+        calculateFee(300_000, "20uconst")
+      )
+      .then((response) => {
+        console.log(response);
+        setNftTokenId(nftTokenId + 1);
+        setLoading(false);
+        alert("Successfully minted!");
+      })
+      .catch((error) => {
+        setLoading(false);
+        alert(`Error! ${error.message}`);
+        console.log("Error signingClient?.execute(): ", error);
+      });
   };
+
+  const [nftTitle, setNftTitle] = useState("");
+
 
   return (
     <>
@@ -129,9 +195,6 @@ export default function Uploader(props) {
                     onChange={changeHandler}
                   />
                 </label>
-                <button className="custom_btn" onClick={handleSubmission}>
-                  upload
-                </button>
               </div>
             ) : null}
           </div>
@@ -173,11 +236,6 @@ export default function Uploader(props) {
             <textarea className="text-box" onChange={handleText}>
               Imagine ...
             </textarea>
-            <div className="padding-upload">
-              <button className="custom_btn" onClick={handleSubmission}>
-                upload
-              </button>
-            </div>
           </div>
         ) : null}
       </div>
@@ -187,11 +245,9 @@ export default function Uploader(props) {
       </div>
 
       <div>
-        <MintButton
-          nftTitle={nftTitle}
-          contentLink={contentLink}
-          type={mode}
-        />
+        <button className="custom_btn" onClick={handleMint}>
+          mint
+        </button>
       </div>
     </>
   );
