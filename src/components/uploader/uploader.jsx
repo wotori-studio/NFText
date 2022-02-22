@@ -88,7 +88,7 @@ export default function Uploader(props) {
     }
 
     //upload
-    await axios
+    return await axios
       .post(apiUrl, formData, {
         headers: {
           "Content-Type": `multipart/form-data; boundary= ${formData._boundary}`,
@@ -99,16 +99,18 @@ export default function Uploader(props) {
       .then((res) => {
         console.log("File uploaded:", res.data);
         let hash = res.data.IpfsHash;
-        setContentLink(`https://ipfs.io/ipfs/${hash}`);
+        let contentLinkAxios = `https://ipfs.io/ipfs/${hash}`;
+        setContentLink(contentLinkAxios);
         setMintReady(true);
+        return contentLinkAxios;
       });
   }
 
   const handleMint = async () => {
-    await uploadPinata();
+    let contentLinkAxios = await uploadPinata();
     const metadata = JSON.stringify({
       title: nftTitle,
-      content: contentLink,
+      content: contentLinkAxios,
       type: props.mode,
     });
 
@@ -209,7 +211,7 @@ export default function Uploader(props) {
 
         {mode === "img" && filePreview ? (
           // display img div
-          <img src={filePreview} alt="preview image" width="400" height="400" />
+          <img src={filePreview} alt="preview image" width="400" />
         ) : null}
         {mode === "gltf" ? (
           // display 3D convas

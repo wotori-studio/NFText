@@ -75,7 +75,7 @@ export default function Browser(props) {
         {item.type ==="img" && props.mode === "img" ? (
         <div>
           <h3>{item.name}</h3>
-          <img src={item.content} width="250" height="250"/>
+          <img src={item.content} width="250"/>
         </div>
         ) : null}
         {item.type ==="text" && props.mode === "text" ? (
