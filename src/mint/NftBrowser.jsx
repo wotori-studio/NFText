@@ -7,7 +7,7 @@ export default function Browser(props) {
   const { walletAddress, signingClient, connectWallet } = useSigningClient();
   const [nft, setNft] = useState([]);
 
-  let EXCLUDE_LIST = [8]
+  let EXCLUDE_LIST = [8];
   useEffect(() => {
     if (!signingClient || walletAddress.length === 0) {
       connectWallet();
@@ -23,11 +23,11 @@ export default function Browser(props) {
 
         for (let i = 1; i <= res.count; i++) {
           if (!EXCLUDE_LIST.includes(i)) {
-          promises.push(
-            signingClient.queryContractSmart(PUBLIC_CW721_CONTRACT, {
-              nft_info: { token_id: i + "" },
-            })
-          );
+            promises.push(
+              signingClient.queryContractSmart(PUBLIC_CW721_CONTRACT, {
+                nft_info: { token_id: i + "" },
+              })
+            );
           }
         }
 
@@ -66,26 +66,32 @@ export default function Browser(props) {
   }, [signingClient, walletAddress, alert]);
 
   return (
-    <div style={{display: 'flex', 
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-    }}>
-      {nft.slice(0).reverse().map(item => (
-        <>
-        {item.type ==="img" && props.mode === "img" ? (
-        <div>
-          <h3>{item.name}</h3>
-          <img src={item.content} width="250"/>
-        </div>
-        ) : null}
-        {item.type ==="text" && props.mode === "text" ? (
-        <div>
-          <h3>{item.name}</h3>
-          <TextBox text_link={item.content}/>
-        </div>
-        ) : null}
-        </>
-      ))}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        flexWrap: "wrap",
+      }}
+    >
+      {nft
+        .slice(0)
+        .reverse()
+        .map((item) => (
+          <>
+            {item.type === "img" && props.mode === "img" ? (
+              <div>
+                <h3>{item.name}</h3>
+                <img src={item.content} width="250" />
+              </div>
+            ) : null}
+            {item.type === "text" && props.mode === "text" ? (
+              <div>
+                <h3>{item.name}</h3>
+                <TextBox text_link={item.content} />
+              </div>
+            ) : null}
+          </>
+        ))}
     </div>
   );
 }
