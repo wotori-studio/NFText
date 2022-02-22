@@ -68,9 +68,9 @@ export default function Browser(props) {
   return (
     <div style={{display: 'flex', 
     justifyContent: 'space-between',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
     }}>
-      {nft.map(item => (
+      {nft.slice(0).reverse().map(item => (
         <>
         {item.type ==="img" && props.mode === "img" ? (
         <div>
