@@ -35,7 +35,8 @@ export default function Browser(props) {
 
               return {
                 id: i + 1,
-                name: decodedMetadata.name,
+                name: decodedMetadata.title,
+                type: decodedMetadata.type,
                 href: `/items/${i + 1}`,
                 imageSrc:
                   decodedMetadata.content || "https://dummyimage.com/404x404",
@@ -63,12 +64,13 @@ export default function Browser(props) {
     <>
       <p>{props.mode} browser mode in developmen...</p>
       {nft.map((item) => (
-        <a className="group">
-          <div className="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
+        <>
+          <h3>{item.name}</h3>
+          <div>
+            {item.type}
             <img src={item.imageSrc} />
           </div>
-          <h3 className="mt-4 text-sm text-gray-700">{item.name}</h3>
-        </a>
+        </>
       ))}
     </>
   );
