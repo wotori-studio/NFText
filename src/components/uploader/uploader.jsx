@@ -14,7 +14,7 @@ export default function Uploader(props) {
   const { walletAddress, signingClient, connectWallet } = useSigningClient();
   const [nftTokenId, setNftTokenId] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [filePreview, setFilePreview] = useState(null)
+  const [filePreview, setFilePreview] = useState(null);
 
   useEffect(() => {
     if (!signingClient) return;
@@ -54,8 +54,8 @@ export default function Uploader(props) {
     setSelectedFile(file);
     setSelected(true);
     // TODO: check if file is in propper format. (.png/ .jpg for img and .gltf for 3D)
-    setFilePreview(URL.createObjectURL(file))
-    console.log(filePreview)
+    setFilePreview(URL.createObjectURL(file));
+    console.log(filePreview);
   };
 
   const handleText = (e) => {
@@ -64,7 +64,7 @@ export default function Uploader(props) {
   const handleInputChange = (e) => {
     setNftTitle(e.target.value);
   };
-  async function uploadPinata(){
+  async function uploadPinata() {
     const apiKey = process.env.NEXT_PUBLIC_APP_PINATA_API_KEY;
     const secretKey = process.env.NEXT_PUBLIC_APP_PINATA_SECRET_API_KEY;
     const apiUrl = process.env.NEXT_PUBLIC_APP_PINATA_API_URL;
@@ -88,7 +88,7 @@ export default function Uploader(props) {
     }
 
     //upload
-    axios
+    await axios
       .post(apiUrl, formData, {
         headers: {
           "Content-Type": `multipart/form-data; boundary= ${formData._boundary}`,
@@ -102,10 +102,10 @@ export default function Uploader(props) {
         setContentLink(`https://ipfs.io/ipfs/${hash}`);
         setMintReady(true);
       });
-  };
+  }
 
   const handleMint = async () => {
-    await uploadPinata()
+    await uploadPinata();
     const metadata = JSON.stringify({
       title: nftTitle,
       content: contentLink,
@@ -143,8 +143,6 @@ export default function Uploader(props) {
         console.log("Error signingClient?.execute(): ", error);
       });
   };
-
-
 
   return (
     <>
@@ -209,12 +207,9 @@ export default function Uploader(props) {
           ) : null}
         </div>
 
-        {mode === "img" ? (
+        {mode === "img" && filePreview ? (
           // display img div
-        <img src={filePreview} 
-              alt="preview image" 
-              width="400" height="400"
-              />
+          <img src={filePreview} alt="preview image" width="400" height="400" />
         ) : null}
         {mode === "gltf" ? (
           // display 3D convas
