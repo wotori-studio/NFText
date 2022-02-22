@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSigningClient } from "../../src/context/cosmwasm";
+import TextBox from "../components/textBox";
 const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT || "";
 
 export default function Browser(props) {
@@ -38,7 +39,7 @@ export default function Browser(props) {
                 name: decodedMetadata.title,
                 type: decodedMetadata.type,
                 href: `/items/${i + 1}`,
-                imageSrc:
+                content:
                   decodedMetadata.content || "https://dummyimage.com/404x404",
               };
             });
@@ -63,13 +64,20 @@ export default function Browser(props) {
   return (
     <>
       <p>{props.mode} browser mode in developmen...</p>
-      {nft.map((item) => (
+      {nft.map(item => (
         <>
-          <h3>{item.name}</h3>
-          <div>
-            {item.type}
-            <img src={item.imageSrc} />
-          </div>
+        <h3>{item.name}</h3>
+        {item.type ==="img" ? (
+        <div>
+          {item.type}
+          <img src={item.content} />
+        </div>
+        ) : null}
+        {item.type ==="text" ? (
+        <div>
+          <TextBox text_link={item.content}/>
+        </div>
+        ) : null}
         </>
       ))}
     </>
