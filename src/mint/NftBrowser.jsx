@@ -25,7 +25,7 @@ export default function Browser(props) {
           if (!EXCLUDE_LIST.includes(i)) {
             promises.push(
               signingClient.queryContractSmart(PUBLIC_CW721_CONTRACT, {
-                nft_info: { token_id: i + "" },
+                all_nft_info: { token_id: i + "" },
               })
             );
           }
@@ -35,11 +35,12 @@ export default function Browser(props) {
           .then((res) => {
             const items = res.map(async (token, i) => {
               const decodedMetadata = JSON.parse(
-                Buffer.from(token.token_uri.slice(30), "base64").toString()
+                Buffer.from(token.info.token_uri.slice(30), "base64").toString()
               );
 
               return {
                 id: i + 1,
+                owner: token.access.owner,
                 name: decodedMetadata.title,
                 type: decodedMetadata.type,
                 href: `/items/${i + 1}`,
@@ -79,15 +80,21 @@ export default function Browser(props) {
         .map((item) => (
           <>
             {item.type === "img" && props.mode === "img" ? (
-              <div>
-                <h3>{item.name}</h3>
+              <div style={{ width: "250" }}>
+                <h3>title: {item.name}</h3>
                 <img src={item.content} width="250" />
+                <a href={`/owner/${item.owner}`}>
+                  <h3>owner: {item.owner.slice(0, 10) + "..."}</h3>
+                </a>
               </div>
             ) : null}
             {item.type === "text" && props.mode === "text" ? (
               <div>
                 <h3>{item.name}</h3>
                 <TextBox text_link={item.content} />
+                <a href={`/owner/${item.owner}`}>
+                  <h3>owner: {item.owner.slice(0, 10) + "..."}</h3>
+                </a>
               </div>
             ) : null}
           </>
