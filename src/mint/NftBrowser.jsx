@@ -74,30 +74,27 @@ export default function Browser(props) {
         flexWrap: "wrap",
       }}
     >
-      {nft.reverse().map( item => {
-        console.log(item);
-        return (
-          <>
-            {(item.type === "text" && props.mode === "text") &&
-              <NFText 
-                owner={item.owner} 
-                title={item.name} 
-                textUrl={item.content} 
-              />
-            }
-            
-            {(item.type === "img" && props.mode === "img") &&
-              <div style={{ width: "250" }}>
-                <h3>title: {item.name}</h3>
-                <img src={item.content} width="250" />
-                <a href={`/owner/${item.owner}`}>
-                  <h3>owner: {item.owner.slice(0, 10) + "..."}</h3>
-                </a>
-              </div>
-            }
-          </>
-        );
-      })}
+      {nft.reverse().map( item => (
+        <>
+          {(item.type === "text" && props.mode === "text") &&
+            <NFText 
+              owner={item.owner} 
+              title={item.name} 
+              textUrl={item.content} 
+            />
+          }
+          
+          {(item.type === "img" && props.mode === "img") &&
+            <div style={{ width: "250" }}>
+              <h3>title: {item.name}</h3>
+              <img src={item.content} width="250" />
+              <a href={`/owner/${item.owner}`}>
+                <h3>owner: {item.owner.slice(0, 10) + "..."}</h3>
+              </a>
+            </div>
+          }
+        </>
+      ))}
     </div>
   );
 }
