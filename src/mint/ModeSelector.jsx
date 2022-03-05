@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Uploader from "../components/uploader/uploader";
 import Browser from "./NftBrowser";
+import styles from "./NftBrowser.module.css";
 
 export default function ModeSelector(props) {
   /* TODO: import style as modules https://nextjs.org/blog/styling-next-with-styled-jsx */
@@ -26,19 +27,19 @@ export default function ModeSelector(props) {
       setGltfMode(true);
       setPaintMode(false);
     }
-    if (item[0] === "text") {
+    else if (item[0] === "text") {
       setTextMode(true);
       setImgMode(false);
       setGltfMode(false);
       setPaintMode(false);
     }
-    if (item[0] === "img") {
+    else if (item[0] === "img") {
       setTextMode(false);
       setImgMode(true);
       setGltfMode(false);
       setPaintMode(false);
     }
-    if (item[0] === "paint") {
+    else if (item[0] === "paint") {
       setTextMode(false);
       setImgMode(false);
       setGltfMode(false);
@@ -48,42 +49,28 @@ export default function ModeSelector(props) {
 
   return (
     <>
-      <style jsx>
-        {`
-          .flexy {
-            display: flex;
-            justify-content: space-between;
-          }
-          .div-menu {
-            padding-bottom: 50px;
-          }
-        `}
-      </style>
-      <div>
-        <div className="div-menu">
-          <div className="flexy">
-            {modes.map((item) => {
-              return (
-                <div>
-                  <button
-                    className={item[1] ? "custom_btn" : "custom_btn_not_active"}
-                    onClick={() => handleClick(item)}
-                  >
-                    {item[0]}
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        {props.mode === "create" ? (
-          <div className="uploader">
-            <Uploader mode={curMode} />
-          </div>
-        ) : (
-          <Browser mode={curMode} />
-        )}
+      <div className={styles.overview}>
+        {modes.map((item) => {
+          return (
+            <div>
+              <button
+                className={item[1] ? "custom_btn" : "custom_btn_not_active"}
+                onClick={() => handleClick(item)}
+              >
+                {item[0]}
+              </button>
+            </div>
+          );
+        })}
       </div>
+
+      {props.mode === "create" ? (
+        <div className="uploader">
+          <Uploader mode={curMode} />
+        </div>
+      ) : (
+        <Browser mode={curMode} />
+      )}
     </>
   );
 }
