@@ -1,7 +1,9 @@
 import { useState } from "react";
 import Uploader from "../components/uploader/uploader";
 import Browser from "./NftBrowser";
+
 import styles from "./NftBrowser.module.css";
+import globalStyles from "./../global-styles/styles.module.css";
 
 export default function ModeSelector(props) {
   /* TODO: import style as modules https://nextjs.org/blog/styling-next-with-styled-jsx */
@@ -49,17 +51,17 @@ export default function ModeSelector(props) {
 
   return (
     <>
+      {/* text | img | gltf switches */}
       <div className={styles.overview}>
-        {modes.map((item) => {
+        {modes.map( (item, index) => {
           return (
-            <div>
-              <button
-                className={item[1] ? "custom_btn" : "custom_btn_not_active"}
-                onClick={() => handleClick(item)}
-              >
-                {item[0]}
-              </button>
-            </div>
+            <button
+              key={index}
+              className={item[1] ? globalStyles.customButtonActive : globalStyles.customButtonNotActive}
+              onClick={() => handleClick(item)}
+            >
+              {item[0]}
+            </button>
           );
         })}
       </div>

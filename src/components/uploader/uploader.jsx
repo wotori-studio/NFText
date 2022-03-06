@@ -4,6 +4,9 @@ import { Container } from "@mui/material";
 import ThreeScene from "../../3D/cube";
 import MintButton from "../MintButton";
 
+import styles from './uploader.module.css';
+import globalStyles from './../../global-styles/styles.module.css';
+
 import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
 const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT || "";
@@ -147,107 +150,57 @@ export default function Uploader(props) {
   };
 
   return (
-    <>
-      <style jsx>
-        {`
-          .flexy {
-            display: flex;
-          }
-          .img {
-            display: ${contentLink && mode === "img" ? true : "none"};
-            max-width: 400px;
-            max-heigh: 400px;
-            border-style: solid;
-            border-width: 1px;
-            padding-top: 20px;
-          }
-          .web-gl {
-            margin-top: 20px;
-            border-style: solid;
-            border-width: 1px;
-            min-width: 380px;
-          }
-          .div-img {
-            padding-top: 13px;
-          }
-          .text-box {
-            width: 372px;
-            height: 121px;
-          }
-          .padding-upload {
-            margin-bottom: 10px;
-          }
-        `}
-      </style>
-      <div /*img and gltf*/>
-        <input
-          type="text"
-          placeholder="NFT`s title"
-          onChange={handleInputChange}
-        />
-        <div className="flexy">
-          <div>
-            {mode === "img" || mode == "gltf" ? (
-              <div>
-                <label className="custom_file_btn">
-                  <div>select file</div>
-                  <input
-                    className="hide"
-                    type="file"
-                    onChange={changeHandler}
-                  />
-                </label>
-              </div>
-            ) : null}
-          </div>
+    <div className={styles.overview}>
+      <input
+        type="text"
+        placeholder="NFT`s title"
+        onChange={handleInputChange}
+        className={`${styles.titleInput} ${styles.overviewChild}`}
+      />
 
-          {mode === "img" || mode == "gltf" ? (
-            // display selected file name
-            <div className="vertical_alignment">
-              <div className="result">{selectedFile.name}</div>
-            </div>
-          ) : null}
+      {mode === "text" &&
+        <textarea className={`${styles.textField} ${styles.overviewChild}`} onChange={handleText} placeholder="Imagine...">
+        </textarea>
+      }
+      
+      {/* Get file button, and file name */}
+      {(mode === "img" || mode === "gltf") &&
+        <div className={`${styles.fileArea} ${styles.overviewChild}`}>
+          <label className={globalStyles.customButtonActive}>
+            select file
+            <input
+              className={globalStyles.hide}
+              type="file"
+              onChange={changeHandler}
+            />
+          </label>
+          <div className={styles.selectedFile}>{selectedFile.name}</div>
         </div>
+      }
 
-        {mode === "img" && filePreview ? (
-          // display img div
-          <img src={filePreview} alt="preview image" width="400" />
-        ) : null}
-        {mode === "gltf" ? (
-          // display 3D convas
-          <div className="web-gl">
-            {/* <iframe
-              width="600px"
-              height="400px"
-              src={
-                "https://wotori.mypinata.cloud/ipfs/QmUR2XyUZvGvsNMmLBA5joPduT4f95jSMGzzzmCkckKSF4/?object=Qmb3yAjLrrrchdShAwSG1hKwJ4fN8zsAN4Vrhw9ahSQtCz&filename=monkey.glb"
-              }
-            ></iframe> */}
-            <Container sx={{ height: 500 }}>
-              <ThreeScene />
-            </Container>
-          </div>
-        ) : null}
-      </div>
+      {/* File preview */}
+      {mode === "img" && filePreview && <img className={`${styles.overviewChild}`} src={filePreview} alt="preview image" width="400" />}
 
-      <div>
-        {mode === "text" ? (
-          <div>
-            <textarea className="text-box" onChange={handleText}>
-              Imagine ...
-            </textarea>
-          </div>
-        ) : null}
-      </div>
+      {/* 3D canvas */}
+      {mode === "gltf" &&
+        <div className={`${styles.webGL} ${styles.overviewChild}`}>
+          {/* <iframe
+            width="600px"
+            height="400px"
+            src={
+              "https://wotori.mypinata.cloud/ipfs/QmUR2XyUZvGvsNMmLBA5joPduT4f95jSMGzzzmCkckKSF4/?object=Qmb3yAjLrrrchdShAwSG1hKwJ4fN8zsAN4Vrhw9ahSQtCz&filename=monkey.glb"
+            }
+          ></iframe> */}
+          <Container sx={{ height: 500 }}>
+            <ThreeScene />
+          </Container>
+        </div>
+      }
+      {mode === "paint" && <div>Paint interface should be here</div>}
 
-      <div>
-        {mode === "paint" ? <div>Paint interface should be here</div> : null}
-      </div>
-      <div>
-        <button className="custom_btn" onClick={handleMint}>
-          mint
-        </button>
-      </div>
-    </>
+      <button className={`${globalStyles.customButtonActive} ${styles.overviewChild}`} onClick={handleMint}>
+        mint
+      </button>
+    </div>
   );
 }

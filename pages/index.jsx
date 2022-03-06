@@ -1,4 +1,4 @@
-import styles from "/src/styles/styles.module.css";
+import globalStyles from "/src/global-styles/styles.module.css";
 import { useState } from "react";
 import ModeSelector from "../src/mint/ModeSelector";
 import { useSigningClient } from "../src/context/cosmwasm";
@@ -42,10 +42,10 @@ export default function Index() {
   };
 
   return (
-    <div className={styles.mainBlock}>
-      <div className={`${styles.flexy}`}>
+    <div className={globalStyles.mainBlock}>
+      <div className={`${globalStyles.onlineModes}`}>
         <button
-          className={connect ? "custom_btn_not_active" : "custom_btn"}
+          className={connect ? globalStyles.customButtonNotActive : globalStyles.customButtonActive}
           onClick={handleConnect}
         >
           {connect ? "disconnect" : "connect"}
@@ -53,18 +53,17 @@ export default function Index() {
       </div>
       {connect &&
         <>
-          <div className={styles.flexy}>
-            {modes.map( item => {
+          <div className={globalStyles.modes}>
+            {modes.map( (item, index) => {
               // map create and explore toggle menu
               return (
-                <div className={styles.modes}>
                   <button
-                    className={item[1] ? "custom_btn" : "custom_btn_not_active"}
+                    key={index}
+                    className={item[1] ? globalStyles.customButtonActive : globalStyles.customButtonNotActive}
                     onClick={() => handleClick(item)}
                   >
                     {item[0]}
                   </button>
-                </div>
               );
             })}
           </div>
