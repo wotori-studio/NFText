@@ -6,7 +6,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider } from "@emotion/react";
 import theme from "../src/theme";
 import createEmotionCache from "../src/createEmotionCache";
-import "../styles.css";
 import { SigningCosmWasmProvider } from "../src/context/cosmwasm";
 const clientSideEmotionCache = createEmotionCache();
 

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useSigningClient } from "../../src/context/cosmwasm";
 import NFText from "../components/NFText/NFText";
+import styles from "./NftBrowser.module.sass";
+
 const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT || "";
 
 export default function Browser(props) {
@@ -67,13 +69,7 @@ export default function Browser(props) {
   }, [signingClient, walletAddress, alert]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        flexWrap: "wrap",
-      }}
-    >
+    <div className={styles.nftBrowser}>
       {nft.reverse().map( item => (
         <>
           {(item.type === "text" && props.mode === "text") &&

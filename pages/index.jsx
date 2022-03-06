@@ -1,4 +1,4 @@
-import styles from "/src/styles/Styles.module.css";
+import globalStyles from "/src/global-styles/styles.module.sass";
 import { useState } from "react";
 import ModeSelector from "../src/mint/ModeSelector";
 import { useSigningClient } from "../src/context/cosmwasm";
@@ -15,7 +15,8 @@ export default function Index() {
       console.log("start login");
       connectWallet();
       setConnectState(true);
-    } else {
+    } 
+    else {
       console.log("Disconnecting", walletAddress);
       disconnect();
       setConnectState(false);
@@ -33,7 +34,7 @@ export default function Index() {
       setCreateMode(true);
       setExploreMode(false);
     }
-    if (item[0] === "explore") {
+    else if (item[0] === "explore") {
       setCurMode("explore");
       setCreateMode(false);
       setExploreMode(true);
@@ -41,39 +42,34 @@ export default function Index() {
   };
 
   return (
-    <>
-      <div className={styles.divCenter}>
-        <div className={`${styles.flexy} ${styles.divPadding}`}>
-          <button
-            className={connect ? "custom_btn_not_active" : "custom_btn"}
-            onClick={handleConnect}
-          >
-            {connect ? "disconnect" : "connect"}
-          </button>
-        </div>
-        {connect ? (
-          <div>
-            <div className={styles.flexy}>
-              {modes.map((item) => {
-                // map create and explore toggle menu
-                return (
-                  <div className={styles.divPadding}>
-                    <button
-                      className={
-                        item[1] ? "custom_btn" : "custom_btn_not_active"
-                      }
-                      onClick={() => handleClick(item)}
-                    >
-                      {item[0]}
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-            <ModeSelector mode={curMode} />
-          </div>
-        ) : null}
+    <div className={globalStyles.mainBlock}>
+      <div className={`${globalStyles.onlineModes}`}>
+        <button
+          className={connect ? globalStyles.customButtonNotActive : globalStyles.customButtonActive}
+          onClick={handleConnect}
+        >
+          {connect ? "disconnect" : "connect"}
+        </button>
       </div>
-    </>
+      {connect &&
+        <>
+          <div className={globalStyles.modes}>
+            {modes.map( (item, index) => {
+              // map create and explore toggle menu
+              return (
+                  <button
+                    key={index}
+                    className={item[1] ? globalStyles.customButtonActive : globalStyles.customButtonNotActive}
+                    onClick={() => handleClick(item)}
+                  >
+                    {item[0]}
+                  </button>
+              );
+            })}
+          </div>
+          <ModeSelector action={curMode} />
+        </>
+      }
+    </div>
   );
 }
