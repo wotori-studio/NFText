@@ -1,6 +1,5 @@
 import styles from "./NFText.module.css";
 
-import Image from "next/image";
 import Link from "next/link";
 
 import { useState, useEffect } from "react";
@@ -63,7 +62,7 @@ function NFText(props: Properties) {
             {(avatarUrl || name) &&
               <div className={styles.userInfo}>
                 {avatarUrl && 
-                  <Image 
+                  <img 
                     className={styles.avatar}
                     width={41} 
                     height={41} 
