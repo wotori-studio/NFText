@@ -66,7 +66,7 @@ function NFText(props: Properties) {
                     className={styles.avatar}
                     width={41} 
                     height={41} 
-                    src={avatarUrl} 
+                    src={avatarUrl}
                     alt="Error getting avatar" 
                   />
                 }
