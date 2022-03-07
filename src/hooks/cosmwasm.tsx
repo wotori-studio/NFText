@@ -2,29 +2,16 @@
 // https://github.com/Ninja-Chain/flea-app
 
 import { useState } from "react";
-import {
-  SigningCosmWasmClient,
-  CosmWasmClient,
-} from "@cosmjs/cosmwasm-stargate";
+import { SigningCosmWasmClient, CosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { connectKeplr } from "../services/keplr";
+import { ISigningCosmWasmClientContext } from "./../models/ISigningCosmWasmClientContext";
 
-export interface ISigningCosmWasmClientContext {
-  walletAddress: string;
-  client: CosmWasmClient | null;
-  signingClient: SigningCosmWasmClient | null;
-  loading: boolean;
-  error: any;
-  connectWallet: any;
-  disconnect: Function;
-}
-
-const PUBLIC_RPC_ENDPOINT = process.env.NEXT_PUBLIC_CHAIN_RPC_ENDPOINT || "";
+const PUBLIC_RPC_ENDPOINT = process.env.NEXT_PUBLIC_CHAIN_RPC_ENDPOINT as string;
 const PUBLIC_CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID;
 
 export const useSigningCosmWasmClient = (): ISigningCosmWasmClientContext => {
   const [client, setClient] = useState<CosmWasmClient | null>(null);
-  const [signingClient, setSigningClient] =
-    useState<SigningCosmWasmClient | null>(null);
+  const [signingClient, setSigningClient] = useState<SigningCosmWasmClient | null>(null);
   const [walletAddress, setWalletAddress] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
