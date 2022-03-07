@@ -1,4 +1,4 @@
-import globalStyles from "/src/global-styles/styles.module.css";
+import globalStyles from "/src/global-styles/styles.module.sass";
 import { useState } from "react";
 import ModeSelector from "../src/mint/ModeSelector";
 import { useSigningClient } from "../src/context/cosmwasm";
@@ -67,7 +67,7 @@ export default function Index() {
               );
             })}
           </div>
-          <ModeSelector mode={curMode} />
+          <ModeSelector action={curMode} />
         </>
       }
     </div>

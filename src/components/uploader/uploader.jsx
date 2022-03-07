@@ -4,8 +4,8 @@ import { Container } from "@mui/material";
 import ThreeScene from "../../3D/cube";
 import MintButton from "../MintButton";
 
-import styles from './uploader.module.css';
-import globalStyles from './../../global-styles/styles.module.css';
+import styles from './uploader.module.sass';
+import globalStyles from './../../global-styles/styles.module.sass';
 
 import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
