@@ -4,6 +4,10 @@ import createEmotionServer from "@emotion/server/create-instance";
 import theme from "../src/theme";
 import createEmotionCache from "../src/createEmotionCache";
 
+interface emotion {
+  emotionCache: any
+}
+
 export default class MyDocument extends Document {
   render() {
     return (
@@ -32,7 +36,7 @@ MyDocument.getInitialProps = async (ctx) => {
 
   ctx.renderPage = () =>
     originalRenderPage({
-      enhanceApp: (App) => (props) => <App emotionCache={cache} {...props} />,
+      enhanceApp: (App) => (props) => <App {...props} />,
     });
 
   const initialProps = await Document.getInitialProps(ctx);

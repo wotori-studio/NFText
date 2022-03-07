@@ -4,7 +4,15 @@ import { calculateFee } from "@cosmjs/stargate";
 
 const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT || "";
 
-export default function MintButton(props) {
+interface NftInfo {
+  nftTitle: string
+  contentLink: string
+  type: any
+}
+
+export default function MintButton(props: NftInfo) {
+  const {nftTitle, contentLink, type} = props;
+
   const { walletAddress, signingClient, connectWallet } = useSigningClient();
   const [nftTokenId, setNftTokenId] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -15,11 +23,11 @@ export default function MintButton(props) {
     // Gets minted NFT amount
     signingClient
       .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
-      .then((response) => {
+      .then((response: any) => { //TODO set type
         setNftTokenId(response.count + 1);
         console.log("TokenID", nftTokenId);
       })
-      .catch((error) => {
+      .catch((error: any) => { //TODO set type
         alert(`Error! ${error.message}`);
         console.log(
           "Error signingClient.queryContractSmart() num_tokens: ",
@@ -30,9 +38,9 @@ export default function MintButton(props) {
 
   const handleMint = async () => {
     const metadata = JSON.stringify({
-      title: props.nftTitle,
-      content: props.contentLink,
-      type: props.type,
+      title: nftTitle,
+      content: contentLink,
+      type: type,
     });
 
     const encodedMetadata = Buffer.from(metadata).toString("base64");
@@ -54,13 +62,13 @@ export default function MintButton(props) {
         }, // msg
         calculateFee(300_000, "20uconst")
       )
-      .then((response) => {
+      .then((response: any) => { //TODO set type
         console.log(response);
         setNftTokenId(nftTokenId + 1);
         setLoading(false);
         alert("Successfully minted!");
       })
-      .catch((error) => {
+      .catch((error: any) => { //TODO set type
         setLoading(false);
         alert(`Error! ${error.message}`);
         console.log("Error signingClient?.execute(): ", error);
