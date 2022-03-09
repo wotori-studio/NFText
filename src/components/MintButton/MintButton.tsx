@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import { useSigningClient } from "../context/cosmwasm";
+import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
 
 const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT || "";
 
-interface NftInfo {
-  nftTitle: string
-  contentLink: string
-  type: any
+interface Properties {
+  nftTitle: string;
+  contentLink: string;
+  type: string;
 }
 
-export default function MintButton(props: NftInfo) {
+export default function MintButton(props: Properties) {
   const {nftTitle, contentLink, type} = props;
 
   const { walletAddress, signingClient, connectWallet } = useSigningClient();
@@ -23,11 +23,10 @@ export default function MintButton(props: NftInfo) {
     // Gets minted NFT amount
     signingClient
       .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
-      .then((response: any) => { //TODO set type
+      .then((response) => { 
         setNftTokenId(response.count + 1);
-        console.log("TokenID", nftTokenId);
       })
-      .catch((error: any) => { //TODO set type
+      .catch((error) => {
         alert(`Error! ${error.message}`);
         console.log(
           "Error signingClient.queryContractSmart() num_tokens: ",
@@ -44,8 +43,6 @@ export default function MintButton(props: NftInfo) {
     });
 
     const encodedMetadata = Buffer.from(metadata).toString("base64");
-    console.log(metadata);
-    console.log(`data:application/json;base64, ${encodedMetadata}`);
 
     if (!signingClient) return;
 
@@ -62,13 +59,12 @@ export default function MintButton(props: NftInfo) {
         }, // msg
         calculateFee(300_000, "20uconst")
       )
-      .then((response: any) => { //TODO set type
-        console.log(response);
+      .then((response) => { 
         setNftTokenId(nftTokenId + 1);
         setLoading(false);
         alert("Successfully minted!");
       })
-      .catch((error: any) => { //TODO set type
+      .catch((error) => { 
         setLoading(false);
         alert(`Error! ${error.message}`);
         console.log("Error signingClient?.execute(): ", error);

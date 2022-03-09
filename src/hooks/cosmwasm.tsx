@@ -20,7 +20,6 @@ export const useSigningCosmWasmClient = (): ISigningCosmWasmClientContext => {
     setLoading(true);
 
     try {
-      console.log("connecting...");
       connectKeplr();
 
       // enable website to access kepler
@@ -32,10 +31,7 @@ export const useSigningCosmWasmClient = (): ISigningCosmWasmClientContext => {
       );
 
       // make client
-      console.log("Make Client...");
       setClient(await CosmWasmClient.connect(PUBLIC_RPC_ENDPOINT));
-
-      // make client
       setSigningClient(
         await SigningCosmWasmClient.connectWithSigner(
           PUBLIC_RPC_ENDPOINT,

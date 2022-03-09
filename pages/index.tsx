@@ -1,7 +1,7 @@
-import globalStyles from "/src/global-styles/styles.module.sass";
+import globalStyles from "./../src/globalStyles/styles.module.sass";
 import { useState } from "react";
-import ModeSelector from "../src/mint/ModeSelector";
-import { useSigningClient } from "../src/context/cosmwasm";
+import ModeSelector from "./../src/components/ModeSelector/ModeSelector";
+import { useSigningClient } from "./../src/context/cosmwasm";
 
 interface Properties {
   action: string;
@@ -9,22 +9,20 @@ interface Properties {
 
 const modes = ["create", "explore"];
 
-export default function Index(props: Properties) {
+export default function Main(props: Properties) {
   const { action } = props;
 
-  const [curMode, setCurMode] = useState("create");
+  const [currentMode, setCurrentMode] = useState("create");
   const [indexActiveButton, setIndexActiveButton] = useState(0);
 
   const { walletAddress, connectWallet, disconnect } = useSigningClient();
   const [connect, setConnectState] = useState(false);
   const handleConnect = () => {
     if (walletAddress.length === 0) {
-      console.log("start login");
       connectWallet();
       setConnectState(true);
     } 
     else {
-      console.log("Disconnecting", walletAddress);
       disconnect();
       setConnectState(false);
     }
@@ -33,7 +31,7 @@ export default function Index(props: Properties) {
 
   function handleClick (mode: string) {
     setIndexActiveButton(modes.indexOf(mode));
-    setCurMode(mode);
+    setCurrentMode(mode);
     
   };
 
@@ -64,7 +62,7 @@ export default function Index(props: Properties) {
               );
             })}
           </div>
-          <ModeSelector action={curMode} />
+          <ModeSelector action={currentMode} />
         </>
       }
     </div>

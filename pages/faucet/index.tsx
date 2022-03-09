@@ -11,22 +11,19 @@ export default function Index() {
       denom: "uconst",
       address: address,
     };
-    axios.post(url, request).then((r) => {
-      let message = JSON.stringify(r.data.transfers[0]);
-      console.log(message);
+    axios.post(url, request).then((response) => {
+      let message = JSON.stringify(response.data.transfers[0]);
       setResponseData(message);
     });
   };
 
-  const hadleUnputChange = (e) => {
-    setAddress(e.target.value);
-    console.log(address);
-  };
+  const hadleUnputChange = (event: React.ChangeEvent<HTMLInputElement>) => setAddress(event.target.value);
+  
   return (
     <>
-      <input onChange={hadleUnputChange}></input>
+      <input onChange={(event) => hadleUnputChange(event)}></input>
       <button onClick={handleRequest}>request funds</button>
-      {responseData ? <p>{responseData}</p> : <></>}
+      {responseData && <p>{responseData}</p>}
     </>
   );
 }
