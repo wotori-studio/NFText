@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSigningClient } from "../../context/cosmwasm";
+import { useSigningClient } from "./../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
 
 const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT || "";

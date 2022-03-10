@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { SigningCosmWasmProvider } from "../src/context/cosmwasm";
+import { SigningCosmWasmProvider } from "./../src/components/context/cosmwasm";
 
 interface Properties {
   Component: any;

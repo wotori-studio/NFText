@@ -1,10 +1,11 @@
+
 import { useState, useEffect } from "react";
 
-import { NFT } from "../../models/NFT";
-import { Metadata } from "../../models/Metadata"
+import { NFT } from "./../../models/NFT";
+import { Metadata } from "./../../models/Metadata"
 
-import { useSigningClient } from "../../context/cosmwasm";
-import NFText from "../NFText/NFText";
+import { useSigningClient } from "./../context/cosmwasm";
+import NFText from "./../../components/NFText/NFText";
 
 import styles from "./NFTBrowser.module.sass";
 
@@ -29,7 +30,7 @@ export default function Browser(props: Properties) {
     signingClient
       .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
       .then((res: any) => {
-        const manyMetadata: Promise<any>[] = [];
+        const manyMetadata = [];
         let EXCLUDE_LIST = [8];
 
         for (let i = 1; i <= res.count; i++) {
@@ -45,6 +46,7 @@ export default function Browser(props: Properties) {
         Promise.all(manyMetadata)
           .then((manyMetadata) => {
             const manyNFT: NFT[] = manyMetadata.map((metadata, index) => {
+              console.log(metadata);
               const decodedMetadata = JSON.parse(Buffer.from(metadata.info.token_uri.slice(30), "base64").toString());
 
               const newNFT: NFT = {
@@ -96,3 +98,4 @@ export default function Browser(props: Properties) {
     </div>
   );
 }
+
