@@ -5,6 +5,7 @@ import { Metadata } from "./../models/Metadata"
 
 import { useSigningClient } from "./../context/cosmwasm";
 import NFText from "./../components/NFText/NFText";
+import NFImage from "./../components/NFImage/NFImage";
 
 import styles from "./NftBrowser.module.sass";
 
@@ -84,13 +85,12 @@ export default function Browser(props: Properties) {
           }
           
           {(NFT.type === "img" && mode === "img") &&
-            <div key={NFT.id} style={{ width: "250" }}>
-              <h3>title: {NFT.name}</h3>
-              <img src={NFT.content} width="250" />
-              <a href={`/owner/${NFT.owner}`}>
-                <h3>owner: {NFT.owner.slice(0, 10) + "..."}</h3>
-              </a>
-            </div>
+            <NFImage 
+              key={NFT.id}
+              owner={NFT.owner} 
+              title={NFT.name} 
+              imageUrl={NFT.content} 
+            />
           }
         </>
       ))}
