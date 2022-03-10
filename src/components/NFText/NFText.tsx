@@ -1,5 +1,7 @@
 import styles from "./NFText.module.css";
 
+import NFT from "./../../services/nft";
+
 import Link from "next/link";
 
 import { useState, useEffect } from "react";
@@ -35,11 +37,11 @@ function NFText(props: Properties) {
       {/* Text */}
       <div className={styles.block}>
         <div className={styles.body} onClick={() => openModalWindow()}>
-          <span className={`${styles.title} ${styles.font}`}>{title}</span>
+          <span className={`${styles.title} ${styles.font}`}>{NFT.getLimitedString(title, 20, 0, true, "Without title")}</span>
           <span className={`${styles.text} ${styles.font}`}>
-            {text.substring(0, 69) + `${text.length > 69 ? "..." : ""}`}
+            {NFT.getLimitedString(text, 69, 0, true, "Without text")}
           </span>                            
-          <address className={`${styles.walletAddress} ${styles.font}`}>{owner.substring(0, 16) + "..." + owner.substring(owner.length-5)}</address>
+          <address className={`${styles.walletAddress} ${styles.font}`}>{NFT.getLimitedString(owner, 16, 5, true, "Without owner")}</address>
         </div>
 
         {dataA && dataB && dataC &&
