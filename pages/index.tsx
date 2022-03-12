@@ -3,14 +3,9 @@ import { useState } from "react";
 import ModeSelector from "./../src/components/ModeSelector/ModeSelector";
 import { useSigningClient } from "./../src/components/context/cosmwasm";
 
-interface Properties {
-  action: string;
-}
-
 const modes = ["create", "explore"];
 
-export default function Main(props: Properties) {
-  const { action } = props;
+export default function Main() {
 
   const [currentMode, setCurrentMode] = useState("create");
   const [indexActiveButton, setIndexActiveButton] = useState(0);
@@ -32,7 +27,6 @@ export default function Main(props: Properties) {
   function handleClick (mode: string) {
     setIndexActiveButton(modes.indexOf(mode));
     setCurrentMode(mode);
-    
   };
 
   return (
