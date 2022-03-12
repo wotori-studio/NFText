@@ -15,12 +15,7 @@ interface Properties {
 function NFImage(props: Properties) {
   const { owner, title, imageUrl, avatarUrl, name } = props;
 
-  const [modalWindowIsOpen, setModalWindowIsOpen] = useState(false);
-
-  const openModalWindow = () => setModalWindowIsOpen(true);
-  const closeModalWindow = () => setModalWindowIsOpen(false);
-
-  
+  const [modalWindowIsOpen, setModalWindowIsOpen] = useState(false);  
 
   async function loadImage(event: React.SyntheticEvent<HTMLImageElement>) {
     let NFImage = event.target as HTMLImageElement;
@@ -38,7 +33,7 @@ function NFImage(props: Properties) {
         <img 
           style={{display: "none"}}
           onLoad={(event) => loadImage(event)}
-          onClick={() => openModalWindow()}
+          onClick={() => setModalWindowIsOpen(true)}
           className={styles.NFImage}
           src={imageUrl} 
           alt="Error uploading photo, please try reloading the page."
@@ -49,16 +44,7 @@ function NFImage(props: Properties) {
         </address>
       </div>
       
-      {/* Modal window */}
-      {modalWindowIsOpen &&
-        <div className={styles.modalWindowBackground}>
-          <div className={styles.modalWindow}>
-
-            <input type="button" className={styles.closeModalWindow} onClick={() => closeModalWindow()} />
-
-          </div>
-        </div>
-      }
+      {/* There will be a modal window component */}
     </>
   );
 }
