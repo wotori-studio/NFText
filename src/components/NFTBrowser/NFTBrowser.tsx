@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { NFT } from "../../models/NFT";
 import { Metadata } from "../../models/Metadata"
 
-import { useSigningClient } from "../context/cosmwasm";
+import { useSigningClient } from "./../../context/cosmwasm";
 import NFText from "../NFText/NFText";
 import NFImage from "../NFImage/NFImage";
 

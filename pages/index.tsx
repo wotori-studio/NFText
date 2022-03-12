@@ -1,7 +1,7 @@
 import globalStyles from "./../src/globalStyles/styles.module.sass";
 import { useState } from "react";
 import ModeSelector from "./../src/components/ModeSelector/ModeSelector";
-import { useSigningClient } from "./../src/components/context/cosmwasm";
+import { useSigningClient } from "./../src/context/cosmwasm";
 
 const modes = ["create", "explore"];
 

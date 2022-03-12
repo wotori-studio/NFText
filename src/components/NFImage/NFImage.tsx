@@ -31,7 +31,6 @@ function NFImage(props: Properties) {
       <div className={styles.block}>
         <h2 className={`${styles.title} ${styles.font}`}>{NFT.getLimitedString(title, 20, 0, true, "Without title")}</h2>
         <img 
-          style={{display: "none"}}
           onLoad={(event) => loadImage(event)}
           onClick={() => setModalWindowIsOpen(true)}
           className={styles.NFImage}

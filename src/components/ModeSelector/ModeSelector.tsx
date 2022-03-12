@@ -16,7 +16,7 @@ const modes = ["text", "img", "gltf"];
 export default function ModeSelector(props: Properties) {
   const { action } = props;
 
-  const [currentMode, setCurrentMode] = useState("text");
+  const [currentMode, setCurrentMode] = useState("img");
   const [indexActiveButton, setIndexActiveButton] = useState(0);
 
   function handleClick(mode: string) {

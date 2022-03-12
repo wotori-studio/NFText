@@ -7,7 +7,7 @@ import MintButton from "../MintButton/MintButton";
 import styles from './uploader.module.sass';
 import globalStyles from './../../globalStyles/styles.module.sass';
 
-import { useSigningClient } from "./../context/cosmwasm";
+import { useSigningClient } from "./../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
 const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT || "";
 
@@ -35,10 +35,10 @@ export default function Uploader(props: Properties) {
     // Gets minted NFT amount
     signingClient
       .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
-      .then((response) => {
+      .then((response: any) => {
         setNftTokenId(response.count + 1);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         alert(`Error! ${error.message}`);
         console.log("Error signingClient.queryContractSmart() num_tokens: ", error);
       });
@@ -131,12 +131,12 @@ export default function Uploader(props: Properties) {
         }, // msg
         calculateFee(300_000, "20uconst")
       )
-      .then((response) => {
+      .then((response: any) => {
         setNftTokenId(nftTokenId + 1);
         setLoading(false);
         alert("Successfully minted!");
       })
-      .catch((error) => {
+      .catch((error: any) => {
         setLoading(false);
         alert(`Error! ${error.message}`);
         console.log("Error signingClient?.execute(): ", error);
