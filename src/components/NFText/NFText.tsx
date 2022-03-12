@@ -1,4 +1,4 @@
-import styles from "./NFText.module.css";
+import styles from "./NFText.module.sass";
 
 import NFT from "./../../services/nft";
 
