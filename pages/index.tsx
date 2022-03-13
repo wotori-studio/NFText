@@ -2,8 +2,18 @@ import globalStyles from "./../src/globalStyles/styles.module.sass";
 import { useState } from "react";
 import ModeSelector from "./../src/components/ModeSelector/ModeSelector";
 import { useSigningClient } from "./../src/context/cosmwasm";
+import ModeToggle from "./../src/components/ModeToggle/ModeToggle";
 
-const modes = ["create", "explore"];
+const modes = [
+  {
+    name: "create",
+    action: () => {console.log("create")}
+  },
+  {
+    name: "explore",
+    action: () => {console.log("explore")}
+  }
+];
 
 export default function Main() {
 
@@ -24,9 +34,8 @@ export default function Main() {
   };
 
 
-  function handleClick (mode: string) {
-    setIndexActiveButton(modes.indexOf(mode));
-    setCurrentMode(mode);
+  function handleClick() {
+    console.log("work");
   };
 
   return (
@@ -42,19 +51,7 @@ export default function Main() {
       {connect &&
         <>
           <div className={globalStyles.modes}>
-            {modes.map( (mode, index) => {
-              let buttonMode = index === indexActiveButton ? globalStyles.customButtonActive : globalStyles.customButtonNotActive;
-              // map create and explore toggle menu
-              return (
-                  <button
-                    key={index}
-                    className={buttonMode}
-                    onClick={() => handleClick(mode)}
-                  >
-                    {mode}
-                  </button>
-              );
-            })}
+            <ModeToggle modes={modes} />
           </div>
           <ModeSelector action={currentMode} />
         </>

@@ -7,7 +7,7 @@ import MintButton from "../MintButton/MintButton";
 import styles from './uploader.module.sass';
 import globalStyles from './../../globalStyles/styles.module.sass';
 
-import { useSigningClient } from "./../../context/cosmwasm";
+import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
 const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT || "";
 

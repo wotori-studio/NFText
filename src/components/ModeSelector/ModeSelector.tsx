@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import Uploader from "./../uploader/uploader";
+import Uploader from "../Uploader/uploader";
 
 import Browser from "./../NFTBrowser/NFTBrowser";
 import styles from "./../NFTBrowser/NFTBrowser.module.sass";
