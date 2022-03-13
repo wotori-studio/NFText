@@ -1,8 +1,6 @@
-import styles from "./NFText.module.css";
+import styles from "./NFText.module.sass";
 
 import NFT from "./../../services/nft";
-
-import Link from "next/link";
 
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -24,19 +22,14 @@ function NFText(props: Properties) {
   const [text, setText] = useState("");
   const [modalWindowIsOpen, setModalWindowIsOpen] = useState(false);
 
-  const openModalWindow = () => setModalWindowIsOpen(true);
-  const closeModalWindow = () => setModalWindowIsOpen(false);
-
   useEffect(() => {
     axios.get(textUrl).then( response => setText(response.data) );
   }, []);
 
-
   return (
     <>
-      {/* Text */}
       <div className={styles.block}>
-        <div className={styles.body} onClick={() => openModalWindow()}>
+        <div className={styles.body} onClick={() => setModalWindowIsOpen(true)}>
           <span className={`${styles.title} ${styles.font}`}>{NFT.getLimitedString(title, 20, 0, true, "Without title")}</span>
           <span className={`${styles.text} ${styles.font}`}>
             {NFT.getLimitedString(text, 69, 0, true, "Without text")}
@@ -53,55 +46,7 @@ function NFText(props: Properties) {
         }
       </div>
       
-      {/* Modal window */}
-      {modalWindowIsOpen &&
-        <div className={styles.modalWindowBackground}>
-          <div className={styles.modalWindow}>
-
-            <input type="button" className={styles.closeModalWindow} onClick={() => closeModalWindow()} />
-          
-            {/* Header with user info */}
-            {(avatarUrl || name) &&
-              <div className={styles.userInfo}>
-                {avatarUrl && 
-                  <img 
-                    className={styles.avatar}
-                    width={41} 
-                    height={41} 
-                    src={avatarUrl}
-                    alt="Error getting avatar" 
-                  />
-                }
-                {name && 
-                  <span className={`${styles.name} ${!avatarUrl ? styles.onlyName : ''} ${styles.font}`}>
-                    {name}
-                  </span>
-                }
-              </div>
-            }
-          
-            {/* Full NFText */}
-            <div className={styles.NFTextFullInfo} style={{height: !avatarUrl && !name ? '93%' : '80%'}}>
-              <span className={`${styles.titleInModalWindow} ${styles.font}`}>{title}</span>
-              <div className={styles.scrollbar}>
-                <span className={`${styles.text} ${styles.font}`}>
-                  {text}
-                </span>
-              </div>
-            </div>
-
-            {/* Owner */}
-            <Link href={`/owner/${owner}`} >
-              <a className={`${styles.walletAddress} ${styles.font}`}>
-                <address>
-                  {owner}
-                </address>  
-              </a>
-            </Link>
-
-          </div>
-        </div>
-      }
+      {/* There will be a modal window component */}
     </>
   );
 } 

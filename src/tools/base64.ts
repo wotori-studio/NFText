@@ -5,10 +5,9 @@ export default function b64(inString = "") {
   if (typeof inString == "string")
     try {
       return Buffer.from(inString).toString("base64");
-    } catch (e) {
+    } catch (error) {
       console.log(
-        "Error: failed to create Base64 encoding for arguments " + inString,
-        e
+        "Error: failed to create Base64 encoding for arguments " + inString, error
       );
       return false;
     }

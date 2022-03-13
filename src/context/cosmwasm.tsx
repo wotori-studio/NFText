@@ -1,6 +1,7 @@
 import { createContext, useContext, ReactNode } from "react";
-import { useSigningCosmWasmClient } from "../hooks/cosmwasm";
-import { ISigningCosmWasmClientContext } from "../models/ISigningCosmWasmClientContext";
+
+import { useSigningCosmWasmClient } from "./../hooks/cosmwasm";
+import { ISigningCosmWasmClientContext } from "./../models/ISigningCosmWasmClientContext";
 
 let CosmWasmContext: any;
 let { Provider } = (CosmWasmContext =

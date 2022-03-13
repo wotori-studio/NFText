@@ -6,3 +6,4 @@ export interface NFT {
   href: string;
   content: string;
 }
+

@@ -11,7 +11,6 @@ export default function Chick({ ...props }) {
   const { actions } = useAnimations(animations, group);
   useEffect(() => {
     actions['Take 001'].play();
-    console.log(actions);
   });
   return (
     <group ref={group} {...props} dispose={null}>
