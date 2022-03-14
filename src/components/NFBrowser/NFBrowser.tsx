@@ -30,7 +30,7 @@ export default function Browser(props: Properties) {
     signingClient
       .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
       .then((res: any) => {
-        const manyMetadata = [];
+        const manyMetadata: Promise<Metadata>[] = [];
         let EXCLUDE_LIST = [8];
 
         for (let i = 1; i <= res.count; i++) {
