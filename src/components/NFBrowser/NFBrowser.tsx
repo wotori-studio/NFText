@@ -7,7 +7,7 @@ import { useSigningClient } from "./../../context/cosmwasm";
 import NFText from "./../NFText/NFText";
 import NFImage from "./../NFImage/NFImage";
 
-import styles from "./NFTBrowser.module.sass";
+import styles from "./NFBrowser.module.sass";
 
 const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT as string;
 
