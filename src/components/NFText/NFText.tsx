@@ -23,7 +23,13 @@ function NFText(props: Properties) {
   const [modalWindowIsOpen, setModalWindowIsOpen] = useState(false);
 
   useEffect(() => {
-    axios.get(textUrl).then( response => setText(response.data) );
+    if (process.env.NODE_ENV === "production") {
+      axios.get(textUrl).then( response => setText(response.data) );
+    }
+    else if (process.env.NODE_ENV === "development") {
+      setText(textUrl);
+    }
+    
   }, []);
 
   return (
