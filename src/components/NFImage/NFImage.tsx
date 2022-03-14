@@ -1,6 +1,6 @@
 import styles from "./NFImage.module.sass";
 
-import NFT from "./../../services/nft";
+import NFTService from "./../../services/nftService";
 
 import React, { useState } from "react";
 
@@ -29,7 +29,7 @@ function NFImage(props: Properties) {
   return (
     <>
       <div className={styles.block}>
-        <h2 className={`${styles.title} ${styles.font}`}>{NFT.getLimitedString(title, 20, 0, true, "Without title")}</h2>
+        <h2 className={`${styles.title} ${styles.font}`}>{NFTService.getLimitedString(title, 20, 0, true, "Without title")}</h2>
         <img 
           onLoad={(event) => loadImage(event)}
           onClick={() => setModalWindowIsOpen(true)}
@@ -39,7 +39,7 @@ function NFImage(props: Properties) {
         />
         
         <address className={`${styles.walletAddress} ${styles.font}`}>
-          {NFT.getLimitedString(owner, 16, 5, true, "Without owner")}
+          {NFTService.getLimitedString(owner, 16, 5, true, "Without owner")}
         </address>
       </div>
       

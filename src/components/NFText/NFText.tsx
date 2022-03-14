@@ -1,6 +1,6 @@
 import styles from "./NFText.module.sass";
 
-import NFT from "./../../services/nft";
+import NFTService from "./../../services/nftService";
 
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -30,11 +30,11 @@ function NFText(props: Properties) {
     <>
       <div className={styles.block}>
         <div className={styles.body} onClick={() => setModalWindowIsOpen(true)}>
-          <span className={`${styles.title} ${styles.font}`}>{NFT.getLimitedString(title, 20, 0, true, "Without title")}</span>
+          <span className={`${styles.title} ${styles.font}`}>{NFTService.getLimitedString(title, 20, 0, true, "Without title")}</span>
           <span className={`${styles.text} ${styles.font}`}>
-            {NFT.getLimitedString(text, 69, 0, true, "Without text")}
+            {NFTService.getLimitedString(text, 69, 0, true, "Without text")}
           </span>                            
-          <address className={`${styles.walletAddress} ${styles.font}`}>{NFT.getLimitedString(owner, 16, 5, true, "Without owner")}</address>
+          <address className={`${styles.walletAddress} ${styles.font}`}>{NFTService.getLimitedString(owner, 16, 5, true, "Without owner")}</address>
         </div>
 
         {dataA && dataB && dataC &&
