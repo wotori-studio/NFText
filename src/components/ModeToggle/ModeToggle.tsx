@@ -2,10 +2,9 @@ import globalStyles from "./../../globalStyles/styles.module.sass";
 
 import { useState } from "react"
 
-
-interface Mode {
+export interface Mode {
   name: string;
-  action(): void | JSX.Element;
+  action(): void;
 }
 
 interface Properties {

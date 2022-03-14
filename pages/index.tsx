@@ -2,23 +2,20 @@ import globalStyles from "./../src/globalStyles/styles.module.sass";
 import { useState } from "react";
 import ModeSelector from "./../src/components/ModeSelector/ModeSelector";
 import { useSigningClient } from "./../src/context/cosmwasm";
-import ModeToggle from "./../src/components/ModeToggle/ModeToggle";
-
-const modes = [
-  {
-    name: "create",
-    action: () => {console.log("create")}
-  },
-  {
-    name: "explore",
-    action: () => {console.log("explore")}
-  }
-];
+import ModeToggle, { Mode } from "./../src/components/ModeToggle/ModeToggle";
 
 export default function Main() {
-
+  const [modes, setModes] = useState<Mode[]>([
+    {
+      name: "create",
+      action: () => {setCurrentMode("create")}
+    },
+    {
+      name: "explore",
+      action: () => {setCurrentMode("explore")}
+    }
+  ]);
   const [currentMode, setCurrentMode] = useState("create");
-  const [indexActiveButton, setIndexActiveButton] = useState(0);
 
   const { walletAddress, connectWallet, disconnect } = useSigningClient();
   const [connect, setConnectState] = useState(false);
@@ -31,11 +28,6 @@ export default function Main() {
       disconnect();
       setConnectState(false);
     }
-  };
-
-
-  function handleClick() {
-    console.log("work");
   };
 
   return (

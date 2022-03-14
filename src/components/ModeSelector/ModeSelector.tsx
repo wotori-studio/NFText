@@ -1,49 +1,44 @@
 import { useState } from "react";
 
-import Uploader from "../Uploader/uploader";
+import NFUploader from "./../NFUploader/NFUploader";
+import NFBrowser from "./../NFBrowser/NFBrowser";
+import ModeToggle, { Mode } from "./../ModeToggle/ModeToggle";
 
-import Browser from "./../NFTBrowser/NFTBrowser";
 import styles from "./../NFTBrowser/NFTBrowser.module.sass";
-
-import globalStyles from "./../../globalStyles/styles.module.sass";
 
 interface Properties {
   action: string;
 }
 
-const modes = ["text", "img", "gltf"];
-
 export default function ModeSelector(props: Properties) {
   const { action } = props;
 
+  const [modes, setModes] = useState<Mode[]>([
+    {
+      name: "text",
+      action: () => {setCurrentMode("text")}
+    },
+    {
+      name: "img",
+      action: () => {setCurrentMode("img")}
+    },
+    {
+      name: "gltf",
+      action: () => {setCurrentMode("gltf")}
+    }
+  ]);
   const [currentMode, setCurrentMode] = useState("img");
-  const [indexActiveButton, setIndexActiveButton] = useState(0);
-
-  function handleClick(mode: string) {
-    setIndexActiveButton(modes.indexOf(mode));
-    setCurrentMode(mode);
-  };
 
   return (
     <>
-      {/* text | img | gltf switches */}
       <div className={styles.overview}>
-        {modes.map((mode, index) => {
-          let buttonMode = index === indexActiveButton ? globalStyles.customButtonActive : globalStyles.customButtonNotActive;
-
-          return (
-            <button
-              key={index}
-              className={buttonMode}
-              onClick={() => handleClick(mode)}
-            >
-              {mode}
-            </button>
-          );
-        })}
+        <ModeToggle modes={modes} />
       </div>
 
-      {action === "create" ? <Uploader mode={currentMode} /> : <Browser mode={currentMode} />}
+      {action === "create" 
+        ? <NFUploader mode={currentMode} /> 
+        : <NFBrowser mode={currentMode} />
+      }
     </>
   );
 }
