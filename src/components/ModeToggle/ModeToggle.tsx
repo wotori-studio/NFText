@@ -1,6 +1,6 @@
 import globalStyles from "./../../globalStyles/styles.module.sass";
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export interface Mode {
   name: string;
@@ -15,6 +15,10 @@ function ModeToggle(props: Properties) {
   const { modes } = props;
 
   const [indexActiveButton, setIndexActiveButton] = useState(0);
+
+  useEffect(() => {
+    modes[indexActiveButton].action();
+  }, []);
 
   function toggle(index: number) {
     setIndexActiveButton(index);
