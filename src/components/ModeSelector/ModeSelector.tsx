@@ -4,7 +4,7 @@ import NFUploader from "./../NFUploader/NFUploader";
 import NFBrowser from "./../NFBrowser/NFBrowser";
 import ModeToggle, { Mode } from "./../ModeToggle/ModeToggle";
 
-import styles from "./../NFTBrowser/NFTBrowser.module.sass";
+import styles from "./ModeSelector.module.sass";
 
 interface Properties {
   action: string;
