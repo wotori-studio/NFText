@@ -43,6 +43,14 @@ class NFTService {
     return `${limitedString}...`;
   }
 
+  setImageLimits(event: React.SyntheticEvent<HTMLImageElement>, maxSize: number): void {
+    let image = event.target as HTMLImageElement;
+    const scaleX = maxSize / image.width;
+    const normalizedSizeY = image.width > image.height ? image.height * scaleX : image.width * scaleX;
+    image.height = normalizedSizeY;
+    image.setAttribute('style', 'display: inline');
+  }
+
   getNFTFromBlockchain(walletAddress: string, signingClient: any, connectWallet: any): NFT[] {
     if (!signingClient || walletAddress.length === 0) {
       connectWallet();
@@ -68,7 +76,6 @@ class NFTService {
         Promise.all(manyMetadata)
           .then((manyMetadata) => {
             const manyNFT: NFT[] = manyMetadata.map((metadata, index) => {
-              console.log(metadata);
               const decodedMetadata = JSON.parse(Buffer.from(metadata.info.token_uri.slice(30), "base64").toString());
 
               const newNFT: NFT = {

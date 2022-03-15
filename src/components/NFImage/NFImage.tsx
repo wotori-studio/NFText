@@ -15,23 +15,14 @@ interface Properties {
 function NFImage(props: Properties) {
   const { owner, title, imageUrl, avatarUrl, name } = props;
 
-  const [modalWindowIsOpen, setModalWindowIsOpen] = useState(false);  
-
-  async function loadImage(event: React.SyntheticEvent<HTMLImageElement>) {
-    let NFImage = event.target as HTMLImageElement;
-    let scaleX = 209 / NFImage.width;
-    let normalizedSizeY = NFImage.width > NFImage.height ? NFImage.height * scaleX : NFImage.width * scaleX;
-
-    NFImage.height = normalizedSizeY;
-    NFImage.setAttribute('style', 'display: inline');
-  }
-
+  const [modalWindowIsOpen, setModalWindowIsOpen] = useState(false);
+  
   return (
     <>
       <div className={styles.block}>
         <h2 className={`${styles.title} ${styles.font}`}>{NFTService.getLimitedString(title, 20, 0, true, "Without title")}</h2>
         <img 
-          onLoad={(event) => loadImage(event)}
+          onLoad={(event) => NFTService.setImageLimits(event, 209)}
           onClick={() => setModalWindowIsOpen(true)}
           className={styles.NFImage}
           src={imageUrl} 

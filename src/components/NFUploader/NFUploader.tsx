@@ -9,6 +9,9 @@ import globalStyles from './../../globalStyles/styles.module.sass';
 
 import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
+
+import NFTService from "./../../services/nftService";
+
 const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT || "";
 
 interface Properties {
@@ -162,22 +165,31 @@ export default function Uploader(props: Properties) {
       
       {/* Get file button, and file name */}
       {(mode === "img" || mode === "gltf") &&
-        <div className={`${styles.fileArea} ${styles.overviewChild}`}>
-          <label className={globalStyles.customButtonActive}>
-            select file
-            <input
-              className={globalStyles.hide}
-              type="file"
-              accept=".png .jpg .gltf"
-              onChange={event => getFile(event)}
-            />
-          </label>
-          <div className={styles.selectedFile}>{selectedFile && selectedFile.name}</div>
-        </div>
+        <label className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}>
+          select file
+          <input
+            className={globalStyles.hide}
+            type="file"
+            accept="image/*"
+            onChange={event => getFile(event)}
+          />
+        </label>
       }
 
-      {/* File preview */}
-      {mode === "img" && filePreview && <img className={`${styles.overviewChild}`} src={filePreview} alt="preview image" width="400" />}
+      {/* Image preview */}
+      {mode === "img" && filePreview && 
+        <div style={{width: "min-content"}}>
+          <span className={`${styles.selectedFile} ${styles.overviewChild}`}>
+            {selectedFile && NFTService.getLimitedString(selectedFile.name, 30, 4)}
+          </span>
+          <img
+            style={{display: "none"}}
+            src={filePreview} 
+            alt="preview image" 
+            onLoad={event => NFTService.setImageLimits(event, window.innerWidth < 720 ? window.innerWidth-50 : 700)}
+          />
+        </div>
+      }
 
       {/* 3D canvas */}
       {mode === "gltf" &&
