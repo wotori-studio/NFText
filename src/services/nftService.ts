@@ -57,7 +57,9 @@ class NFTService {
       return [] as NFT[];
     }
 
-    return signingClient
+    let returnManyNFT: NFT[] = [];
+
+    signingClient
       .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
       .then((res: any) => {
         const manyMetadata: Promise<Metadata>[] = [];
@@ -90,15 +92,17 @@ class NFTService {
               return newNFT;
             });
 
-            return manyNFT;
+            returnManyNFT = manyNFT;
           });
       })
-      .catch((error: any) => {
-        if (process.env.NODE_ENV === 'development') {
-          console.error(`Error signingClient.queryContractSmart() num_tokens: ${error}`)
-        }
-        return [] as NFT[];
-      });
+        .catch((error: any) => {
+          if (process.env.NODE_ENV === 'development') {
+            console.error(`Error signingClient.queryContractSmart() num_tokens: ${error}`)
+          }
+          return [] as NFT[];
+        });
+
+    return returnManyNFT;
   }
 
   getNFTFromDatabase(): NFT[] {
