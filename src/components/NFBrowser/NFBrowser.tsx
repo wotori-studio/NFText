@@ -34,21 +34,11 @@ export default function Browser(props: Properties) {
       {manyNFT.slice(0).reverse().map( NFT => (
         <>
           {(NFT.type === "text" && mode === "text") &&
-            <NFText 
-              key={NFT.id}
-              owner={NFT.owner} 
-              title={NFT.name} 
-              textUrl={NFT.content} 
-            />
+            <NFText NFT={NFT} />
           }
           
           {(NFT.type === "img" && mode === "img") &&
-            <NFImage 
-              key={NFT.id}
-              owner={NFT.owner} 
-              title={NFT.name} 
-              imageUrl={NFT.content} 
-            />
+            <NFImage NFT={NFT} />
           }
         </>
       ))}

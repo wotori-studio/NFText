@@ -5,42 +5,40 @@ import NFTService from "./../../services/nftService";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import ModalWindow from "./../ModalWindow/ModalWindow";
+import { NFT } from "./../../models/NFT";
+
 interface Properties {
-  owner: string;
-  title: string;
-  textUrl: string;
-  avatarUrl?: string;
-  name?: string;
+  NFT: NFT;
   dataA?: string; // JSON
   dataB?: string; // JSON
   dataC?: string; // JSON
 };
 
 function NFText(props: Properties) {
-  const { owner, title, textUrl, avatarUrl, name, dataA, dataB, dataC } = props;
+  const { NFT, dataA, dataB, dataC } = props;
 
   const [text, setText] = useState("");
   const [modalWindowIsOpen, setModalWindowIsOpen] = useState(false);
 
   useEffect(() => {
     if (process.env.NODE_ENV === "production") {
-      axios.get(textUrl).then( response => setText(response.data) );
+      axios.get(NFT.content).then( response => setText(response.data) );
     }
     else if (process.env.NODE_ENV === "development") {
-      setText(textUrl);
+      setText(NFT.content);
     }
-    
   }, []);
 
   return (
     <>
       <div className={styles.block}>
         <div className={styles.body} onClick={() => setModalWindowIsOpen(true)}>
-          <span className={`${styles.title} ${styles.font}`}>{NFTService.getLimitedString(title, 20, 0, true, "Without title")}</span>
+          <span className={`${styles.title} ${styles.font}`}>{NFTService.getLimitedString(NFT.name, 20, 0, true, "Without title")}</span>
           <span className={`${styles.text} ${styles.font}`}>
             {NFTService.getLimitedString(text, 69, 0, true, "Without text")}
           </span>                            
-          <address className={`${styles.walletAddress} ${styles.font}`}>{NFTService.getLimitedString(owner, 16, 5, true, "Without owner")}</address>
+          <address className={`${styles.walletAddress} ${styles.font}`}>{NFTService.getLimitedString(NFT.owner, 16, 5, true, "Without owner")}</address>
         </div>
 
         {dataA && dataB && dataC &&
@@ -52,7 +50,9 @@ function NFText(props: Properties) {
         }
       </div>
       
-      {/* There will be a modal window component */}
+      {modalWindowIsOpen && 
+        <ModalWindow isOpen={modalWindowIsOpen} close={() => setModalWindowIsOpen(!modalWindowIsOpen)} NFT={NFT} />
+      }
     </>
   );
 } 
