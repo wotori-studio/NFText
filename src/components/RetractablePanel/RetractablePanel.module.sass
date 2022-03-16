@@ -1,0 +1,115 @@
+.body
+  position: fixed
+  top: 0
+  left: 0
+
+  width: 250px
+  height: 100vh
+
+  display: flex
+  flex-direction: column
+  align-items: center
+  text-align: center
+
+  background-color: #272727
+  transition: .7s
+
+.title
+  width: 80%
+  height: 38px
+
+  font:
+    family: 'Roboto'
+    style: normal
+    weight: 700
+    size: 20px
+  line-height: 38px
+
+  color: #909090
+
+.modeTitle
+  font:
+    family: 'Roboto'
+    style: normal
+    weight: 700
+    size: 20px
+  line-height: 38px
+
+  color: #909090
+
+.selectedMode
+  // code
+
+.selectBTN
+  width: 50%
+  height: 40px
+
+  font:
+    family: Roboto;
+    size: 20px;
+    style: normal;
+    weight: 700;
+    height: 25px;
+  letter-spacing: 0.025em;
+  text-align: center;
+
+  color: #5C5C5C
+  border: 0px
+  background-color: #272727
+  cursor: pointer
+
+  &:hover
+    color: #96E0B8
+  &:active
+    color: #96E0B8
+
+.selectModes
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border: 0px
+  outline: none;
+
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+
+  width: 165px
+  height: 135px
+
+  background-color: #323232
+
+  text-align: center
+
+  overflow: hidden
+  transition: 0.5s
+
+.modeBTN
+  width: 100%
+  max-height: 40px
+  height: 100%
+
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+
+  color: #999999
+  background-color: #323232
+  border: 0px
+  &:hover
+    color: #404040
+  &:active
+    color: #64E49F
+
+.swipeButton
+  position: absolute
+  top: 50vh
+  right: -50px
+
+  width: 50px
+  height: 50px
+  border-width: 0 
+
+  clip-path: polygon(68% 50%, 36% 12%, 50% 0, 90% 50%, 50% 100%, 36% 88%);
+  cursor: pointer
