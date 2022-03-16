@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { observer } from "mobx-react-lite";
 
 import { NFT } from "./../../models/NFT";
 import NFTService from "./../../services/nftService";
@@ -7,23 +8,25 @@ import { useSigningClient } from "./../../context/cosmwasm";
 import NFText from "./../NFText/NFText";
 import NFImage from "./../NFImage/NFImage";
 
+import DevStore from "./../../store/devStore";
+
 import styles from "./NFBrowser.module.sass";
 
 interface Properties {
   mode: string;
 }
 
-export default function Browser(props: Properties) {
+const NFBrowser = observer((props: Properties) => {
   const { mode } = props;
 
   const { walletAddress, signingClient, connectWallet } = useSigningClient();
   const [manyNFT, setManyNFT] = useState<NFT[]>([]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'production') {
+    if (DevStore.modeProject === "Production") {
       setManyNFT(NFTService.getNFTFromBlockchain(walletAddress, signingClient, connectWallet));
     }
-    else if (process.env.NODE_ENV === 'development') {
+    else if (DevStore.modeProject === "Development") {
       setManyNFT(NFTService.getNFTFromDatabase());
     }
     
@@ -54,4 +57,6 @@ export default function Browser(props: Properties) {
       ))}
     </div>
   );
-}
+});
+
+export default NFBrowser;
