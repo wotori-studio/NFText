@@ -15,55 +15,42 @@
   transition: .7s
 
 .title
-  width: 80%
-  height: 38px
-
   font:
-    family: 'Roboto'
+    family: Roboto
     style: normal
     weight: 700
-    size: 20px
-  line-height: 38px
-
+    size: 24px
   color: #909090
 
 .modeTitle
   font:
-    family: 'Roboto'
+    family: Roboto
     style: normal
     weight: 700
-    size: 20px
-  line-height: 38px
+    size: 14px
+  color: #5C5C5C
 
-  color: #909090
-
-.selectedMode
-  // code
-
-.selectBTN
-  width: 50%
+.currentMode
   height: 40px
 
   font:
     family: Roboto;
     size: 20px;
     style: normal;
-    weight: 700;
-    height: 25px;
-  letter-spacing: 0.025em;
+    weight: 700;  
   text-align: center;
 
-  color: #5C5C5C
+  color: #999999
   border: 0px
-  background-color: #272727
+  background-color: #27272700
   cursor: pointer
 
   &:hover
     color: #96E0B8
   &:active
-    color: #96E0B8
+    color: #81c09e
 
-.selectModes
+.modesPanel
   -moz-appearance: none;
   -webkit-appearance: none;
   border: 0px
@@ -74,9 +61,6 @@
   justify-content: center
   align-items: center
 
-  width: 165px
-  height: 135px
-
   background-color: #323232
 
   text-align: center
@@ -84,21 +68,31 @@
   overflow: hidden
   transition: 0.5s
 
-.modeBTN
+.modeButton
   width: 100%
-  max-height: 40px
   height: 100%
+  padding: 6 12px
 
   display: flex
   flex-direction: column
   justify-content: center
   align-items: center
 
+  font:
+    family: Roboto;
+    size: 20px;
+    style: normal;
+    weight: 700;  
+
   color: #999999
   background-color: #323232
   border: 0px
+  
+  cursor: pointer
+
   &:hover
-    color: #404040
+    background-color: #404040
+    color: #96E0B8
   &:active
     color: #64E49F
 
@@ -111,5 +105,16 @@
   height: 50px
   border-width: 0 
 
-  clip-path: polygon(68% 50%, 36% 12%, 50% 0, 90% 50%, 50% 100%, 36% 88%);
   cursor: pointer
+
+.open
+  clip-path: polygon(68% 50%, 36% 12%, 50% 0, 90% 50%, 50% 100%, 36% 88%)
+  background-color: #CBCBCB
+  &:hover
+    background-color: #bbbbbb
+
+.close
+  clip-path: polygon(32% 50%, 64% 88%, 50% 100%, 10% 50%, 50% 0%, 64% 12%)
+  background-color: #64E49F
+  &:hover
+    background-color: #5cd494
