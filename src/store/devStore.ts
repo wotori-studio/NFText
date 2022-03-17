@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 
 class DevStore {
-  modeProject: string = "Development";
+  modeProject: string = "Production";
 
   public constructor() {
     makeAutoObservable(this);
