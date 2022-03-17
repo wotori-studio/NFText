@@ -52,15 +52,39 @@ function ModalWindow(props: Properties) {
     }
   }
 
+  function calculateSizeForImage(): number {
+    const portrait = "portrait";
+    const landscape = "landscape";
+    const orientation = innerWidth > innerHeight ? landscape : portrait;
+
+    /**
+     * All numbers are obtained from media queries of the "window" class, 
+     * so when adjusting media queries, you will need to write them here.
+     */
+    if (orientation === landscape) {
+      return innerWidth < 780 
+        ? innerWidth * 0.55 : innerWidth < 850
+        ? innerWidth * 0.45 : innerWidth > 850
+        ? innerWidth * 0.35 : 0;
+    }
+    else if (orientation === portrait) {
+      return innerWidth * 0.8;
+    }
+    else {
+      if (process.env.NODE_ENV === "development") {
+        console.error("An error occurred while calculating the image size.")
+      }
+      return 0;
+    }
+  }
+
   return (
     <div className={styles.background} onClick={event => closeModalWindow(event)}>
       <input type="button" className={styles.close} />
       <div className={styles.window}>
         <div className={styles.interface}>
-          <header className={styles.header}>
-            <h1>Title: {NFT.name}</h1>
-            <h1>Author: {NFT.owner}</h1>
-          </header>
+
+          <h1 className={styles.title}>{NFT.name}</h1>
 
           <div className={styles.NFTComponent}>
             {NFT.type === "text" && text ? 
@@ -69,11 +93,13 @@ function ModalWindow(props: Properties) {
               <img 
                 src={NFT.content} 
                 alt="An error occurred while loading the image, please try reloading the page."
-                onLoad={(event) => NFTService.setImageLimits(event, innerWidth*0.46)}
+                onLoad={(event) => 
+                  NFTService.setImageLimits(event, calculateSizeForImage())}
               />
             : NFT.type === "gltf" &&
               <span>In development...</span>
             }
+            <address className={styles.owner}>{NFT.owner}</address>
           </div>
 
           <footer className={styles.footer}>
