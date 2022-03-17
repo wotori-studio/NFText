@@ -1,11 +1,11 @@
-import styles from "./RetractablePanel.module.sass";
+import styles from "./DeveloperMenu.module.sass";
 
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
 
 import DevStore from "./../../store/devStore";
 
-const RetractablePanel = observer(() => {
+const DeveloperMenu = observer(() => {
   const [panelPosition, setPanelPosition] = useState(-250);
   const [modesPanelHeight, setModesPanelHeight] = useState(0)
   const [swipeButton, setSwipeButton] = useState(styles.open)
@@ -60,4 +60,4 @@ const RetractablePanel = observer(() => {
   );
 })
 
-export default RetractablePanel;
+export default DeveloperMenu;

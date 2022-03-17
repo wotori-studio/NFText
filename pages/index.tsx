@@ -4,7 +4,7 @@ import ModeSelector from "./../src/components/ModeSelector/ModeSelector";
 import { useSigningClient } from "./../src/context/cosmwasm";
 import ModeToggle, { Mode } from "./../src/components/ModeToggle/ModeToggle";
 
-import RetractablePanel from "./../src/components/RetractablePanel/RetractablePanel"
+import DeveloperMenu from "./../src/components/DeveloperMenu/DeveloperMenu";
 
 export default function Main() {
   const [modes, setModes] = useState<Mode[]>([
@@ -51,7 +51,7 @@ export default function Main() {
         </>
       }
       {process.env.NODE_ENV === "development" && 
-        <RetractablePanel />
+        <DeveloperMenu />
       }
     </div>  
   );
