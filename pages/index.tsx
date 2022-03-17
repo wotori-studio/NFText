@@ -4,6 +4,8 @@ import ModeSelector from "./../src/components/ModeSelector/ModeSelector";
 import { useSigningClient } from "./../src/context/cosmwasm";
 import ModeToggle, { Mode } from "./../src/components/ModeToggle/ModeToggle";
 
+import DeveloperMenu from "./../src/components/DeveloperMenu/DeveloperMenu";
+
 export default function Main() {
   const [modes, setModes] = useState<Mode[]>([
     {
@@ -48,6 +50,9 @@ export default function Main() {
           <ModeSelector action={currentMode} />
         </>
       }
-    </div>
+      {process.env.NODE_ENV === "development" && 
+        <DeveloperMenu />
+      }
+    </div>  
   );
 }
