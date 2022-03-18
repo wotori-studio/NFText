@@ -30,7 +30,7 @@
     "react-dom": "latest",
     "react-painter": "^0.4.0",
     "styled-jsx": "^4.0.1",
-    "three": "^0.134.0",
+    "three": "^0.138.3",
     "yarn": "^1.22.17"
   },
   "scripts": {
