@@ -3,11 +3,11 @@ import styles from "./DataPlatform.module.sass";
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
 
-import DevStore from "./../../../../store/devStore";
+import devStore from "./../../../../store/devStore";
 
 enum DataPlatformState {
   Close = 0,
-  Open = (DevStore.DATA_PLATFORMS.length-1) * 36
+  Open = (devStore.DATA_PLATFORMS.length-1) * 36
 }
 
 const DataPlatform = observer(() => {
@@ -35,13 +35,13 @@ const DataPlatform = observer(() => {
           else closeDataPlatformPanel();
         }}
       >
-        <span className={styles.name}>{DevStore.dataPlatform}</span>
+        <span className={styles.name}>{devStore.dataPlatform}</span>
         <div className={`${styles.arrow} ${arrowStyle}`}></div>
       </button>
       
       <div className={styles.panel} style={{height: dataPlatformPanel}}>
-        {dataPlatformPanel !== 0 && DevStore.DATA_PLATFORMS
-          .filter(platformName => platformName !== DevStore.dataPlatform)
+        {dataPlatformPanel !== 0 && devStore.DATA_PLATFORMS
+          .filter(platformName => platformName !== devStore.dataPlatform)
           .map((platformName, index) => 
             <input 
               key={index}
@@ -49,7 +49,7 @@ const DataPlatform = observer(() => {
               className={styles.platform}
               type="button"
               onClick={() => { 
-                DevStore.setDataPlatform(platformName); 
+                devStore.setDataPlatform(platformName); 
                 if (dataPlatformPanel === 0) openDataPlatformPanel();
                 else closeDataPlatformPanel();
               }}

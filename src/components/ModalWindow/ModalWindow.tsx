@@ -1,8 +1,8 @@
 import styles from "./ModalWindow.module.sass";
 
-import { NFT } from "./../../models/NFT";
+import { Nft } from "./../../models/Nft";
 
-import NFTService from "./../../services/nftService";
+import nftService from "./../../services/nftService";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -10,7 +10,7 @@ import axios from "axios";
 interface Properties {
   isOpen: boolean;
   close(): void;
-  NFT: NFT;
+  NFT: Nft;
 }
 
 function ModalWindow(props: Properties) {
@@ -94,7 +94,7 @@ function ModalWindow(props: Properties) {
                 src={NFT.content} 
                 alt="An error occurred while loading the image, please try reloading the page."
                 onLoad={(event) => 
-                  NFTService.setImageLimits(event, calculateSizeForImage())}
+                  nftService.setImageLimits(event, calculateSizeForImage())}
               />
             : NFT.type === "gltf" &&
               <span>In development...</span>

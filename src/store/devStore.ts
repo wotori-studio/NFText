@@ -1,12 +1,19 @@
-import { action, observable } from "mobx";
+import { makeObservable, action, observable } from "mobx";
 
-type PlatformName = "Blockchain" | "Database";
+import { PlatformName } from "./../models/Nft";
 
 class DevStore {
   public readonly DATA_PLATFORMS: PlatformName[] = ["Blockchain", "Database"];
-  @observable public dataPlatform: PlatformName = "Blockchain";
+  public dataPlatform: PlatformName = "Blockchain";
 
-  @action public setDataPlatform(platformName: PlatformName) {
+  public constructor() {
+    makeObservable(this, {
+      dataPlatform: observable,
+      setDataPlatform: action
+    });
+  }
+
+  public setDataPlatform(platformName: PlatformName) {
     this.dataPlatform = platformName;
   }
 }

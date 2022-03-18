@@ -1,26 +1,30 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Container } from "@mui/material";
-import ThreeScene from "../../3D/cube";
-import MintButton from "../MintButton/MintButton";
-
+// Styles
 import styles from './NFUploader.module.sass';
 import globalStyles from './../../globalStyles/styles.module.sass';
 
-import { useSigningClient } from "../../context/cosmwasm";
+// Dependencies
+import { useEffect, useState } from "react";
+import { observer } from "mobx-react-lite";
+import axios from "axios";
+import { Container } from "@mui/material";
 import { calculateFee } from "@cosmjs/stargate";
 
-import NFTService from "./../../services/nftService";
+// Components
+import ThreeScene from "../../3D/cube";
 
-const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT || "";
+// Contexts
+import { useSigningClient } from "../../context/cosmwasm";
 
-interface Properties {
-  mode: string;
-}
+// Services
+import nftService from "./../../services/nftService";
 
-export default function Uploader(props: Properties) {
-  const { mode } = props;
-  
+// Stores
+import nftStore from "./../../store/nftStore";
+
+// .env
+const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT as string;
+
+const NFUploader = observer(() => {
   const [nftTitle, setNftTitle] = useState("");
   const { walletAddress, signingClient, connectWallet } = useSigningClient();
   const [nftTokenId, setNftTokenId] = useState(0);
@@ -82,11 +86,11 @@ export default function Uploader(props: Properties) {
     let formData = new FormData();
     formData.append("pinataMetadata", metadata);
 
-    if (mode !== "text") {
+    if (nftStore.typeNFT !== "text") {
       formData.append("file", selectedFile);
     }
 
-    if (mode === "text") {
+    if (nftStore.typeNFT === "text") {
       var file = new Blob([textNft], { type: "text/plain;charset=urg-8" });
       formData.append("file", file, "nftext.txt");
     }
@@ -114,7 +118,7 @@ export default function Uploader(props: Properties) {
     const metadata = JSON.stringify({
       title: nftTitle,
       content: contentLinkAxios,
-      type: mode,
+      type: nftStore.typeNFT
     });
 
     const encodedMetadata = Buffer.from(metadata).toString("base64");
@@ -155,7 +159,7 @@ export default function Uploader(props: Properties) {
         className={`${styles.titleInput} ${styles.overviewChild}`}
       />
 
-      {mode === "text" &&
+      {nftStore.typeNFT === "text" &&
         <textarea 
           className={`${styles.textField} ${styles.overviewChild}`} 
           onChange={event => getDescriptionForNFText(event)} 
@@ -164,7 +168,7 @@ export default function Uploader(props: Properties) {
       }
       
       {/* Get file button, and file name */}
-      {(mode === "img" || mode === "gltf") &&
+      {(nftStore.typeNFT === "img" || nftStore.typeNFT === "gltf") &&
         <label className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}>
           select file
           <input
@@ -177,22 +181,22 @@ export default function Uploader(props: Properties) {
       }
 
       {/* Image preview */}
-      {mode === "img" && filePreview && 
+      {nftStore.typeNFT === "img" && filePreview && 
         <div style={{width: "min-content"}}>
           <span className={`${styles.selectedFile} ${styles.overviewChild}`}>
-            {selectedFile && NFTService.getLimitedString(selectedFile.name, 30, 4)}
+            {selectedFile && nftService.getLimitedString(selectedFile.name, 30, 4)}
           </span>
           <img
             style={{display: "none"}}
             src={filePreview} 
             alt="preview image" 
-            onLoad={event => NFTService.setImageLimits(event, window.innerWidth < 720 ? window.innerWidth-50 : 700)}
+            onLoad={event => nftService.setImageLimits(event, window.innerWidth < 720 ? window.innerWidth-50 : 700)}
           />
         </div>
       }
 
       {/* 3D canvas */}
-      {mode === "gltf" &&
+      {nftStore.typeNFT === "gltf" &&
         <div className={`${styles.webGL} ${styles.overviewChild}`}>
           {/* <iframe
             width="600px"
@@ -206,11 +210,12 @@ export default function Uploader(props: Properties) {
           </Container>
         </div>
       }
-      {mode === "paint" && <div>Paint interface should be here</div>}
 
       <button className={`${globalStyles.customButtonActive} ${styles.overviewChild}`} onClick={() => createMint()}>
         mint
       </button>
     </div>
   );
-}
+});
+
+export default NFUploader;

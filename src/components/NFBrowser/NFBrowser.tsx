@@ -1,45 +1,54 @@
+// Styles
+import styles from "./NFBrowser.module.sass";
+
+// Dependencies
 import { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 
-import { NFT } from "./../../models/NFT";
-import NFTService from "./../../services/nftService";
+// Models
+import { Nft } from "./../../models/Nft";
 
+// Services
+import nftService from "./../../services/nftService";
+
+// Contexts
 import { useSigningClient } from "./../../context/cosmwasm";
+
+// Components
 import NFText from "./../NFText/NFText";
 import NFImage from "./../NFImage/NFImage";
 
-import DevStore from "./../../store/devStore";
+// Stores
+import devStore from "./../../store/devStore";
+import nftStore from "../../store/nftStore";
 
-import styles from "./NFBrowser.module.sass";
-
-interface Properties {
-  mode: string;
-}
-
-const NFBrowser = observer((props: Properties) => {
-  const { mode } = props;
-
+const NFBrowser = observer(() => {
   const { walletAddress, signingClient, connectWallet } = useSigningClient();
-  const [manyNFT, setManyNFT] = useState<NFT[]>([]);
+  const [manyNFT, setManyNFT] = useState<Nft[]>([]);
 
   useEffect(() => {
-    if (DevStore.dataPlatform === "Blockchain") {
-      setManyNFT(NFTService.getNFTFromBlockchain(walletAddress, signingClient, connectWallet));
+    const isProduction = process.env.NODE_ENV === "production";
+    const isDevelopment = process.env.NODE_ENV === "development";
+    const isBlockchain = devStore.dataPlatform === "Blockchain";
+    const isDatabase = devStore.dataPlatform === "Database";
+
+    if (isProduction || isBlockchain) {
+      setManyNFT(nftService.getNFTFromBlockchain(walletAddress, signingClient, connectWallet));
     }
-    else if (DevStore.dataPlatform === "Database") {
-      setManyNFT(NFTService.getNFTFromDatabase());
+    else if (isDevelopment && isDatabase) {
+      setManyNFT(nftService.getNFTFromDatabase());
     }
   }, [signingClient, walletAddress, alert]);
 
   return (
     <div className={styles.nftBrowser}>
-      {manyNFT.slice(0).reverse().map( NFT => (
+      {manyNFT.slice(0).filter(NFT => NFT.type === nftStore.typeNFT).reverse().map( NFT => (
         <>
-          {(NFT.type === "text" && mode === "text") &&
+          {NFT.type === "text" &&
             <NFText NFT={NFT} />
           }
           
-          {(NFT.type === "img" && mode === "img") &&
+          {NFT.type === "img" &&
             <NFImage NFT={NFT} />
           }
         </>

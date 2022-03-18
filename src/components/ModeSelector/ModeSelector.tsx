@@ -1,33 +1,33 @@
-import { useState } from "react";
+// Styles
+import styles from "./ModeSelector.module.sass";
 
+// Dependencies
+import { useState } from "react";
+import { observer } from "mobx-react-lite";
+
+// Components
 import NFUploader from "./../NFUploader/NFUploader";
 import NFBrowser from "./../NFBrowser/NFBrowser";
 import ModeToggle, { Mode } from "./../ModeToggle/ModeToggle";
 
-import styles from "./ModeSelector.module.sass";
+// Stores
+import nftStore from "./../../store/nftStore";
 
-interface Properties {
-  action: string;
-}
-
-export default function ModeSelector(props: Properties) {
-  const { action } = props;
-
+const ModeSelector = observer(() => {
   const [modes, setModes] = useState<Mode[]>([
     {
       name: "text",
-      action: () => {setCurrentMode("text")}
+      action: () => {nftStore.setNFTType("text")}
     },
     {
       name: "img",
-      action: () => {setCurrentMode("img")}
+      action: () => {nftStore.setNFTType("img")}
     },
     {
       name: "gltf",
-      action: () => {setCurrentMode("gltf")}
+      action: () => {nftStore.setNFTType("gltf")}
     }
   ]);
-  const [currentMode, setCurrentMode] = useState("img");
 
   return (
     <>
@@ -35,10 +35,12 @@ export default function ModeSelector(props: Properties) {
         <ModeToggle modes={modes} />
       </div>
 
-      {action === "create" 
-        ? <NFUploader mode={currentMode} /> 
-        : <NFBrowser mode={currentMode} />
+      {nftStore.operatingMode === "create" 
+        ? <NFUploader /> 
+        : <NFBrowser />
       }
     </>
   );
-}
+});
+
+export default ModeSelector;

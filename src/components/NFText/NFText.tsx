@@ -1,15 +1,24 @@
+// Styles
 import styles from "./NFText.module.sass";
 
+// Services
 import NFTService from "./../../services/nftService";
 
+// Dependencies
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+// Components
 import ModalWindow from "./../ModalWindow/ModalWindow";
-import { NFT } from "./../../models/NFT";
+
+// Models
+import { Nft } from "./../../models/Nft";
+
+// Stores
+import devStore from "./../../store/devStore";
 
 interface Properties {
-  NFT: NFT;
+  NFT: Nft;
   dataA?: string; // JSON
   dataB?: string; // JSON
   dataC?: string; // JSON
@@ -22,10 +31,10 @@ function NFText(props: Properties) {
   const [modalWindowIsOpen, setModalWindowIsOpen] = useState(false);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === "production") {
+    if (process.env.NODE_ENV === "production" || devStore.dataPlatform === "Blockchain") {
       axios.get(NFT.content).then( response => setText(response.data) );
     }
-    else if (process.env.NODE_ENV === "development") {
+    else if (process.env.NODE_ENV === "development" && devStore.dataPlatform === "Database") {
       setText(NFT.content);
     }
   }, []);
