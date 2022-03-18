@@ -17,7 +17,9 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "experimentalDecorators": true,
+    "useDefineForClassFields": true
   },
   "include": [
     "next-env.d.ts",

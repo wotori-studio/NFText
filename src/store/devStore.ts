@@ -1,22 +1,13 @@
-import { makeAutoObservable } from "mobx";
+import { action, observable } from "mobx";
+
+type PlatformName = "Blockchain" | "Database";
 
 class DevStore {
-  modeProject: string = "Production";
+  public readonly DATA_PLATFORMS: PlatformName[]= ["Blockchain", "Database"];
+  @observable public dataPlatform: PlatformName = "Blockchain";
 
-  public constructor() {
-    makeAutoObservable(this);
-  }
-
-  public setDev() {
-    this.modeProject = "Development";
-  }
-
-  public setProd() {
-    this.modeProject = "Production";
-  }
-
-  public setTest() {
-    this.modeProject = "Test";
+  @action public setDataPlatform(platformName: PlatformName) {
+    this.dataPlatform = platformName;
   }
 }
 

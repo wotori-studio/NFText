@@ -23,13 +23,12 @@ const NFBrowser = observer((props: Properties) => {
   const [manyNFT, setManyNFT] = useState<NFT[]>([]);
 
   useEffect(() => {
-    if (DevStore.modeProject === "Production") {
+    if (DevStore.dataPlatform === "Blockchain") {
       setManyNFT(NFTService.getNFTFromBlockchain(walletAddress, signingClient, connectWallet));
     }
-    else if (DevStore.modeProject === "Development") {
+    else if (DevStore.dataPlatform === "Database") {
       setManyNFT(NFTService.getNFTFromDatabase());
     }
-    
   }, [signingClient, walletAddress, alert]);
 
   return (
