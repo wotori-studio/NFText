@@ -1,7 +1,7 @@
 import artificialDatabase from "./../artificialDatabase/artificialDatabase.json";
 
 import { Metadata } from "./../models/Metadata";
-import { NFT } from "./../models/NFT";
+import { Nft } from "./../models/Nft";
 
 const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT as string;
 
@@ -51,13 +51,13 @@ class NFTService {
     image.setAttribute('style', 'display: inline');
   }
 
-  getNFTFromBlockchain(walletAddress: string, signingClient: any, connectWallet: any): NFT[] {
+  getNFTFromBlockchain(walletAddress: string, signingClient: any, connectWallet: any): Nft[] {
     if (!signingClient || walletAddress.length === 0) {
       connectWallet();
-      return [] as NFT[];
+      return [] as Nft[];
     }
 
-    let returnManyNFT: NFT[] = [];
+    let returnManyNFT: Nft[] = [];
 
     signingClient
       .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
@@ -77,10 +77,10 @@ class NFTService {
 
         Promise.all(manyMetadata)
           .then((manyMetadata) => {
-            const manyNFT: NFT[] = manyMetadata.map((metadata, index) => {
+            const manyNFT: Nft[] = manyMetadata.map((metadata, index) => {
               const decodedMetadata = JSON.parse(Buffer.from(metadata.info.token_uri.slice(30), "base64").toString());
 
-              const newNFT: NFT = {
+              const newNFT: Nft = {
                 id: index + 1,
                 owner: metadata.access.owner,
                 name: decodedMetadata.title,
@@ -99,14 +99,14 @@ class NFTService {
           if (process.env.NODE_ENV === 'development') {
             console.error(`Error signingClient.queryContractSmart() num_tokens: ${error}`)
           }
-          return [] as NFT[];
+          return [] as Nft[];
         });
 
     return returnManyNFT;
   }
 
-  getNFTFromDatabase(): NFT[] {
-    return artificialDatabase.data;
+  getNFTFromDatabase(): Nft[] {
+    return artificialDatabase.data as Nft[];
   }
 }
 

@@ -17,15 +17,15 @@ const ModeSelector = observer(() => {
   const [modes, setModes] = useState<Mode[]>([
     {
       name: "text",
-      action: () => {nftStore.setNFTType("text")}
+      action: () => {nftStore.setNftType("text")}
     },
     {
       name: "img",
-      action: () => {nftStore.setNFTType("img")}
+      action: () => {nftStore.setNftType("img")}
     },
     {
       name: "gltf",
-      action: () => {nftStore.setNFTType("gltf")}
+      action: () => {nftStore.setNftType("gltf")}
     }
   ]);
 
