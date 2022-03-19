@@ -1,11 +1,18 @@
+// Styles
 import styles from "./ModalWindow.module.sass";
 
+// Models
 import { Nft } from "./../../models/Nft";
 
+// Services
 import nftService from "./../../services/nftService";
 
+// Dependencies
 import { useEffect, useState } from "react";
 import axios from "axios";
+
+// Stores
+import devStore from "./../../store/devStore";
 
 interface Properties {
   isOpen: boolean;
@@ -44,10 +51,10 @@ function ModalWindow(props: Properties) {
   }
 
   function getText(): void {
-    if (process.env.NODE_ENV === "production") {
-      axios.get(NFT.content).then( response => setText(response.data));
+    if (process.env.NODE_ENV === "production" || devStore.dataPlatform === "Blockchain") {
+      axios.get(NFT.content).then( response => setText(response.data) );
     }
-    else if (process.env.NODE_ENV === "development") {
+    else if (process.env.NODE_ENV === "development" && devStore.dataPlatform === "Database") {
       setText(NFT.content);
     }
   }

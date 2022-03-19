@@ -4,9 +4,11 @@ import styles from "./NFBrowser.module.sass";
 // Dependencies
 import { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
+import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 
 // Models
 import { Nft } from "./../../models/Nft";
+import { Metadata } from "./../../models/Metadata";
 
 // Services
 import nftService from "./../../services/nftService";
@@ -22,6 +24,9 @@ import NFImage from "./../NFImage/NFImage";
 import devStore from "./../../store/devStore";
 import nftStore from "../../store/nftStore";
 
+// .env
+const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT as string;
+
 const NFBrowser = observer(() => {
   const { walletAddress, signingClient, connectWallet } = useSigningClient();
   const [manyNFT, setManyNFT] = useState<Nft[]>([]);
@@ -33,7 +38,49 @@ const NFBrowser = observer(() => {
     const isDatabase = devStore.dataPlatform === "Database";
 
     if (isProduction || isBlockchain) {
-      setManyNFT(nftService.getNFTFromBlockchain(walletAddress, signingClient, connectWallet));
+      if (!signingClient || walletAddress.length === 0) connectWallet();
+  
+      (signingClient as SigningCosmWasmClient)
+        .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
+        .then((res: any) => {
+          const manyMetadata: Promise<Metadata>[] = [];
+          let EXCLUDE_LIST = [8];
+  
+          for (let i = 1; i <= res.count; i++) {
+            if (!EXCLUDE_LIST.includes(i)) {
+              manyMetadata.push(
+                (signingClient as SigningCosmWasmClient).queryContractSmart(PUBLIC_CW721_CONTRACT, {
+                  all_nft_info: { token_id: i + "" },
+                })
+              );
+            }
+          }
+  
+          Promise.all(manyMetadata)
+            .then((manyMetadata) => {
+              const manyNFT: Nft[] = manyMetadata.map((metadata, index) => {
+                const decodedMetadata = JSON.parse(Buffer.from(metadata.info.token_uri.slice(30), "base64").toString());
+  
+                const newNFT: Nft = {
+                  id: index + 1,
+                  owner: metadata.access.owner,
+                  name: decodedMetadata.title,
+                  type: decodedMetadata.type,
+                  href: `/items/${index + 1}`,
+                  content: decodedMetadata.content || "https://dummyimage.com/404x404"
+                };
+  
+                return newNFT;
+              });
+  
+              setManyNFT(manyNFT);
+            });
+        })
+          .catch((error: any) => {
+            if (process.env.NODE_ENV === 'development') {
+              console.error(`Error signingClient.queryContractSmart() num_tokens: ${error}`)
+            }
+          });
     }
     else if (isDevelopment && isDatabase) {
       setManyNFT(nftService.getNFTFromDatabase());
