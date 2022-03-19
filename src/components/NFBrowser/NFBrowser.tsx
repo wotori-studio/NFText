@@ -38,9 +38,10 @@ const NFBrowser = observer(() => {
     const isDatabase = devStore.dataPlatform === "Database";
 
     if (isProduction || isBlockchain) {
-      if (!signingClient || walletAddress.length === 0) connectWallet();
+      if (!signingClient) return;
+      if (walletAddress.length === 0) connectWallet();
   
-      (signingClient as SigningCosmWasmClient)
+      signingClient
         .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
         .then((res: any) => {
           const manyMetadata: Promise<Metadata>[] = [];
@@ -49,7 +50,7 @@ const NFBrowser = observer(() => {
           for (let i = 1; i <= res.count; i++) {
             if (!EXCLUDE_LIST.includes(i)) {
               manyMetadata.push(
-                (signingClient as SigningCosmWasmClient).queryContractSmart(PUBLIC_CW721_CONTRACT, {
+                signingClient.queryContractSmart(PUBLIC_CW721_CONTRACT, {
                   all_nft_info: { token_id: i + "" },
                 })
               );
