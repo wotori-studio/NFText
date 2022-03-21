@@ -1,22 +1,20 @@
-import { makeAutoObservable } from "mobx";
+import { makeObservable, action, observable } from "mobx";
+
+import { PlatformName } from "./../models/Nft";
 
 class DevStore {
-  modeProject: string = "Development";
+  public readonly DATA_PLATFORMS: PlatformName[] = ["Blockchain", "Database"];
+  public dataPlatform: PlatformName = "Blockchain";
 
   public constructor() {
-    makeAutoObservable(this);
+    makeObservable(this, {
+      dataPlatform: observable,
+      setDataPlatform: action
+    });
   }
 
-  public setDev() {
-    this.modeProject = "Development";
-  }
-
-  public setProd() {
-    this.modeProject = "Production";
-  }
-
-  public setTest() {
-    this.modeProject = "Test";
+  public setDataPlatform(platformName: PlatformName) {
+    this.dataPlatform = platformName;
   }
 }
 

@@ -1,34 +1,58 @@
+// Styles
 import globalStyles from "./../src/globalStyles/styles.module.sass";
-import { useState } from "react";
-import ModeSelector from "./../src/components/ModeSelector/ModeSelector";
-import { useSigningClient } from "./../src/context/cosmwasm";
-import ModeToggle, { Mode } from "./../src/components/ModeToggle/ModeToggle";
 
+// Dependencies
+import { useState } from "react";
+import { observer } from "mobx-react-lite";
+
+// Components
+import ModeSelector from "./../src/components/ModeSelector/ModeSelector";
+import ModeToggle, { Mode } from "./../src/components/ModeToggle/ModeToggle";
 import DeveloperMenu from "./../src/components/DeveloperMenu/DeveloperMenu";
 
-export default function Main() {
+// Contexts
+import { useSigningClient } from "./../src/context/cosmwasm";
+
+// Stores
+import devStore from "../src/store/devStore";
+import nftStore from "./../src/store/nftStore";
+
+const Main = observer(() => {
   const [modes, setModes] = useState<Mode[]>([
     {
       name: "create",
-      action: () => {setCurrentMode("create")}
+      action: () => {nftStore.setOperatingMode("create")}
     },
     {
       name: "explore",
-      action: () => {setCurrentMode("explore")}
+      action: () => {nftStore.setOperatingMode("explore")}
     }
   ]);
-  const [currentMode, setCurrentMode] = useState("create");
-
+  
   const { walletAddress, connectWallet, disconnect } = useSigningClient();
-  const [connect, setConnectState] = useState(false);
-  const handleConnect = () => {
-    if (walletAddress.length === 0) {
-      connectWallet();
-      setConnectState(true);
+  const [connect, setConnect] = useState(false);
+
+  function connectToWallet() {
+    const isProduction = process.env.NODE_ENV === "production";
+    const isDevelopment = process.env.NODE_ENV === "development";
+    const isBlockchain = devStore.dataPlatform === "Blockchain";
+    const isDatabase = devStore.dataPlatform === "Database";
+    if (isProduction || isBlockchain) {
+      if (!walletAddress.length) {
+        connectWallet();
+        setConnect(true);
+      }
+      else {
+        disconnect();
+        setConnect(false);
+      }
     } 
+    else if (isDevelopment && isDatabase) {
+      setConnect(true);
+    }
     else {
-      disconnect();
-      setConnectState(false);
+      setConnect(false);
+      throw new Error("Error while connecting to wallet.");
     }
   };
 
@@ -37,7 +61,7 @@ export default function Main() {
       <div className={`${globalStyles.onlineModes}`}>
         <button
           className={connect ? globalStyles.customButtonNotActive : globalStyles.customButtonActive}
-          onClick={handleConnect}
+          onClick={() => connectToWallet()}
         >
           {connect ? "disconnect" : "connect"}
         </button>
@@ -47,7 +71,7 @@ export default function Main() {
           <div className={globalStyles.modes}>
             <ModeToggle modes={modes} />
           </div>
-          <ModeSelector action={currentMode} />
+          <ModeSelector />
         </>
       }
       {process.env.NODE_ENV === "development" && 
@@ -55,4 +79,6 @@ export default function Main() {
       }
     </div>  
   );
-}
+});
+
+export default Main;

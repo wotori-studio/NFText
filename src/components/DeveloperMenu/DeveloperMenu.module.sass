@@ -1,7 +1,6 @@
 .body
   position: fixed
   top: 0
-  left: 0
 
   width: 250px
   height: 100vh
@@ -12,9 +11,10 @@
   text-align: center
 
   background-color: #272727
-  transition: .7s
+  transition: left 0.7s
 
 .title
+  text-transform: uppercase;
   font:
     family: Roboto
     style: normal
@@ -22,99 +22,21 @@
     size: 24px
   color: #909090
 
-.modeTitle
-  font:
-    family: Roboto
-    style: normal
-    weight: 700
-    size: 14px
-  color: #5C5C5C
-
-.currentMode
-  height: 40px
-
-  font:
-    family: Roboto;
-    size: 20px;
-    style: normal;
-    weight: 700;  
-  text-align: center;
-
-  color: #999999
-  border: 0px
-  background-color: #27272700
-  cursor: pointer
-
-  &:hover
-    color: #96E0B8
-  &:active
-    color: #81c09e
-
-.modesPanel
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  border: 0px
-  outline: none;
-
-  display: flex
-  flex-direction: column
-  justify-content: center
-  align-items: center
-
-  background-color: #323232
-
-  text-align: center
-
-  overflow: hidden
-  transition: 0.5s
-
-.modeButton
-  width: 100%
-  height: 100%
-  padding: 6 12px
-
-  display: flex
-  flex-direction: column
-  justify-content: center
-  align-items: center
-
-  font:
-    family: Roboto;
-    size: 20px;
-    style: normal;
-    weight: 700;  
-
-  color: #999999
-  background-color: #323232
-  border: 0px
-  
-  cursor: pointer
-
-  &:hover
-    background-color: #404040
-    color: #96E0B8
-  &:active
-    color: #64E49F
-
-.swipeButton
+.arrow
   position: absolute
   top: 50vh
   right: -50px
-
   width: 50px
   height: 50px
   border-width: 0 
-
   cursor: pointer
-
-.open
-  clip-path: polygon(68% 50%, 36% 12%, 50% 0, 90% 50%, 50% 100%, 36% 88%)
-  background-color: #CBCBCB
-  &:hover
-    background-color: #bbbbbb
-
-.close
-  clip-path: polygon(32% 50%, 64% 88%, 50% 100%, 10% 50%, 50% 0%, 64% 12%)
-  background-color: #64E49F
-  &:hover
-    background-color: #5cd494
+  &.open
+    clip-path: polygon(32% 50%, 64% 88%, 50% 100%, 10% 50%, 50% 0%, 64% 12%)
+    background-color: #64E49F
+    &:hover
+      background-color: #5cd494
+  &.close
+    clip-path: polygon(68% 50%, 36% 12%, 50% 0, 90% 50%, 50% 100%, 36% 88%)
+    background-color: #CBCBCB
+    &:hover
+      background-color: #bbbbbb

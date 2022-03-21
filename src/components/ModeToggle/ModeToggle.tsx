@@ -1,6 +1,7 @@
 import globalStyles from "./../../globalStyles/styles.module.sass";
 
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
+import { observer } from "mobx-react-lite";
 
 export interface Mode {
   name: string;
@@ -11,7 +12,7 @@ interface Properties {
   modes: Array<Mode>;
 } 
 
-function ModeToggle(props: Properties) {
+const ModeToggle = observer((props: Properties) => {
   const { modes } = props;
 
   const [indexActiveButton, setIndexActiveButton] = useState(0);
@@ -45,7 +46,7 @@ function ModeToggle(props: Properties) {
       { jsxModes() }
     </>
   );
-}
+});
 
 
 export default ModeToggle;
