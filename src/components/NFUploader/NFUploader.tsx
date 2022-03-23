@@ -10,7 +10,7 @@ import { Container } from "@mui/material";
 import { calculateFee } from "@cosmjs/stargate";
 
 // Components
-import ThreeScene from "../../3D/cube";
+import SceneWithModel from "./../SceneWithModel/SceneWithModel";
 
 // Contexts
 import { useSigningClient } from "../../context/cosmwasm";
@@ -174,7 +174,7 @@ const NFUploader = observer(() => {
           <input
             className={globalStyles.hide}
             type="file"
-            accept="image/*"
+            accept={nftStore.typeNFT === "img" ? "image/*" : ".glb, .gltf"}
             onChange={event => getFile(event)}
           />
         </label>
@@ -195,18 +195,11 @@ const NFUploader = observer(() => {
         </div>
       }
 
-      {/* 3D canvas */}
-      {nftStore.typeNFT === "gltf" &&
+      {/* Model preview */}
+      {nftStore.typeNFT === "gltf" && filePreview && 
         <div className={`${styles.webGL} ${styles.overviewChild}`}>
-          {/* <iframe
-            width="600px"
-            height="400px"
-            src={
-              "https://wotori.mypinata.cloud/ipfs/QmUR2XyUZvGvsNMmLBA5joPduT4f95jSMGzzzmCkckKSF4/?object=Qmb3yAjLrrrchdShAwSG1hKwJ4fN8zsAN4Vrhw9ahSQtCz&filename=monkey.glb"
-            }
-          ></iframe> */}
           <Container sx={{ height: 500 }}>
-            <ThreeScene />
+            <SceneWithModel file={filePreview} />
           </Container>
         </div>
       }
