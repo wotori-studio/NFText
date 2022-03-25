@@ -33,7 +33,7 @@ const NFUploader = observer(() => {
   const [filePreview, setFilePreview] = useState("");
   const [textNft, setTextNft] = useState("");
   const [mintReady, setMintReady] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFile, setSelectedFile] = useState<Blob | string>("");
   const [isSelected, setSelected] = useState(false); // TODO: if selected make clickable upload button
   const [contentLink, setContentLink] = useState("");
 
