@@ -873,10 +873,10 @@
     "@react-spring/shared" "~9.4.4"
     "@react-spring/types" "~9.4.4"
 
-"@react-three/drei@^8.10.6":
-  version "8.19.0"
-  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-8.19.0.tgz#2b8c2269c06209298e17a77a03eb08e88817ed67"
-  integrity sha512-gH7Y2lJvfxNyGz9zJ3Pz2ZtoHDBLuNuRbxGwdtrJgpZPuFDZcEu9TyLocIZGZK8XxCAHiAo2pcErbyDVagVG3A==
+"@react-three/drei@=8.19.2":
+  version "8.19.2"
+  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-8.19.2.tgz#1ef6d951f308e5637fd826ee64bc1d6d1a4a7c7e"
+  integrity sha512-bqobKume3qoYff691Z7XUOfa+XnU3DedxfHRI6CijGX1KL/xZN7TMXnqNkofcrYCHk2HgFiGL7tv+C5bbonDhA==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@react-spring/three" "^9.3.1"
@@ -1263,6 +1263,11 @@ babel-plugin-macros@^2.6.1:
     "@babel/runtime" "^7.7.2"
     cosmiconfig "^6.0.0"
     resolve "^1.12.0"
+
+babel-plugin-transform-remove-console@^6.9.4:
+  version "6.9.4"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-remove-console/-/babel-plugin-transform-remove-console-6.9.4.tgz#b980360c067384e24b357a588d807d3c83527780"
+  integrity sha1-uYA2DAZzhOJLNXpYjYB9PINSd4A=
 
 balanced-match@^1.0.0:
   version "1.0.2"
@@ -4661,10 +4666,10 @@ three@0.122.0:
   resolved "https://registry.yarnpkg.com/three/-/three-0.122.0.tgz#bd9ed8a8820074856e8ba7b63fe0a65176e01aeb"
   integrity sha512-bgYMo0WdaQhf7DhLE8OSNN/rVFO5J4K1A2VeeKqoV4MjjuHjfCP6xLpg8Xedhns7NlEnN3sZ6VJROq19Qyl6Sg==
 
-three@^0.138.3:
-  version "0.138.3"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.138.3.tgz#7be5153d79dcbf9e9baad82e7faf8c29edda4ed0"
-  integrity sha512-4t1cKC8gimNyJChJbaklg8W/qj3PpsLJUIFm5LIuAy/hVxxNm1ru2FGTSfbTSsuHmC/7ipsyuGKqrSAKLNtkzg==
+three@=0.139:
+  version "0.139.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.139.0.tgz#4805eeb4cde85d8a82b6048088230f8ce5b75375"
+  integrity sha512-hZ4LkCjgoEM82WLaOVptDKGpB3SkEyuJP2OHe36AFO8hS2I6CrEiNanXj7wwR3wIPT7V5wi5Y5pFnncS5SVHgQ==
 
 through2@~0.4.1:
   version "0.4.2"
