@@ -19,7 +19,7 @@ class NFTService {
       return `${text.substring(0, maxlength)}...${text.substring(text.length - lastSymbols)}`;
     }
   
-    let limitedString = text.substring(0, maxlength)
+    let limitedString = text.toString().substring(0, maxlength)
   
     if (isBeautifulEnding && !lastSymbols) {
       let lastSymbolsAfterSpace = limitedString.split(" ").slice(-1)[0];
