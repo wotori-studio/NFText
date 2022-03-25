@@ -26,37 +26,40 @@ const PUBLIC_CW721_CONTRACT = process.env
   .NEXT_PUBLIC_APP_CW721_CONTRACT as string;
 
 const NFUploader = observer(() => {
-  const [nftTitle, setNftTitle] = useState("");
-  const { walletAddress, signingClient, connectWallet } = useSigningClient();
   const [nftTokenId, setNftTokenId] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [filePreview, setFilePreview] = useState("");
+  const [nftTitle, setNftTitle] = useState("");
   const [textNft, setTextNft] = useState("");
+  const [contentLink, setContentLink] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [mintReady, setMintReady] = useState(false);
+
   const [selectedFile, setSelectedFile] = useState<File>();
 
-  useEffect(() => {
-    if (!signingClient) return;
+  const { walletAddress, signingClient } = useSigningClient();
 
-    // Gets minted NFT amount
+  function setNewNftTokenId(): void {
+    if (!signingClient) {
+      throw new Error(`Not valid value of signingClient: ${signingClient}`);
+    }
+
     signingClient
       .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
       .then((response: any) => {
         setNftTokenId(response.count + 1);
       })
       .catch((error: any) => {
-        alert(`Error! ${error.message}`);
-        console.log(
-          "Error signingClient.queryContractSmart() num_tokens: ",
-          error
-        );
+        alert(`Error during getting token count.`);
+        if (process.env.NODE_ENV === "development") {
+          console.log(error);
+        }
       });
-  }, [signingClient, alert]);
+  }
 
   function getFile(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       setSelectedFile(file);
-      setFilePreview(URL.createObjectURL(file));
     }
   }
 
@@ -94,11 +97,11 @@ const NFUploader = observer(() => {
     formData.append("pinataMetadata", metadata);
 
     if (nftStore.typeNFT !== "text" && typeof selectedFile == "object") {
-      formData.append("file", selectedFile);
+        formData.append("file", selectedFile);
     }
 
     if (nftStore.typeNFT === "text") {
-      var file = new Blob([textNft], { type: "text/plain;charset=urg-8" });
+      var file = new Blob([textNft], { type: "text/plain;charset=utf-8" });
       formData.append("file", file, "nftext.txt");
     }
 
@@ -120,6 +123,8 @@ const NFUploader = observer(() => {
   }
 
   async function createMint() {
+    setNewNftTokenId();
+
     let contentLinkAxios = await uploadPinata();
     if (!contentLinkAxios) {
       alert("Select a file or enter text to upload.");
@@ -136,12 +141,14 @@ const NFUploader = observer(() => {
     console.log("Metadata:", metadata);
     const encodedMetadata = Buffer.from(metadata).toString("base64");
 
-    if (!signingClient) return;
-    setLoading(true); // todo: add loading animation
+    if (!signingClient) {
+      throw new Error(`Not valid value of signingClient: ${signingClient}`);
+    }
+
     signingClient
       ?.execute(
-        walletAddress, // sender address
-        PUBLIC_CW721_CONTRACT, // cw721-base contract
+        walletAddress,
+        PUBLIC_CW721_CONTRACT,
         {
           mint: {
             token_id: nftTokenId.toString(),
@@ -152,14 +159,15 @@ const NFUploader = observer(() => {
         calculateFee(300_000, "20uconst")
       )
       .then((response: any) => {
-        setNftTokenId(nftTokenId + 1);
         setLoading(false);
         alert("Successfully minted!");
       })
       .catch((error: any) => {
         setLoading(false);
-        alert(`Error! ${error.message}`);
-        console.log("Error signingClient?.execute(): ", error);
+        alert("Error during minted.");
+        if (process.env.NODE_ENV === "development") {
+          console.log(error);
+        }
       });
   }
 
@@ -181,7 +189,8 @@ const NFUploader = observer(() => {
       )}
 
       {/* Get file button, and file name */}
-      {(nftStore.typeNFT === "img" || nftStore.typeNFT === "gltf") && (
+      {nftStore.typeNFT === "img" ||
+      (nftStore.typeNFT === "gltf" && !selectedFile) ? (
         <label
           className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
         >
@@ -193,18 +202,25 @@ const NFUploader = observer(() => {
             onChange={(event) => getFile(event)}
           />
         </label>
+      ) : (
+        <input
+          className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
+          type="button"
+          value="delete file"
+          onClick={() => setSelectedFile(undefined)}
+        />
       )}
 
       {/* Image preview */}
-      {nftStore.typeNFT === "img" && filePreview && (
-        <div style={{ width: "min-content" }}>
+      {nftStore.typeNFT === "img" && selectedFile && (
+        <>
           <span className={`${styles.selectedFile} ${styles.overviewChild}`}>
             {selectedFile &&
               nftService.getLimitedString(selectedFile.name, 30, 4)}
           </span>
           <img
             style={{ display: "none" }}
-            src={filePreview}
+            src={URL.createObjectURL(selectedFile)}
             alt="preview image"
             onLoad={(event) =>
               nftService.setImageLimits(
@@ -213,16 +229,22 @@ const NFUploader = observer(() => {
               )
             }
           />
-        </div>
+        </>
       )}
 
       {/* Model preview */}
-      {nftStore.typeNFT === "gltf" && filePreview && (
-        <div className={`${styles.webGL} ${styles.overviewChild}`}>
-          <Container sx={{ height: 500 }}>
-            <SceneWithModel file={filePreview} />
-          </Container>
-        </div>
+      {nftStore.typeNFT === "gltf" && selectedFile && (
+        <>
+          <span className={`${styles.selectedFile} ${styles.overviewChild}`}>
+            {selectedFile &&
+              nftService.getLimitedString(selectedFile.name, 30, 4)}
+          </span>
+          <div className={styles.webGL}>
+            <Container sx={{ height: 500 }}>
+              <SceneWithModel file={URL.createObjectURL(selectedFile)} />
+            </Container>
+          </div>
+        </>
       )}
 
       <button

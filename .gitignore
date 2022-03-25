@@ -22,7 +22,6 @@
 .env.local
 
 package-lock.json
-*.lock
 
 npm-debug.log*
 yarn-debug.log*

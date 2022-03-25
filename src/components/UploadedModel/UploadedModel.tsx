@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 
 interface Properties {
@@ -10,22 +10,22 @@ interface Properties {
 export default function UploadedModel(props: Properties) {
   const { file, scale, position } = props;
 
-  const group = useRef();
-
   const { scene, animations } = useGLTF(file);
-  const { actions } = useAnimations(animations, group);
+  const { ref, actions, names } = useAnimations(animations);
 
   useEffect(() => {
     startAnimation();
-  });
+  }, [file, actions, names]);
 
-  function startAnimation(number: number = 0): void {
-    const names = Object.keys(actions);
-
-    if (number < names.length) {
-      actions[names[number]].play();
+  function startAnimation(index: number = 0): void {
+    if (index < animations.length && actions[names[index]]) {
+      actions[names[index]].reset().fadeIn(0.5).play()
     }
   }
 
-  return <primitive object={scene} scale={scale} position={position} />;
+  return (
+    <group ref={ref} scale={scale} position={position} dispose={null}>
+      <primitive object={scene} />
+    </group>
+  );
 } 
