@@ -204,7 +204,7 @@ const NFUploader = observer(() => {
           className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
           type="button"
           value="delete file"
-          onClick={() => console.log("Oo")}
+          onClick={() => setSelectedFile(null)}
         />
       }
 
