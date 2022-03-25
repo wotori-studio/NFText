@@ -18,11 +18,6 @@ export default function UploadedModel(props: Properties) {
   }, [file, actions, names]);
 
   function startAnimation(index: number = 0): void {
-    console.group("startAnimation");
-    console.log(actions);
-    console.log(names);
-    console.groupEnd();
-
     if (index < animations.length && actions[names[index]]) {
       actions[names[index]].reset().fadeIn(0.5).play()
     }

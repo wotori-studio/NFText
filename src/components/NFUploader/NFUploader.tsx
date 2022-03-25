@@ -54,7 +54,9 @@ const NFUploader = observer(() => {
       })
       .catch((error: any) => {
         alert(`Error during getting token count.`);
-        console.log(error);
+        if (process.env.NODE_ENV === "development"){
+          console.log(error);
+        }
       });
   }
   
@@ -152,7 +154,9 @@ const NFUploader = observer(() => {
       .catch((error: any) => {
         setLoading(false);
         alert("Error during minted.");
-        console.log(error);
+        if (process.env.NODE_ENV === "development"){
+          console.log(error);
+        }
       });
   };
 
