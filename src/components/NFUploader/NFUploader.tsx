@@ -32,10 +32,7 @@ const NFUploader = observer(() => {
   const [loading, setLoading] = useState(false);
   const [filePreview, setFilePreview] = useState("");
   const [textNft, setTextNft] = useState("");
-  const [mintReady, setMintReady] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<Blob | string>("");
-  const [isSelected, setSelected] = useState(false); // TODO: if selected make clickable upload button
-  const [contentLink, setContentLink] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File>();
 
   useEffect(() => {
     if (!signingClient) return;
@@ -59,7 +56,6 @@ const NFUploader = observer(() => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       setSelectedFile(file);
-      setSelected(true);
       setFilePreview(URL.createObjectURL(file));
     }
   }
@@ -97,7 +93,7 @@ const NFUploader = observer(() => {
     let formData = new FormData();
     formData.append("pinataMetadata", metadata);
 
-    if (nftStore.typeNFT !== "text") {
+    if (nftStore.typeNFT !== "text" && typeof selectedFile == "object") {
       formData.append("file", selectedFile);
     }
 
@@ -118,33 +114,30 @@ const NFUploader = observer(() => {
       .then((response) => {
         let IpfsHash = response.data.IpfsHash;
         let contentLinkAxios = `https://ipfs.io/ipfs/${IpfsHash}`;
-        setContentLink(contentLinkAxios);
-        setMintReady(true);
         console.log("pinata axios response recieved...", contentLinkAxios);
         return contentLinkAxios;
       });
   }
 
   async function createMint() {
-    await uploadPinata();
-
-    if (!contentLink) {
+    let contentLinkAxios = await uploadPinata();
+    if (!contentLinkAxios) {
       alert("Select a file or enter text to upload.");
       return;
     } else {
-      console.log("Ready for minting", contentLink);
+      console.log("Ready for minting", contentLinkAxios);
     }
 
     const metadata = JSON.stringify({
       title: nftTitle,
-      content: contentLink,
+      content: contentLinkAxios,
       type: nftStore.typeNFT,
     });
     console.log("Metadata:", metadata);
     const encodedMetadata = Buffer.from(metadata).toString("base64");
 
     if (!signingClient) return;
-
+    setLoading(true); // todo: add loading animation
     signingClient
       ?.execute(
         walletAddress, // sender address
@@ -155,7 +148,7 @@ const NFUploader = observer(() => {
             owner: `${walletAddress}`,
             token_uri: `data:application/json;base64, ${encodedMetadata}`,
           },
-        }, // msg
+        },
         calculateFee(300_000, "20uconst")
       )
       .then((response: any) => {
