@@ -60,7 +60,7 @@ const NFUploader = observer(() => {
       });
   }
   
-  async function getFile(event: React.ChangeEvent<HTMLInputElement>) {
+  function getFile(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       setSelectedFile(file);
