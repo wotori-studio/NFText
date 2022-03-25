@@ -1,6 +1,6 @@
 // Styles
-import styles from './NFUploader.module.sass';
-import globalStyles from './../../globalStyles/styles.module.sass';
+import styles from "./NFUploader.module.sass";
+import globalStyles from "./../../globalStyles/styles.module.sass";
 
 // Dependencies
 import { useEffect, useState } from "react";
@@ -22,7 +22,8 @@ import nftService from "./../../services/nftService";
 import nftStore from "./../../store/nftStore";
 
 // .env
-const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT as string;
+const PUBLIC_CW721_CONTRACT = process.env
+  .NEXT_PUBLIC_APP_CW721_CONTRACT as string;
 
 const NFUploader = observer(() => {
   const [nftTokenId, setNftTokenId] = useState(0);
@@ -33,16 +34,11 @@ const NFUploader = observer(() => {
   const [loading, setLoading] = useState(false);
   const [mintReady, setMintReady] = useState(false);
   
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File>();
 
   const { walletAddress, signingClient } = useSigningClient();
 
-  useEffect(() => {
-    return setSelectedFile(null);
-  }, [nftStore.typeNFT]);
-
-
-  function setNewNftTokenId() {
+  function setNewNftTokenId(): void {
     if (!signingClient) {
       throw new Error(`Not valid value of signingClient: ${signingClient}`);
     }
@@ -65,25 +61,34 @@ const NFUploader = observer(() => {
       const file = event.target.files[0];
       setSelectedFile(file);
     }
-  };
+  }
 
-  function getDescriptionForNFText(event: React.ChangeEvent<HTMLTextAreaElement>) {
+  function getDescriptionForNFText(
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) {
     setTextNft(event.target.value);
   }
-  
+
   function writeNFTitle(event: React.ChangeEvent<HTMLInputElement>) {
     setNftTitle(event.target.value);
   }
 
   async function uploadPinata() {
+    console.log("uploading to pinata...");
+
+    if (
+      (nftStore.typeNFT !== "text" && !selectedFile) ||
+      (nftStore.typeNFT == "text" && !textNft)
+    ) {
+      return;
+    }
+
     const apiKey = process.env.NEXT_PUBLIC_APP_PINATA_API_KEY as string;
-    const secretKey = process.env.NEXT_PUBLIC_APP_PINATA_SECRET_API_KEY as string;
+    const secretKey = process.env
+      .NEXT_PUBLIC_APP_PINATA_SECRET_API_KEY as string;
     const apiUrl = process.env.NEXT_PUBLIC_APP_PINATA_API_URL as string;
 
-    if (!selectedFile) return;
-
     const metadata = JSON.stringify({
-      name: selectedFile.name,
       keyvalues: {
         test: "test",
       },
@@ -91,7 +96,7 @@ const NFUploader = observer(() => {
     let formData = new FormData();
     formData.append("pinataMetadata", metadata);
 
-    if (nftStore.typeNFT !== "text") {
+    if (nftStore.typeNFT !== "text" && typeof selectedFile == "object") {
       formData.append("file", selectedFile);
     }
 
@@ -100,7 +105,7 @@ const NFUploader = observer(() => {
       formData.append("file", file, "nftext.txt");
     }
 
-    //upload
+    console.log("axios...");
     return await axios
       .post(apiUrl, formData, {
         headers: {
@@ -112,8 +117,7 @@ const NFUploader = observer(() => {
       .then((response) => {
         let IpfsHash = response.data.IpfsHash;
         let contentLinkAxios = `https://ipfs.io/ipfs/${IpfsHash}`;
-        setContentLink(contentLinkAxios);
-        setMintReady(true);
+        console.log("pinata axios response recieved...", contentLinkAxios);
         return contentLinkAxios;
       });
   }
@@ -122,12 +126,19 @@ const NFUploader = observer(() => {
     setNewNftTokenId();
 
     let contentLinkAxios = await uploadPinata();
+    if (!contentLinkAxios) {
+      alert("Select a file or enter text to upload.");
+      return;
+    } else {
+      console.log("Ready for minting", contentLinkAxios);
+    }
+
     const metadata = JSON.stringify({
       title: nftTitle,
       content: contentLinkAxios,
-      type: nftStore.typeNFT
+      type: nftStore.typeNFT,
     });
-
+    console.log("Metadata:", metadata);
     const encodedMetadata = Buffer.from(metadata).toString("base64");
 
     if (!signingClient) {
@@ -158,25 +169,25 @@ const NFUploader = observer(() => {
           console.log(error);
         }
       });
-  };
+  }
 
   return (
     <div className={styles.overview}>
       <input
         type="text"
         placeholder="NFT`s title"
-        onChange={event => writeNFTitle(event)}
+        onChange={(event) => writeNFTitle(event)}
         className={`${styles.titleInput} ${styles.overviewChild}`}
       />
 
-      {nftStore.typeNFT === "text" &&
-        <textarea 
-          className={`${styles.textField} ${styles.overviewChild}`} 
-          onChange={event => getDescriptionForNFText(event)} 
-          placeholder="Imagine...">
-        </textarea>
-      }
-      
+      {nftStore.typeNFT === "text" && (
+        <textarea
+          className={`${styles.textField} ${styles.overviewChild}`}
+          onChange={(event) => getDescriptionForNFText(event)}
+          placeholder="Imagine..."
+        ></textarea>
+      )}
+
       {/* Get file button, and file name */}
       {(nftStore.typeNFT === "img" || (nftStore.typeNFT === "gltf" && !selectedFile)) ?
         <label className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}>
@@ -185,7 +196,7 @@ const NFUploader = observer(() => {
             className={globalStyles.hide}
             type="file"
             accept={nftStore.typeNFT === "img" ? "image/*" : ".glb, .gltf"}
-            onChange={event => getFile(event)}
+            onChange={(event) => getFile(event)}
           />
         </label>
       :
@@ -193,7 +204,7 @@ const NFUploader = observer(() => {
           className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
           type="button"
           value="delete file"
-          onClick={() => setSelectedFile(null)}
+          onClick={() => console.log("Oo")}
         />
       }
 
@@ -201,7 +212,8 @@ const NFUploader = observer(() => {
       {nftStore.typeNFT === "img" && selectedFile && 
         <>
           <span className={`${styles.selectedFile} ${styles.overviewChild}`}>
-            {selectedFile && nftService.getLimitedString(selectedFile.name, 30, 4)}
+            {selectedFile &&
+              nftService.getLimitedString(selectedFile.name, 30, 4)}
           </span>
           <img
             style={{display: "none"}}
@@ -226,7 +238,10 @@ const NFUploader = observer(() => {
         </>
       }
 
-      <button className={`${globalStyles.customButtonActive} ${styles.overviewChild}`} onClick={() => createMint()}>
+      <button
+        className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
+        onClick={() => createMint()}
+      >
         mint
       </button>
     </div>
