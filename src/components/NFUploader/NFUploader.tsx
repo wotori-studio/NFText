@@ -216,8 +216,8 @@ const NFUploader = observer(() => {
       {nftStore.typeNFT === "gltf" && selectedFile &&
         <>
           <span className={`${styles.selectedFile} ${styles.overviewChild}`}>
-              {selectedFile && nftService.getLimitedString(selectedFile.name, 30, 4)}
-            </span>
+            {selectedFile && nftService.getLimitedString(selectedFile.name, 30, 4)}
+          </span>
           <div className={styles.webGL}>
             <Container sx={{ height: 500 }}>
               <SceneWithModel file={URL.createObjectURL(selectedFile)} />
