@@ -25,7 +25,8 @@ import devStore from "./../../store/devStore";
 import nftStore from "../../store/nftStore";
 
 // .env
-const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT as string;
+const PUBLIC_CW721_CONTRACT = process.env
+  .NEXT_PUBLIC_APP_CW721_CONTRACT as string;
 
 const NFBrowser = observer(() => {
   const { walletAddress, signingClient, connectWallet } = useSigningClient();
@@ -40,13 +41,13 @@ const NFBrowser = observer(() => {
     if (isProduction || isBlockchain) {
       if (!signingClient) return;
       if (walletAddress.length === 0) connectWallet();
-  
+
       signingClient
         .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
         .then((res: any) => {
           const manyMetadata: Promise<Metadata>[] = [];
           let EXCLUDE_LIST = [8];
-  
+
           for (let i = 1; i <= res.count; i++) {
             if (!EXCLUDE_LIST.includes(i)) {
               manyMetadata.push(
@@ -56,51 +57,59 @@ const NFBrowser = observer(() => {
               );
             }
           }
-  
-          Promise.all(manyMetadata)
-            .then((manyMetadata) => {
-              const manyNFT: Nft[] = manyMetadata.map((metadata, index) => {
-                const decodedMetadata = JSON.parse(Buffer.from(metadata.info.token_uri.slice(30), "base64").toString());
-  
-                const newNFT: Nft = {
-                  id: index + 1,
-                  owner: metadata.access.owner,
-                  name: decodedMetadata.title,
-                  type: decodedMetadata.type,
-                  href: `/items/${index + 1}`,
-                  content: decodedMetadata.content || "https://dummyimage.com/404x404"
-                };
-  
-                return newNFT;
-              });
-  
-              setManyNFT(manyNFT);
+
+          Promise.all(manyMetadata).then((manyMetadata) => {
+            const manyNFT: Nft[] = manyMetadata.map((metadata, index) => {
+              const decodedMetadata = JSON.parse(
+                Buffer.from(
+                  metadata.info.token_uri.slice(30),
+                  "base64"
+                ).toString()
+              );
+
+              const newNFT: Nft = {
+                id: index + 1,
+                owner: metadata.access.owner,
+                name: decodedMetadata.title,
+                type: decodedMetadata.type,
+                href: `/items/${index + 1}`,
+                content:
+                  decodedMetadata.content || "https://dummyimage.com/404x404",
+              };
+
+              return newNFT;
             });
-        })
-          .catch((error: any) => {
-            if (process.env.NODE_ENV === 'development') {
-              console.error(`Error signingClient.queryContractSmart() num_tokens: ${error}`)
-            }
+
+            setManyNFT(manyNFT);
           });
-    }
-    else if (isDevelopment && isDatabase) {
+        })
+        .catch((error: any) => {
+          if (process.env.NODE_ENV === "development") {
+            console.error(
+              `Error signingClient.queryContractSmart() num_tokens: ${error}`
+            );
+          }
+        });
+    } else if (isDevelopment && isDatabase) {
       setManyNFT(nftService.getNFTFromDatabase());
     }
   }, [signingClient, walletAddress, alert]);
 
   return (
     <div className={styles.nftBrowser}>
-      {manyNFT.slice(0).filter(NFT => NFT.type === nftStore.typeNFT).reverse().map( NFT => (
-        <>
-          {NFT.type === "text" &&
-            <NFText NFT={NFT} />
-          }
-          
-          {NFT.type === "img" &&
-            <NFImage NFT={NFT} />
-          }
-        </>
-      ))}
+      {manyNFT
+        .slice(0)
+        .filter((NFT) => NFT.type === nftStore.typeNFT)
+        .reverse()
+        .map((NFT) => (
+          <>
+            {NFT.type === "text" && <NFText NFT={NFT} />}
+
+            {NFT.type === "img" && <NFImage NFT={NFT} />}
+
+            {NFT.type === "3d" && <NFImage NFT={NFT} />}
+          </>
+        ))}
     </div>
   );
 });

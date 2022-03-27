@@ -7,6 +7,6 @@ export interface Nft {
   content: string;
 }
 
-export type TypeNft = "text" | "img" | "gltf";
+export type TypeNft = "text" | "img" | "3d";
 
 export type PlatformName = "Blockchain" | "Database";

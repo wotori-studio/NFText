@@ -31,7 +31,7 @@ function ModalWindow(props: Properties) {
     getText();
 
     if (
-      NFT.type !== "text" && NFT.type !== "img" && NFT.type !== "gltf" &&
+      NFT.type !== "text" && NFT.type !== "img" && NFT.type !== "3d" &&
       process.env.NODE_ENV === "development"
     ) {
       console.error(`Received unknown NFT type: ${NFT.type}`);
@@ -103,7 +103,7 @@ function ModalWindow(props: Properties) {
                 onLoad={(event) => 
                   nftService.setImageLimits(event, calculateSizeForImage())}
               />
-            : NFT.type === "gltf" &&
+            : NFT.type === "3d" &&
               <span>In development...</span>
             }
             <address className={styles.owner}>{NFT.owner}</address>

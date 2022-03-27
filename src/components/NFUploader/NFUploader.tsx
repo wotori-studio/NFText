@@ -183,7 +183,7 @@ const NFUploader = observer(() => {
 
       {/* Get file button, and file name */}
       {nftStore.typeNFT === "img" ||
-      (nftStore.typeNFT === "gltf" && !selectedFile) ? (
+      (nftStore.typeNFT === "3d" && !selectedFile) ? (
         <label
           className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
         >
@@ -228,7 +228,7 @@ const NFUploader = observer(() => {
       )}
 
       {/* Model preview */}
-      {nftStore.typeNFT === "gltf" && selectedFile && (
+      {nftStore.typeNFT === "3d" && selectedFile && (
         <>
           <span className={`${styles.selectedFile} ${styles.overviewChild}`}>
             {selectedFile &&

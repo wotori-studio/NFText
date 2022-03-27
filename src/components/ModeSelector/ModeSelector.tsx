@@ -24,8 +24,8 @@ const ModeSelector = observer(() => {
       action: () => {nftStore.setNftType("img")}
     },
     {
-      name: "gltf",
-      action: () => {nftStore.setNftType("gltf")}
+      name: "3d",
+      action: () => {nftStore.setNftType("3d")}
     }
   ]);
 
