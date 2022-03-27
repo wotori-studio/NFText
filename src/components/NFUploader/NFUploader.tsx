@@ -34,9 +34,13 @@ const NFUploader = observer(() => {
   const [loading, setLoading] = useState(false);
   const [mintReady, setMintReady] = useState(false);
 
-  const [selectedFile, setSelectedFile] = useState<File>();
+  const [selectedFile, setSelectedFile] = useState<File | null>();
 
   const { walletAddress, signingClient } = useSigningClient();
+
+  useEffect(() => {
+    return setSelectedFile(null);
+  }, [nftStore.typeNFT]);
 
   function setNewNftTokenId(): void {
     if (!signingClient) {
@@ -96,7 +100,7 @@ const NFUploader = observer(() => {
     let formData = new FormData();
     formData.append("pinataMetadata", metadata);
 
-    if (nftStore.typeNFT !== "text" && typeof selectedFile == "object") {
+    if (nftStore.typeNFT !== "text" && selectedFile) {
         formData.append("file", selectedFile);
     }
 
@@ -180,17 +184,17 @@ const NFUploader = observer(() => {
         className={`${styles.titleInput} ${styles.overviewChild}`}
       />
 
-      {nftStore.typeNFT === "text" && (
+      {nftStore.typeNFT === "text" && 
         <textarea
           className={`${styles.textField} ${styles.overviewChild}`}
           onChange={(event) => getDescriptionForNFText(event)}
           placeholder="Imagine..."
         ></textarea>
-      )}
+      }
 
       {/* Get file button, and file name */}
       {nftStore.typeNFT === "img" ||
-      (nftStore.typeNFT === "gltf" && !selectedFile) ? (
+      (nftStore.typeNFT === "gltf" && !selectedFile) ?
         <label
           className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
         >
@@ -202,17 +206,17 @@ const NFUploader = observer(() => {
             onChange={(event) => getFile(event)}
           />
         </label>
-      ) : (
+      : nftStore.typeNFT !== "text" && 
         <input
           className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
           type="button"
           value="delete file"
           onClick={() => setSelectedFile(undefined)}
         />
-      )}
+      }
 
       {/* Image preview */}
-      {nftStore.typeNFT === "img" && selectedFile && (
+      {nftStore.typeNFT === "img" && selectedFile && 
         <>
           <span className={`${styles.selectedFile} ${styles.overviewChild}`}>
             {selectedFile &&
@@ -230,10 +234,10 @@ const NFUploader = observer(() => {
             }
           />
         </>
-      )}
+      }
 
       {/* Model preview */}
-      {nftStore.typeNFT === "gltf" && selectedFile && (
+      {nftStore.typeNFT === "gltf" && selectedFile && 
         <>
           <span className={`${styles.selectedFile} ${styles.overviewChild}`}>
             {selectedFile &&
@@ -245,7 +249,7 @@ const NFUploader = observer(() => {
             </Container>
           </div>
         </>
-      )}
+      }
 
       <button
         className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
