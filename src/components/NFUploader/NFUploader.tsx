@@ -29,36 +29,27 @@ const NFUploader = observer(() => {
   const [nftTokenId, setNftTokenId] = useState(0);
   const [nftTitle, setNftTitle] = useState("");
   const [textNft, setTextNft] = useState("");
-  const [contentLink, setContentLink] = useState("");
-
   const [loading, setLoading] = useState(false);
-  const [mintReady, setMintReady] = useState(false);
-
   const [selectedFile, setSelectedFile] = useState<File | null>();
-
   const { walletAddress, signingClient } = useSigningClient();
 
   useEffect(() => {
-    return setSelectedFile(null);
-  }, [nftStore.typeNFT]);
-
-  function setNewNftTokenId(): void {
-    if (!signingClient) {
-      throw new Error(`Not valid value of signingClient: ${signingClient}`);
-    }
+    if (!signingClient) return;
 
     signingClient
       .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
-      .then((response: any) => {
+      .then((response) => {
         setNftTokenId(response.count + 1);
+        console.log("TokenID", nftTokenId);
       })
-      .catch((error: any) => {
-        alert(`Error during getting token count.`);
-        if (process.env.NODE_ENV === "development") {
-          console.log(error);
-        }
+      .catch((error) => {
+        alert(`Error! ${error.message}`);
+        console.log(
+          "Error signingClient.queryContractSmart() num_tokens: ",
+          error
+        );
       });
-  }
+  }, [signingClient, alert]);
 
   function getFile(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files && event.target.files[0]) {
@@ -101,7 +92,7 @@ const NFUploader = observer(() => {
     formData.append("pinataMetadata", metadata);
 
     if (nftStore.typeNFT !== "text" && selectedFile) {
-        formData.append("file", selectedFile);
+      formData.append("file", selectedFile);
     }
 
     if (nftStore.typeNFT === "text") {
@@ -127,8 +118,6 @@ const NFUploader = observer(() => {
   }
 
   async function createMint() {
-    setNewNftTokenId();
-
     let contentLinkAxios = await uploadPinata();
     if (!contentLinkAxios) {
       alert("Select a file or enter text to upload.");
@@ -184,17 +173,17 @@ const NFUploader = observer(() => {
         className={`${styles.titleInput} ${styles.overviewChild}`}
       />
 
-      {nftStore.typeNFT === "text" && 
+      {nftStore.typeNFT === "text" && (
         <textarea
           className={`${styles.textField} ${styles.overviewChild}`}
           onChange={(event) => getDescriptionForNFText(event)}
           placeholder="Imagine..."
         ></textarea>
-      }
+      )}
 
       {/* Get file button, and file name */}
       {nftStore.typeNFT === "img" ||
-      (nftStore.typeNFT === "gltf" && !selectedFile) ?
+      (nftStore.typeNFT === "gltf" && !selectedFile) ? (
         <label
           className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
         >
@@ -206,17 +195,19 @@ const NFUploader = observer(() => {
             onChange={(event) => getFile(event)}
           />
         </label>
-      : nftStore.typeNFT !== "text" && 
-        <input
-          className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
-          type="button"
-          value="delete file"
-          onClick={() => setSelectedFile(undefined)}
-        />
-      }
+      ) : (
+        nftStore.typeNFT !== "text" && (
+          <input
+            className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
+            type="button"
+            value="delete file"
+            onClick={() => setSelectedFile(undefined)}
+          />
+        )
+      )}
 
       {/* Image preview */}
-      {nftStore.typeNFT === "img" && selectedFile && 
+      {nftStore.typeNFT === "img" && selectedFile && (
         <>
           <span className={`${styles.selectedFile} ${styles.overviewChild}`}>
             {selectedFile &&
@@ -234,10 +225,10 @@ const NFUploader = observer(() => {
             }
           />
         </>
-      }
+      )}
 
       {/* Model preview */}
-      {nftStore.typeNFT === "gltf" && selectedFile && 
+      {nftStore.typeNFT === "gltf" && selectedFile && (
         <>
           <span className={`${styles.selectedFile} ${styles.overviewChild}`}>
             {selectedFile &&
@@ -249,7 +240,7 @@ const NFUploader = observer(() => {
             </Container>
           </div>
         </>
-      }
+      )}
 
       <button
         className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
