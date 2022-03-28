@@ -24,6 +24,7 @@ import NFImage from "./../NFImage/NFImage";
 import devStore from "./../../store/devStore";
 import nftStore from "../../store/nftStore";
 import SceneWithModel from "../SceneWithModel/SceneWithModel";
+import ModelViewer from "../ModelViewer";
 
 // .env
 const PUBLIC_CW721_CONTRACT = process.env
@@ -108,7 +109,7 @@ const NFBrowser = observer(() => {
 
             {NFT.type === "img" && <NFImage NFT={NFT} />}
 
-            {NFT.type === "3d" && <div><SceneWithModel file={NFT.content} /></div>}
+            {NFT.type === "3d" && <ModelViewer NFT={NFT} />}
           </>
         ))}
     </div>
