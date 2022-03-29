@@ -18,16 +18,29 @@ import devStore from "../src/store/devStore";
 import nftStore from "./../src/store/nftStore";
 
 const Main = observer(() => {
-  const [modes, setModes] = useState<Mode[]>([
-    {
-      name: "create",
-      action: () => {nftStore.setOperatingMode("create")}
-    },
-    {
-      name: "explore",
-      action: () => {nftStore.setOperatingMode("explore")}
-    }
-  ]);
+  const { signingClient } = useSigningClient();
+  let mod = []
+  if (signingClient){
+    mod = [
+      {
+        name: "create",
+        action: () => {nftStore.setOperatingMode("create")}
+      },
+      {
+        name: "explore",
+        action: () => {nftStore.setOperatingMode("explore")}
+      }
+    ]
+  } else {
+    mod = [
+      {
+        name: "explore",
+        action: () => {nftStore.setOperatingMode("explore")}
+      }
+    ]
+  }
+
+  const [modes, setModes] = useState<Mode[]>(mod);
   
   const { walletAddress, connectWallet, disconnect } = useSigningClient();
   const [connect, setConnect] = useState(false);

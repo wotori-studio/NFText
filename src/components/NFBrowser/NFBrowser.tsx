@@ -23,7 +23,6 @@ import NFImage from "./../NFImage/NFImage";
 // Stores
 import devStore from "./../../store/devStore";
 import nftStore from "../../store/nftStore";
-import SceneWithModel from "../SceneWithModel/SceneWithModel";
 import ModelViewer from "../ModelViewer";
 
 // .env
@@ -33,6 +32,7 @@ const PUBLIC_CW721_CONTRACT = process.env
 const NFBrowser = observer(() => {
   const { client } = useSigningClient();
   const [manyNFT, setManyNFT] = useState<Nft[]>([]);
+  console.log('Browser client: ', client)
 
   useEffect(() => {
     const isProduction = process.env.NODE_ENV === "production";

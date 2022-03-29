@@ -13,7 +13,7 @@ declare let window: CosmosKeplrWindow;
 
 export const connectKeplr = async () => {
   if (!window.getOfflineSigner || !window.keplr) {
-    alert("Please install keplr extension");
+    alert("Please install keplr extension. Without It you will be unable to mint tokens");
   } else {
     if (window.keplr.experimentalSuggestChain) {
       const stakingDenom = convertFromMicroDenom(
