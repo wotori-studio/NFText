@@ -30,8 +30,6 @@ export const useSigningCosmWasmClient = (): ISigningCosmWasmClientContext => {
         PUBLIC_CHAIN_ID
       );
 
-      // make client
-      setClient(await CosmWasmClient.connect(PUBLIC_RPC_ENDPOINT));
       setSigningClient(
         await SigningCosmWasmClient.connectWithSigner(
           PUBLIC_RPC_ENDPOINT,
@@ -46,6 +44,12 @@ export const useSigningCosmWasmClient = (): ISigningCosmWasmClientContext => {
       setLoading(false);
     } catch (error: any) {
       setError(error);
+    }
+
+    try {
+      setClient(await CosmWasmClient.connect(PUBLIC_RPC_ENDPOINT));
+    } catch (error: any) {
+      alert(`Unable connect to: ${PUBLIC_RPC_ENDPOINT}`)
     }
   };
 
