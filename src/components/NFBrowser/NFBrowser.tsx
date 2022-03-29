@@ -31,7 +31,7 @@ const PUBLIC_CW721_CONTRACT = process.env
   .NEXT_PUBLIC_APP_CW721_CONTRACT as string;
 
 const NFBrowser = observer(() => {
-  const { walletAddress, signingClient, connectWallet } = useSigningClient();
+  const { client } = useSigningClient();
   const [manyNFT, setManyNFT] = useState<Nft[]>([]);
 
   useEffect(() => {
@@ -41,10 +41,9 @@ const NFBrowser = observer(() => {
     const isDatabase = devStore.dataPlatform === "Database";
 
     if (isProduction || isBlockchain) {
-      if (!signingClient) return;
-      if (walletAddress.length === 0) connectWallet();
+      if (!client) return;
 
-      signingClient
+      client
         .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
         .then((res: any) => {
           const manyMetadata: Promise<Metadata>[] = [];
@@ -53,7 +52,7 @@ const NFBrowser = observer(() => {
           for (let i = 1; i <= res.count; i++) {
             if (!EXCLUDE_LIST.includes(i)) {
               manyMetadata.push(
-                signingClient.queryContractSmart(PUBLIC_CW721_CONTRACT, {
+                client.queryContractSmart(PUBLIC_CW721_CONTRACT, {
                   all_nft_info: { token_id: i + "" },
                 })
               );
@@ -88,14 +87,14 @@ const NFBrowser = observer(() => {
         .catch((error: any) => {
           if (process.env.NODE_ENV === "development") {
             console.error(
-              `Error signingClient.queryContractSmart() num_tokens: ${error}`
+              `Error client.queryContractSmart() num_tokens: ${error}`
             );
           }
         });
     } else if (isDevelopment && isDatabase) {
       setManyNFT(nftService.getNFTFromDatabase());
     }
-  }, [signingClient, walletAddress, alert]);
+  }, [client, alert]);
 
   return (
     <div className={styles.nftBrowser}>
