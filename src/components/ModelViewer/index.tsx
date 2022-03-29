@@ -15,7 +15,7 @@ const ModelViewer = (props: Properties) => {
         <div className={styles.block}>
             <Link href={`/nft/${NFT.id}`}>
                 <a className={`${styles2.title} ${styles2.font}`} target="_blank"> 
-                   { NFT.name !== '' ? <span> {NFT.name} </span>: <span> {"title undefined"} </span>}
+                   { NFT.name !== '' ? <span> {NFT.name} </span>: <span> {"undefined"} </span>}
                     </a>
             </Link>
             <div className={styles.frame}>
