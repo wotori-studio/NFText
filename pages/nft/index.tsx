@@ -1,6 +1,4 @@
-// useRouter or dynamic pages works only with server side
 import { CosmWasmClient } from "@cosmjs/cosmwasm-stargate";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ModelViewer from "../../src/components/ModelViewer";
 import NFImage from "../../src/components/NFImage/NFImage";
@@ -12,14 +10,20 @@ const PUBLIC_CW721_CONTRACT = process.env
 
 const rpcEndpoint = process.env.NEXT_PUBLIC_CHAIN_RPC_ENDPOINT as string;
 
-const NFTID = () => {
-  const router = useRouter();
-  const { id } = router.query;
-  const token_id = id?.toString();
+const NFTPage = () => {
+  const [token_id, setId] = useState<string | null>();
   const [client, setClient] = useState<CosmWasmClient>();
   const [nft, setNft] = useState<Nft>();
 
   useEffect(() => {
+    if (!token_id) {
+      const queryString = window.location.search;
+      const parameters = new URLSearchParams(queryString);
+      const value = parameters.get("id");
+      setId(value);
+      console.log(value);
+    }
+
     const getClient = async () => {
       const res = await CosmWasmClient.connect(rpcEndpoint);
       setClient(res);
@@ -30,7 +34,6 @@ const NFTID = () => {
       console.log("getting client");
       getClient();
     }
-
     if (token_id && client) {
       console.log("start query smart-contract");
       client
@@ -56,8 +59,7 @@ const NFTID = () => {
           console.log("decoded meta", decodedMetadata);
         });
     }
-  }, [token_id, client]);
-
+  }, [client]);
   return (
     <div>
       {nft ? (
@@ -73,4 +75,4 @@ const NFTID = () => {
   );
 };
 
-export default NFTID;
+export default NFTPage;
