@@ -141,7 +141,7 @@ function ModalWindow(props: Properties) {
                 }
               />
             ) : (
-              NFT.type === "3d" && <span>In development...</span>
+              NFT.type === "3d" && <ModelViewer NFT={NFT}/>
             )}
             <address className={styles.owner}>{NFT.owner}</address>
           </div>

@@ -4,6 +4,8 @@ import SceneWithModel from "../SceneWithModel/SceneWithModel";
 import { Nft } from "../../models/Nft";
 import nftService from "../../services/nftService";
 import Link from 'next/link'
+import { useState } from "react";
+import ModalWindow from "../ModalWindow/ModalWindow";
 
 interface Properties {
     NFT: Nft;
@@ -11,13 +13,17 @@ interface Properties {
 
 const ModelViewer = (props: Properties) => {
     const { NFT } = props;
+  const [modalWindowIsOpen, setModalWindowIsOpen] = useState(false);
+
     return (
         <div className={styles.block}>
-            <Link href={`/nft?id=${NFT.id}`}>
+            {/* <Link href={`/nft?id=${NFT.id}`}> */}
+            <div onClick={()=> setModalWindowIsOpen(true)}>
                 <a className={`${styles2.title} ${styles2.font}`} target="_blank"> 
                    { NFT.name !== '' ? <span> {NFT.name} </span>: <span> {"title undefined"} </span>}
                     </a>
-            </Link>
+            </div>
+            {/* </Link> */}
             <div className={styles.frame}>
                 <SceneWithModel file={NFT.content} />
             </div>
@@ -26,6 +32,9 @@ const ModelViewer = (props: Properties) => {
                     {nftService.getLimitedString(NFT.owner, 16, 5, true, "Without owner")}
                 </a>
             {/* </Link> */}
+            {modalWindowIsOpen && 
+                 <ModalWindow isOpen={modalWindowIsOpen} close={() => setModalWindowIsOpen(!modalWindowIsOpen)} NFT={NFT} />
+             }
         </div>
     )
 }
