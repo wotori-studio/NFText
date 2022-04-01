@@ -36,6 +36,7 @@ function ModalWindow(props: Properties) {
 
   const [nfts, setNfts] = useState<Array<Nft>>();
   const [children, setChildren] = useState<Array<number>>([1, 2, 3]);
+  const [nftParent, setNftParent] = useState<Array<Nft>>();
 
   useEffect(() => {
     setModalWindowIsOpen(isOpen);
@@ -48,6 +49,10 @@ function ModalWindow(props: Properties) {
       });
     } else {
       console.log("nfts:", nfts);
+    }
+
+    if (NFT.parent){
+      let dataParent = query(client, [NFT.parent], setNftParent);
     }
 
     if (
@@ -150,10 +155,25 @@ function ModalWindow(props: Properties) {
             <input className={styles.createButton} type="button" value="+" />
           </div> */}
           <div>
-            <h2>This NFT based on #{NFT.parent}</h2>
+            {NFT.parent?<h2>This NFT based on #{NFT.parent}</h2>: <h2>This Is root nft</h2>}
+            {nftParent
+              ? nftParent
+                  .slice(0)
+                  .reverse()
+                  .map((NFT) => (
+                    <>
+                      {NFT.type === "text" ? (
+                        <NFText NFT={NFT} />
+                      ) : NFT.type === "img" ? (
+                        <NFImage NFT={NFT} />
+                      ) : NFT.type === "3d" ? (
+                        <ModelViewer NFT={NFT} />
+                      ) : null}
+                    </>
+                  ))
+              : null}
           </div>
           <div>
-            {NFT.parent}
             <h2>Create new NFT based on this:</h2>
             <select
               name="modes"
@@ -170,7 +190,7 @@ function ModalWindow(props: Properties) {
             <NFUploader modalMode={mode} parentId={NFT.id} />
           </div>
           <div>
-            <h2>Content based on this NFT:</h2>
+            <h2>NFTs based on this:</h2>
             {/* TODO: queried sm contract data with childrens*/}
             {children}
             {nfts
