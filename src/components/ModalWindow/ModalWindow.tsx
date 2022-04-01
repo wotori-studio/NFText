@@ -13,6 +13,7 @@ import axios from "axios";
 
 // Stores
 import devStore from "./../../store/devStore";
+import NFUploader from "../NFUploader/NFUploader";
 
 interface Properties {
   isOpen: boolean;
@@ -22,6 +23,7 @@ interface Properties {
 
 function ModalWindow(props: Properties) {
   const { isOpen, close, NFT } = props;
+  const [mode, setMode] = useState<string>("text");
 
   const [modalWindowIsOpen, setModalWindowIsOpen] = useState(isOpen);
   const [text, setText] = useState<string>();
@@ -85,6 +87,11 @@ function ModalWindow(props: Properties) {
     }
   }
 
+  function handleModeChange(event: React.ChangeEvent<HTMLSelectElement>){
+    setMode(event.target.value)
+    console.log("Modal mode: ", mode)
+  }
+
   return (
     <div className={styles.background} onClick={event => closeModalWindow(event)}>
       <input type="button" className={styles.close} />
@@ -109,10 +116,21 @@ function ModalWindow(props: Properties) {
             <address className={styles.owner}>{NFT.owner}</address>
           </div>
 
-          <footer className={styles.footer}>
-            <h2>Content based on this NFT:</h2>
+          {/* <div className={styles.create}>
             <input className={styles.createButton} type="button" value="+" />
-          </footer>
+          </div> */}
+          <div>
+            <h3>Create new NFT based on this:</h3>
+            <select name="modes" className="{styles.modes}" value={mode} onChange={ (e) => {handleModeChange(e) }}>
+              <option value="text">text</option>
+              <option value="img">img</option>
+              <option value="3d">3d</option>
+            </select>
+            <NFUploader modalMode={mode} parentId={NFT.id}/> 
+          </div>
+          <div>
+            <h2>Content based on this NFT:</h2>
+          </div>
         </div>
       </div>
     </div>

@@ -21,11 +21,11 @@ const ModelViewer = (props: Properties) => {
             <div className={styles.frame}>
                 <SceneWithModel file={NFT.content} />
             </div>
-            <Link href={`/user/${NFT.owner}`}>
+            {/* <Link href={`/user/${NFT.owner}`}> */}
                 <a className={`${styles2.walletAddress} ${styles2.font}`} target="_blank">
                     {nftService.getLimitedString(NFT.owner, 16, 5, true, "Without owner")}
                 </a>
-            </Link>
+            {/* </Link> */}
         </div>
     )
 }
