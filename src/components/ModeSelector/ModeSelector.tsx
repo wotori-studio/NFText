@@ -36,7 +36,7 @@ const ModeSelector = observer(() => {
       </div>
 
       {nftStore.operatingMode === "create" 
-        ? <NFUploader /> 
+        ? <NFUploader modalMode={null} parentId={null} /> 
         : <NFBrowser />
       }
     </>

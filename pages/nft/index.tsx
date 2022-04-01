@@ -52,6 +52,7 @@ const NFTPage = () => {
             name: decodedMetadata.title,
             type: decodedMetadata.type,
             href: `/items/${token_id + 1}`,
+            parent: decodedMetadata.parent,
             content:
               decodedMetadata.content || "https://dummyimage.com/404x404",
           };

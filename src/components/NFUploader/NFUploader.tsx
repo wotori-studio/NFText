@@ -25,7 +25,12 @@ import nftStore from "./../../store/nftStore";
 const PUBLIC_CW721_CONTRACT = process.env
   .NEXT_PUBLIC_APP_CW721_CONTRACT as string;
 
-const NFUploader = observer(() => {
+interface Properties {
+  modalMode: string | null;
+  parentId: number | null;
+}
+
+const NFUploader = observer((props: Properties) => {
   const [nftTokenId, setNftTokenId] = useState(0);
   const [nftTitle, setNftTitle] = useState("");
   const [textNft, setTextNft] = useState("");
@@ -34,9 +39,10 @@ const NFUploader = observer(() => {
   const { walletAddress, signingClient } = useSigningClient();
 
   useEffect(() => {
+    console.log("props: ", props);
     if (!signingClient) return;
 
-    signingClient
+    signingClient // TODO: make async function as in nft/id page
       .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
       .then((response) => {
         setNftTokenId(response.count + 1);
@@ -49,7 +55,7 @@ const NFUploader = observer(() => {
           error
         );
       });
-  }, [signingClient, alert]);
+  }, [signingClient, alert, props.modalMode]);
 
   function getFile(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files && event.target.files[0]) {
@@ -72,8 +78,11 @@ const NFUploader = observer(() => {
     console.log("uploading to pinata...");
 
     if (
-      (nftStore.typeNFT !== "text" && !selectedFile) ||
-      (nftStore.typeNFT == "text" && !textNft)
+      (((nftStore.typeNFT !== "text" && !selectedFile) ||
+        (nftStore.typeNFT == "text" && !textNft)) &&
+        !props.modalMode) ||
+      (props.modalMode !== "text" && !selectedFile) ||
+      (props.modalMode == "text" && !textNft)
     ) {
       return;
     }
@@ -91,11 +100,17 @@ const NFUploader = observer(() => {
     let formData = new FormData();
     formData.append("pinataMetadata", metadata);
 
-    if (nftStore.typeNFT !== "text" && selectedFile) {
+    if (
+      (nftStore.typeNFT !== "text" && selectedFile && !props.modalMode) ||
+      (props.modalMode !== "text" && selectedFile)
+    ) {
       formData.append("file", selectedFile);
     }
 
-    if (nftStore.typeNFT === "text") {
+    if (
+      (nftStore.typeNFT === "text" && !props.modalMode) ||
+      props.modalMode === "text"
+    ) {
       var file = new Blob([textNft], { type: "text/plain;charset=utf-8" });
       formData.append("file", file, "nftext.txt");
     }
@@ -129,7 +144,8 @@ const NFUploader = observer(() => {
     const metadata = JSON.stringify({
       title: nftTitle,
       content: contentLinkAxios,
-      type: nftStore.typeNFT,
+      type: props.modalMode ? props.modalMode : nftStore.typeNFT,
+      parent: props.parentId,
     });
     console.log("Metadata:", metadata);
     const encodedMetadata = Buffer.from(metadata).toString("base64");
@@ -173,17 +189,22 @@ const NFUploader = observer(() => {
         className={`${styles.titleInput} ${styles.overviewChild}`}
       />
 
-      {nftStore.typeNFT === "text" && (
+      {/* WRITE TEXT */}
+      {(nftStore.typeNFT === "text" && !props.modalMode) ||
+      props.modalMode === "text" ? (
         <textarea
           className={`${styles.textField} ${styles.overviewChild}`}
           onChange={(event) => getDescriptionForNFText(event)}
           placeholder="Imagine..."
         ></textarea>
-      )}
+      ) : null}
 
-      {/* Get file button, and file name */}
-      {nftStore.typeNFT === "img" ||
-      (nftStore.typeNFT === "3d" && !selectedFile) ? (
+      {/* SELECT FILE */}
+      {((nftStore.typeNFT === "img" ||
+        (nftStore.typeNFT === "3d" && !selectedFile)) &&
+        !props.modalMode) ||
+      props.modalMode === "img" ||
+      (props.modalMode === "3d" && !selectedFile) ? (
         <label
           className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
         >
@@ -191,23 +212,27 @@ const NFUploader = observer(() => {
           <input
             className={globalStyles.hide}
             type="file"
-            accept={nftStore.typeNFT === "img" ? "image/*" : ".glb, .gltf"}
+            accept={
+              (nftStore.typeNFT === "img" && !props.modalMode) ||
+              props.modalMode === "img"
+                ? "image/*"
+                : ".glb, .gltf"
+            }
             onChange={(event) => getFile(event)}
           />
         </label>
-      ) : (
-        nftStore.typeNFT !== "text" && (
-          <input
-            className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
-            type="button"
-            value="delete file"
-            onClick={() => setSelectedFile(undefined)}
-          />
-        )
-      )}
+      ) : nftStore.typeNFT !== "text" ? (
+        <input
+          className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
+          type="button"
+          value="delete file"
+          onClick={() => setSelectedFile(undefined)}
+        />
+      ) : null}
 
-      {/* Image preview */}
-      {nftStore.typeNFT === "img" && selectedFile && (
+      {/* IMAGE PREVIEW */}
+      {(nftStore.typeNFT === "img" && selectedFile && !props.modalMode) ||
+      (props.modalMode === "img" && selectedFile) ? (
         <>
           <span className={`${styles.selectedFile} ${styles.overviewChild}`}>
             {selectedFile &&
@@ -225,10 +250,11 @@ const NFUploader = observer(() => {
             }
           />
         </>
-      )}
+      ) : null}
 
-      {/* Model preview */}
-      {nftStore.typeNFT === "3d" && selectedFile && (
+      {/* MODEL PREVIEW */}
+      {(nftStore.typeNFT === "3d" && selectedFile && !props.modalMode) ||
+      (props.modalMode === "3d" && selectedFile) ? (
         <>
           <span className={`${styles.selectedFile} ${styles.overviewChild}`}>
             {selectedFile &&
@@ -240,8 +266,9 @@ const NFUploader = observer(() => {
             </Container>
           </div>
         </>
-      )}
+      ) : null}
 
+      {/* MINT */}
       <button
         className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
         onClick={() => createMint()}
