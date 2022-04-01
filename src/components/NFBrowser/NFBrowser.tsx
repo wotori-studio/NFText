@@ -32,7 +32,7 @@ const PUBLIC_CW721_CONTRACT = process.env
 const NFBrowser = observer(() => {
   const { client } = useSigningClient();
   const [manyNFT, setManyNFT] = useState<Nft[]>([]);
-  console.log('Browser client: ', client)
+  console.log("Browser client: ", client);
 
   useEffect(() => {
     const isProduction = process.env.NODE_ENV === "production";
@@ -69,19 +69,21 @@ const NFBrowser = observer(() => {
               );
 
               const newNFT: Nft = {
-                id: index + 1,
+                id: index + 1, // TODO: get real index
                 owner: metadata.access.owner,
                 name: decodedMetadata.title,
                 type: decodedMetadata.type,
                 href: `/items/${index + 1}`,
                 content:
                   decodedMetadata.content || "https://dummyimage.com/404x404",
+                parent: decodedMetadata.parent,
               };
 
               return newNFT;
             });
 
             setManyNFT(manyNFT);
+            console.log(manyNFT);
           });
         })
         .catch((error: any) => {

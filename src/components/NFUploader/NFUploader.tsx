@@ -42,7 +42,7 @@ const NFUploader = observer((props: Properties) => {
     console.log("props: ", props);
     if (!signingClient) return;
 
-    signingClient
+    signingClient // TODO: make async function as in nft/id page
       .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
       .then((response) => {
         setNftTokenId(response.count + 1);
