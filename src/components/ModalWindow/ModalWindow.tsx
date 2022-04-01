@@ -34,7 +34,7 @@ function ModalWindow(props: Properties) {
   const [modalWindowIsOpen, setModalWindowIsOpen] = useState(isOpen);
   const [text, setText] = useState<string>();
 
-  const [nfts, setNfts] = useState<Array<object>>();
+  const [nfts, setNfts] = useState<Array<Nft>>();
   const [children, setChildren] = useState<Array<number>>([1, 2, 3]);
 
   useEffect(() => {

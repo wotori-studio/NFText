@@ -4,7 +4,7 @@ import { Nft } from "../models/Nft";
 const PUBLIC_CW721_CONTRACT = process.env
   .NEXT_PUBLIC_APP_CW721_CONTRACT as string;
 
-async function query(client: any, children: Array<number>, method) {
+async function query(client: any, children: Array<number>, setData: Function) {
   const manyMetadata = [];
 
   for (const prop in children) {
@@ -33,7 +33,7 @@ async function query(client: any, children: Array<number>, method) {
     });
 
     console.log("query: ", manyNFT);
-    method(manyNFT)
+    setData(manyNFT);
     return manyNFT;
   });
 }
