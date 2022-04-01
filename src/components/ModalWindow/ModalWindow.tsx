@@ -120,7 +120,7 @@ function ModalWindow(props: Properties) {
             <input className={styles.createButton} type="button" value="+" />
           </div> */}
           <div>
-            <h3>Create new NFT based on this:</h3>
+            <h2>Create new NFT based on this:</h2>
             <select name="modes" className="{styles.modes}" value={mode} onChange={ (e) => {handleModeChange(e) }}>
               <option value="text">text</option>
               <option value="img">img</option>
