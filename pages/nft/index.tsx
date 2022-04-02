@@ -55,6 +55,7 @@ const NFTPage = () => {
             parent: decodedMetadata.parent,
             content:
               decodedMetadata.content || "https://dummyimage.com/404x404",
+            preview: decodedMetadata.preview || "https://dummyimage.com/600x400/1aeddf/ffffff&text=3D+file"
           };
           setNft(newNFT);
           console.log("decoded meta", decodedMetadata);

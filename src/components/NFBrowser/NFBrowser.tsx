@@ -24,6 +24,7 @@ import NFImage from "./../NFImage/NFImage";
 import devStore from "./../../store/devStore";
 import nftStore from "../../store/nftStore";
 import ModelViewer from "../ModelViewer";
+import NF3DPreview from "../NFImage/NF3DPreview";
 
 // .env
 const PUBLIC_CW721_CONTRACT = process.env
@@ -77,6 +78,7 @@ const NFBrowser = observer(() => {
                 content:
                   decodedMetadata.content || "https://dummyimage.com/404x404",
                 parent: decodedMetadata.parent,
+                preview: decodedMetadata.preview || "https://dummyimage.com/600x400/1aeddf/ffffff&text=3D+file" // TODO: create preview for 3D files
               };
 
               return newNFT;
@@ -98,21 +100,22 @@ const NFBrowser = observer(() => {
     }
   }, [client, alert]);
 
+  let ignoreList = [14, 15, 9]
   return (
     <div className={styles.nftBrowser}>
       {manyNFT
         .slice(0)
         .filter((NFT) => NFT.type === nftStore.typeNFT)
         .reverse()
-        .map((NFT) => (
+        .map((NFT) => ( !ignoreList.includes(NFT.id) ? 
           <>
             {NFT.type === "text" && <NFText NFT={NFT} />}
 
             {NFT.type === "img" && <NFImage NFT={NFT} />}
 
-            {NFT.type === "3d" && <ModelViewer NFT={NFT} />}
-          </>
-        ))}
+            {NFT.type === "3d" && <NF3DPreview NFT={NFT} />}
+          </> : null)
+        )}
     </div>
   );
 });

@@ -5,7 +5,8 @@ export interface Nft {
   type: TypeNft;
   href: string;
   content: string;
-  parent: number
+  parent: number;
+  preview: string;
 }
 
 export type TypeNft = "text" | "img" | "3d";

@@ -221,7 +221,7 @@ const NFUploader = observer((props: Properties) => {
             onChange={(event) => getFile(event)}
           />
         </label>
-      ) : nftStore.typeNFT !== "text" ? (
+      ) : (nftStore.typeNFT !== "text" && !props.modalMode) || props.modalMode !== "text" ? (
         <input
           className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
           type="button"

@@ -28,6 +28,7 @@ async function query(client: any, children: Array<number>, setData: Function) {
         href: `/items/${index + 1}`,
         content: decodedMetadata.content || "https://dummyimage.com/404x404",
         parent: decodedMetadata.parent,
+        preview: decodedMetadata.preview || "https://dummyimage.com/600x400/1aeddf/ffffff&text=3D+file"
       };
       return newNFT;
     });

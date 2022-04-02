@@ -19,6 +19,7 @@ import query from "../../services/query";
 import NFText from "../NFText/NFText";
 import NFImage from "../NFImage/NFImage";
 import ModelViewer from "../ModelViewer";
+import NF3DPreview from "../NFImage/NF3DPreview";
 
 interface Properties {
   isOpen: boolean;
@@ -35,7 +36,7 @@ function ModalWindow(props: Properties) {
   const [text, setText] = useState<string>();
 
   const [nfts, setNfts] = useState<Array<Nft>>();
-  const [children, setChildren] = useState<Array<number>>([1, 2, 3]);
+  const [children, setChildren] = useState<Array<number>>([1, 2, 3]); // TODO: children should came from smc query
   const [nftParent, setNftParent] = useState<Array<Nft>>();
 
   useEffect(() => {
@@ -43,16 +44,13 @@ function ModalWindow(props: Properties) {
     getText();
 
     if (!nfts) {
-      let data = query(client, children, setNfts);
-      data.then((obj) => {
-        console.log("modal from query", obj);
-      });
+      query(client, children, setNfts);
     } else {
       console.log("nfts:", nfts);
     }
 
     if (NFT.parent){
-      let dataParent = query(client, [NFT.parent], setNftParent);
+      query(client, [NFT.parent], setNftParent);
     }
 
     if (
@@ -132,7 +130,7 @@ function ModalWindow(props: Properties) {
       <input type="button" className={styles.close} />
       <div className={styles.window}>
         <div className={styles.interface}>
-          <h1 className={styles.title}>{NFT.name}</h1>
+          <h1 className={styles.title}>{NFT.name || "title undefined"}</h1>
 
           <div className={styles.NFTComponent}>
             {NFT.type === "text" && text ? (
@@ -154,8 +152,8 @@ function ModalWindow(props: Properties) {
           {/* <div className={styles.create}>
             <input className={styles.createButton} type="button" value="+" />
           </div> */}
-          <div>
-            {NFT.parent?<h2>This NFT based on #{NFT.parent}</h2>: <h2>This Is root nft</h2>}
+          <div className={styles.block}>
+            {NFT.parent?<p className={styles.title}>This NFT based on #{NFT.parent}</p>: <p className={styles.header}>This Is root nft</p>}
             {nftParent
               ? nftParent
                   .slice(0)
@@ -173,8 +171,8 @@ function ModalWindow(props: Properties) {
                   ))
               : null}
           </div>
-          <div>
-            <h2>Create new NFT based on this:</h2>
+          <div className={styles.block}>
+            <h2 className={styles.header}>Create new NFT based on this:</h2>
             <select
               name="modes"
               className="{styles.modes}"
@@ -189,26 +187,27 @@ function ModalWindow(props: Properties) {
             </select>
             <NFUploader modalMode={mode} parentId={NFT.id} />
           </div>
-          <div>
-            <h2>NFTs based on this:</h2>
+          <div className={styles.block}>
+            <h2 className={styles.header}>NFTs based on this:</h2>
             {/* TODO: queried sm contract data with childrens*/}
-            {children}
-            {nfts
-              ? nfts
-                  .slice(0)
-                  .reverse()
-                  .map((NFT) => (
-                    <>
-                      {NFT.type === "text" ? (
-                        <NFText NFT={NFT} />
-                      ) : NFT.type === "img" ? (
-                        <NFImage NFT={NFT} />
-                      ) : NFT.type === "3d" ? (
-                        <ModelViewer NFT={NFT} />
-                      ) : null}
-                    </>
-                  ))
-              : null}
+            <div>
+              {nfts
+                ? nfts
+                    .slice(0)
+                    .reverse()
+                    .map((NFT) => (
+                      <>
+                        {NFT.type === "text" ? (
+                          <NFText NFT={NFT} />
+                        ) : NFT.type === "img" ? (
+                          <NFImage NFT={NFT} />
+                        ) : NFT.type === "3d" ? (
+                          <NF3DPreview NFT={NFT} />
+                        ) : null}
+                      </>
+                    ))
+                : null}
+            </div>
           </div>
         </div>
       </div>
