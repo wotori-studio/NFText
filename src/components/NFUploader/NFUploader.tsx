@@ -81,8 +81,8 @@ const NFUploader = observer((props: Properties) => {
       (((nftStore.typeNFT !== "text" && !selectedFile) ||
         (nftStore.typeNFT == "text" && !textNft)) &&
         !props.modalMode) ||
-      (props.modalMode !== "text" && !selectedFile) ||
-      (props.modalMode == "text" && !textNft)
+      (props.modalMode !== "text" && !selectedFile && props.modalMode) ||
+      (props.modalMode == "text" && !textNft && props.modalMode)
     ) {
       return;
     }
@@ -134,6 +134,7 @@ const NFUploader = observer((props: Properties) => {
 
   async function createMint() {
     let contentLinkAxios = await uploadPinata();
+
     if (!contentLinkAxios) {
       alert("Select a file or enter text to upload.");
       return;
@@ -221,7 +222,7 @@ const NFUploader = observer((props: Properties) => {
             onChange={(event) => getFile(event)}
           />
         </label>
-      ) : (nftStore.typeNFT !== "text" && !props.modalMode) || props.modalMode !== "text" ? (
+      ) : (nftStore.typeNFT === "3d" && !props.modalMode) || props.modalMode === "3d" ? (
         <input
           className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
           type="button"
