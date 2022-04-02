@@ -100,7 +100,7 @@ const NFBrowser = observer(() => {
     }
   }, [client, alert]);
 
-  let ignoreList = [14, 15, 9]
+  // let ignoreList = [14, 15, 9]
   return (
     <div className={styles.nftBrowser}>
       {manyNFT
