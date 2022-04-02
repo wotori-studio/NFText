@@ -91,7 +91,7 @@ const NFUploader = observer((props: Properties) => {
     const secretKey = process.env
       .NEXT_PUBLIC_APP_PINATA_SECRET_API_KEY as string;
     const apiUrl = process.env.NEXT_PUBLIC_APP_PINATA_API_URL as string;
-
+    
     const metadata = JSON.stringify({
       keyvalues: {
         test: "test",

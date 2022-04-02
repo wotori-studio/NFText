@@ -100,7 +100,7 @@ const NFBrowser = observer(() => {
     }
   }, [client, alert]);
 
-  let ignoreList = [0] // TODO: move this to cloud variables
+  let ignoreList = [12] // TODO: move this to cloud variables
   return (
     <div className={styles.nftBrowser}>
       {manyNFT
