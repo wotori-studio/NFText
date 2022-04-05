@@ -25,14 +25,12 @@ import devStore from "./../../store/devStore";
 import nftStore from "../../store/nftStore";
 import ModelViewer from "../ModelViewer";
 import NF3DPreview from "../NFImage/NF3DPreview";
-import getNftTokenID from "../../services/tokenId";
-
-// .env
-const PUBLIC_CW721_CONTRACT = process.env
-  .NEXT_PUBLIC_APP_CW721_CONTRACT as string;
+import getNftTokenAmount from "../../services/tokenId";
+import query from "../../services/query";
 
 const NFBrowser = observer(() => {
   const { client } = useSigningClient();
+  const [amount, setAmount] = useState();
   const [manyNFT, setManyNFT] = useState<Nft[]>([]);
   console.log("Browser client: ", client);
 
@@ -42,61 +40,27 @@ const NFBrowser = observer(() => {
     const isBlockchain = devStore.dataPlatform === "Blockchain";
     const isDatabase = devStore.dataPlatform === "Database";
 
-    if (isProduction || isBlockchain) {
+    const getAmount = async(client:any) => {
       if (!client) return;
+      getNftTokenAmount(client, setAmount)
+    }
 
-      client
-        .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
-        .then((res: any) => {
-          const manyMetadata: Promise<Metadata>[] = [];
+    const queryNft = async(client:any) => {
+      if (!client) return;
+      query(client, amount, setManyNFT)
+    }
+    
+    if ((isProduction || isBlockchain) && client) {
 
-          for (let i = 1; i <= res.count; i++) {
-              manyMetadata.push(
-                client.queryContractSmart(PUBLIC_CW721_CONTRACT, {
-                  all_nft_info: { token_id: i + "" },
-                })
-              );
-          }
+        getAmount(client)
+        console.log("amount", amount)
+        if (amount) queryNft(client)
 
-          Promise.all(manyMetadata).then((manyMetadata) => {
-            const manyNFT: Nft[] = manyMetadata.map((metadata, index) => {
-              const decodedMetadata = JSON.parse(
-                Buffer.from(
-                  metadata.info.token_uri.slice(30),
-                  "base64"
-                ).toString()
-              );
-
-              const newNFT: Nft = {
-                id: index + 1, // TODO: get real index
-                owner: metadata.access.owner,
-                name: decodedMetadata.title,
-                type: decodedMetadata.type,
-                href: `/items/${index + 1}`,
-                content:
-                  decodedMetadata.content || "https://dummyimage.com/404x404",
-                parent: decodedMetadata.parent,
-                preview: decodedMetadata.preview || "https://dummyimage.com/600x400/1aeddf/ffffff&text=3D+file" // TODO: create preview for 3D files
-              };
-
-              return newNFT;
-            });
-
-            setManyNFT(manyNFT);
-            console.log(manyNFT);
-          });
-        })
-        .catch((error: any) => {
-          if (process.env.NODE_ENV === "development") {
-            console.error(
-              `Error client.queryContractSmart() num_tokens: ${error}`
-            );
-          }
-        });
-    } else if (isDevelopment && isDatabase) {
+    }  else if (isDevelopment && isDatabase) {
       setManyNFT(nftService.getNFTFromDatabase());
     }
-  }, [client, alert]);
+
+  }, [client, amount]);
 
   let ignoreList = [12] // TODO: move this to cloud variables
   return (

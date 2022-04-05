@@ -20,7 +20,7 @@ import nftService from "./../../services/nftService";
 
 // Stores
 import nftStore from "./../../store/nftStore";
-import getNftTokenID from "../../services/tokenId";
+import getNftTokenAmount from "../../services/tokenId";
 
 // .env
 const PUBLIC_CW721_CONTRACT = process.env
@@ -122,7 +122,7 @@ const NFUploader = observer((props: Properties) => {
 
   async function createMint(){
     if (!signingClient) return;
-    let token_id = await getNftTokenID(signingClient)
+    let token_id = await getNftTokenAmount(signingClient)
     console.log("token_id", token_id)
 
     let contentLinkAxios = await uploadPinata();

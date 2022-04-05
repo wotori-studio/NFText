@@ -1,10 +1,17 @@
+import { number } from "prop-types";
 import { Metadata } from "../models/Metadata";
 import { Nft } from "../models/Nft";
 
 const PUBLIC_CW721_CONTRACT = process.env
   .NEXT_PUBLIC_APP_CW721_CONTRACT as string;
 
-async function query(client: any, children: Array<number>, setData: Function) {
+async function query(client: any, children: any, setData: Function) {
+  console.log("start query nft.", children)
+  if (typeof children === "number"){
+    children = Array.from({length: children - 1}, (x, i) => i+1);
+    console.log("converted:", children)
+  }
+  
   const manyMetadata = [];
 
   for (const prop in children) {
