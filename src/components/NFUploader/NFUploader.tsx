@@ -20,6 +20,7 @@ import nftService from "./../../services/nftService";
 
 // Stores
 import nftStore from "./../../store/nftStore";
+import getNftTokenID from "../../services/tokenId";
 
 // .env
 const PUBLIC_CW721_CONTRACT = process.env
@@ -42,19 +43,6 @@ const NFUploader = observer((props: Properties) => {
     console.log("props: ", props);
     if (!signingClient) return;
 
-    signingClient // TODO: make async function as in nft/id page
-      .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
-      .then((response) => {
-        setNftTokenId(response.count + 1);
-        console.log("TokenID", nftTokenId);
-      })
-      .catch((error) => {
-        alert(`Error! ${error.message}`);
-        console.log(
-          "Error signingClient.queryContractSmart() num_tokens: ",
-          error
-        );
-      });
   }, [signingClient, alert, props.modalMode]);
 
   function getFile(event: React.ChangeEvent<HTMLInputElement>) {
@@ -132,9 +120,12 @@ const NFUploader = observer((props: Properties) => {
       });
   }
 
-  async function createMint() {
-    let contentLinkAxios = await uploadPinata();
+  async function createMint(){
+    if (!signingClient) return;
+    let token_id = await getNftTokenID(signingClient)
+    console.log("token_id", token_id)
 
+    let contentLinkAxios = await uploadPinata();
     if (!contentLinkAxios) {
       alert("Select a file or enter text to upload.");
       return;
@@ -161,7 +152,7 @@ const NFUploader = observer((props: Properties) => {
         PUBLIC_CW721_CONTRACT,
         {
           mint: {
-            token_id: nftTokenId.toString(),
+            token_id: token_id.toString(),
             owner: `${walletAddress}`,
             token_uri: `data:application/json;base64, ${encodedMetadata}`,
           },

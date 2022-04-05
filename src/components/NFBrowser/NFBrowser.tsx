@@ -25,6 +25,7 @@ import devStore from "./../../store/devStore";
 import nftStore from "../../store/nftStore";
 import ModelViewer from "../ModelViewer";
 import NF3DPreview from "../NFImage/NF3DPreview";
+import getNftTokenID from "../../services/tokenId";
 
 // .env
 const PUBLIC_CW721_CONTRACT = process.env
@@ -48,16 +49,13 @@ const NFBrowser = observer(() => {
         .queryContractSmart(PUBLIC_CW721_CONTRACT, { num_tokens: {} })
         .then((res: any) => {
           const manyMetadata: Promise<Metadata>[] = [];
-          let EXCLUDE_LIST = [8];
 
           for (let i = 1; i <= res.count; i++) {
-            if (!EXCLUDE_LIST.includes(i)) {
               manyMetadata.push(
                 client.queryContractSmart(PUBLIC_CW721_CONTRACT, {
                   all_nft_info: { token_id: i + "" },
                 })
               );
-            }
           }
 
           Promise.all(manyMetadata).then((manyMetadata) => {
