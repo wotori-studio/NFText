@@ -4,7 +4,23 @@ import * as THREE from 'three'
 function ScreenshotButton({ ...props }) {
     const { gl, scene, camera } = useThree()
   
-    function ScreenShot() {
+    function storeScreenShot() {
+      console.log(gl)
+      gl.render(scene, camera)
+      gl.toneMapping = THREE.ACESFilmicToneMapping
+      gl.toneMappingExposure = 0.6
+      gl.outputEncoding = THREE.sRGBEncoding
+      gl.preserveDrawingBuffer = true
+      gl.domElement.toBlob(
+        function(blob) {
+          console.log(blob)
+        },
+        'image/png',
+        1.0
+      )
+    }
+
+    function downloadScreenShot() {
       console.log(gl)
       gl.render(scene, camera)
       gl.toneMapping = THREE.ACESFilmicToneMapping
@@ -16,17 +32,17 @@ function ScreenshotButton({ ...props }) {
           var a = document.createElement('a')
           var url = URL.createObjectURL(blob)
           a.href = url
-          a.download = 'canvas.jpg'
+          a.download = 'canvas.png'
           a.click()
           console.log('function is actually being used')
         },
-        'image/jpg',
+        'image/png',
         1.0
       )
     }
   
     return (
-      <sprite {...props} scale={[1, 1, 1]} onClick={ScreenShot}>
+      <sprite {...props} scale={[1, 1, 1]} onClick={storeScreenShot}>
         <spriteMaterial
           attach="material"
           color={'lightblue'}
@@ -34,7 +50,7 @@ function ScreenshotButton({ ...props }) {
           depthTest={false}
           renderOrder={10000}
           fog={false}
-          onClick={ScreenShot}
+          onClick={storeScreenShot}
         />
       </sprite>
     )
