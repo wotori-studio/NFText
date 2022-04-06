@@ -2,12 +2,19 @@ import { makeObservable, action, observable } from "mobx";
 
 class previewStore {
   public previewFile = null;
+  public trigger : any= null
 
   public constructor() {
     makeObservable(this, {
       setPreview: action,
       previewFile: observable,
+      trigger: observable
     });
+  }
+
+  public setTrigger() {
+    console.log("updating trigger");
+    this.trigger = Math.random();
   }
 
   public setPreview(file: any) {
