@@ -45,7 +45,7 @@ const NFUploader = observer((props: Properties) => {
   const [selectedFile, setSelectedFile] = useState<File | null>();
   const { walletAddress, signingClient } = useSigningClient();
 
-  const [previewLink, setPreviewLink] = useState();
+  const [previewLink, setPreviewLink] = useState<string>();
 
   useEffect(() => {
     console.log("props: ", props);
