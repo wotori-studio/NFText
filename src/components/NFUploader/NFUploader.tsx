@@ -26,6 +26,7 @@ import getNftTokenAmount from "../../services/tokenId";
 import { useScreenshot, createFileName } from 'use-react-screenshot'
 import axiosPinataPost from "../../services/axiosPinataPost";
 import dataURLtoFile from "../../services/base64ToFile";
+import ScreenshotButton from "../fiber/screenshot";
 
 // .env
 const PUBLIC_CW721_CONTRACT = process.env

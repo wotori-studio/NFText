@@ -1,5 +1,6 @@
 import { useThree } from "@react-three/fiber"
 import * as THREE from 'three'
+import previewStore from "../../store/previewStore"
 
 function ScreenshotButton({ ...props }) {
     const { gl, scene, camera } = useThree()
@@ -14,6 +15,7 @@ function ScreenshotButton({ ...props }) {
       gl.domElement.toBlob(
         function(blob) {
           console.log(blob)
+          previewStore.setPreview(blob)
         },
         'image/png',
         1.0
