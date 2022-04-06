@@ -9,7 +9,7 @@ function ScreenshotButton({ ...props }) {
   useEffect(() => {
     console.log("screenshot effect");
     storeScreenShot();
-  }, previewStore.trigger);
+  }, [previewStore.trigger]);
 
   function storeScreenShot() {
     console.log(gl);

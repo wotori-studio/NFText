@@ -23,10 +23,10 @@ import nftStore from "./../../store/nftStore";
 import getNftTokenAmount from "../../services/tokenId";
 
 //hooks
-import { useScreenshot, createFileName } from 'use-react-screenshot'
 import axiosPinataPost from "../../services/axiosPinataPost";
 import dataURLtoFile from "../../services/base64ToFile";
 import ScreenshotButton from "../fiber/screenshot";
+import previewStore from "../../store/previewStore";
 
 // .env
 const PUBLIC_CW721_CONTRACT = process.env
@@ -45,19 +45,16 @@ const NFUploader = observer((props: Properties) => {
   const [selectedFile, setSelectedFile] = useState<File | null>();
   const { walletAddress, signingClient } = useSigningClient();
 
-  const ref = createRef<any>()
-  const [image, takeScreenshot] = useScreenshot()
-  const getImage = () => takeScreenshot(ref.current)
-  const [previewLink, setPreviewLink] = useState()
+  const [previewLink, setPreviewLink] = useState();
 
   useEffect(() => {
     console.log("props: ", props);
-     setSelectedFile(undefined)
+    setSelectedFile(undefined);
   }, [signingClient, props.modalMode, nftStore.typeNFT]);
 
   function getFile(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files && event.target.files[0]) {
-      let file = event.target.files[0]
+      let file = event.target.files[0];
       console.log(file);
       setSelectedFile(file);
     }
@@ -85,7 +82,7 @@ const NFUploader = observer((props: Properties) => {
     ) {
       return;
     }
-    
+
     const metadata = JSON.stringify({
       keyvalues: {
         test: "test",
@@ -110,26 +107,33 @@ const NFUploader = observer((props: Properties) => {
     }
 
     console.log("axios...");
-    let contentLinkAxios = await axiosPinataPost(formData)
-    return contentLinkAxios
-   
+    let contentLinkAxios = await axiosPinataPost(formData);
+    return contentLinkAxios;
   }
 
-  async function createMint(){
+  async function createMint() {
     if (!signingClient) return;
 
-    if (nftStore.typeNFT === "3d" || props.modalMode === "3d" ){
-      getImage()
-      let preview_file = dataURLtoFile(image, "preview.png")
-      console.log("file screnshot created: ", preview_file)
-      let link = await axiosPinataPost(preview_file)
-      console.log("preview uploaded: ", link)
-      setPreviewLink(link)
+    let file = previewStore.previewFile;
+    if ((nftStore.typeNFT === "3d" || props.modalMode === "3d") && file) {
+      previewStore.setTrigger();
+      // let preview_file = dataURLtoFile(image, "preview.png");
+      let formData = new FormData();
+      formData.append("file", file);
+      const metadata = JSON.stringify({
+        keyvalues: {
+          test: "test",
+        },
+      });
+      formData.append("pinataMetadata", metadata);
+
+      let link = await axiosPinataPost(formData);
+      console.log("preview uploaded: ", link);
+      setPreviewLink(link);
     }
 
-
-    let token_id = await getNftTokenAmount(signingClient)
-    console.log("token_id", token_id)
+    let token_id = await getNftTokenAmount(signingClient);
+    console.log("token_id", token_id);
 
     let contentLinkAxios = await uploadPinata();
     if (!contentLinkAxios) {
@@ -221,7 +225,8 @@ const NFUploader = observer((props: Properties) => {
             onChange={(event) => getFile(event)}
           />
         </label>
-      ) : (nftStore.typeNFT === "3d" && !props.modalMode) || props.modalMode === "3d" ? (
+      ) : (nftStore.typeNFT === "3d" && !props.modalMode) ||
+        props.modalMode === "3d" ? (
         <input
           className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
           type="button"
@@ -261,11 +266,9 @@ const NFUploader = observer((props: Properties) => {
               nftService.getLimitedString(selectedFile.name, 30, 4)}
           </span>
           <div className={styles.webGL}>
-            <div  ref={ref}>
-              <Container sx={{ height: 500 }}>
-                <SceneWithModel file={URL.createObjectURL(selectedFile)} />
-              </Container>
-            </div>
+            <Container sx={{ height: 500 }}>
+              <SceneWithModel file={URL.createObjectURL(selectedFile)} />
+            </Container>
           </div>
         </>
       ) : null}

@@ -2,7 +2,7 @@ import { makeObservable, action, observable } from "mobx";
 
 class previewStore {
   public previewFile = null;
-  public trigger : any= null
+  public trigger : any = Blob
 
   public constructor() {
     makeObservable(this, {
