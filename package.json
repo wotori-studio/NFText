@@ -19,7 +19,6 @@
     "axios": "^0.24.0",
     "clsx": "latest",
     "gltfjsx": "^4.5.2",
-    "html2canvas": "=1.4.1",
     "mobx": "^6.4.2",
     "mobx-react-lite": "^3.3.0",
     "next": "latest",
@@ -32,7 +31,6 @@
     "react-painter": "^0.4.0",
     "styled-jsx": "^4.0.1",
     "three": "=0.139",
-    "use-react-screenshot": "=3.0.0",
     "yarn": "^1.22.17"
   },
   "scripts": {
