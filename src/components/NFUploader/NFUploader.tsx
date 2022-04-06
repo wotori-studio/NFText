@@ -41,9 +41,10 @@ const NFUploader = observer((props: Properties) => {
 
   useEffect(() => {
     console.log("props: ", props);
+     setSelectedFile(undefined)
     if (!signingClient) return;
 
-  }, [signingClient, alert, props.modalMode]);
+  }, [signingClient, props.modalMode, nftStore.typeNFT]);
 
   function getFile(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files && event.target.files[0]) {
