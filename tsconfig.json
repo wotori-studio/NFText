@@ -24,7 +24,7 @@
     "**/*.ts",
     "**/*.tsx", 
     "next.config.js"  
-  ],
+, "src/store/previewStore.js"  ],
   "exclude": [
     "node_modules"
   ]
