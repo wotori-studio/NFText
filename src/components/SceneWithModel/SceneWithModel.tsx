@@ -21,16 +21,14 @@ export default function SceneWithModel(props: Properties) {
 
   return (
     <div className={style.child} onMouseLeave={()=>{updateTrigger()}}>
-      <Canvas camera={{ position: [0, 0, 3] }} onMouseLeave={()=>{updateTrigger()}}>
+      <Canvas camera={{ position: [0, 0, 3] }}>
         <OrbitControls />
 
-        {/* Model */}
         <Suspense fallback={null}>
           <UploadedModel file={file} scale={[1, 1, 1]} position={[0, 0, 0]} />
           <ScreenShot trigger={trigger}/>
         </Suspense>
 
-        {/* Light */}
         <ambientLight intensity={1} />
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
         <pointLight position={[-10, -10, -10]} />

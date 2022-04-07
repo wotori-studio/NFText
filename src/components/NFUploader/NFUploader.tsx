@@ -6,7 +6,6 @@ import globalStyles from "./../../globalStyles/styles.module.sass";
 import { createRef, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import axios from "axios";
-import { Container } from "@mui/material";
 import { calculateFee } from "@cosmjs/stargate";
 
 // Components
