@@ -24,8 +24,6 @@ import getNftTokenAmount from "../../services/tokenId";
 
 //hooks
 import axiosPinataPost from "../../services/axiosPinataPost";
-import dataURLtoFile from "../../services/base64ToFile";
-import ScreenshotButton from "../fiber/screenshot";
 import previewStore from "../../store/previewStore";
 
 // .env
@@ -44,8 +42,6 @@ const NFUploader = observer((props: Properties) => {
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>();
   const { walletAddress, signingClient } = useSigningClient();
-
-  const [previewLink, setPreviewLink] = useState<string>();
 
   useEffect(() => {
     console.log("props: ", props);
@@ -114,10 +110,10 @@ const NFUploader = observer((props: Properties) => {
   async function createMint() {
     if (!signingClient) return;
 
+    let previewLink
+    console.log("preview file", previewStore.previewFile)
     let file = previewStore.previewFile;
     if ((nftStore.typeNFT === "3d" || props.modalMode === "3d") && file) {
-      previewStore.setTrigger();
-      // let preview_file = dataURLtoFile(image, "preview.png");
       let formData = new FormData();
       formData.append("file", file);
       const metadata = JSON.stringify({
@@ -127,9 +123,8 @@ const NFUploader = observer((props: Properties) => {
       });
       formData.append("pinataMetadata", metadata);
 
-      let link = await axiosPinataPost(formData);
-      console.log("preview uploaded: ", link);
-      setPreviewLink(link);
+      previewLink = await axiosPinataPost(formData);
+      console.log("preview uploaded: ", previewLink);
     }
 
     let token_id = await getNftTokenAmount(signingClient);
@@ -266,9 +261,7 @@ const NFUploader = observer((props: Properties) => {
               nftService.getLimitedString(selectedFile.name, 30, 4)}
           </span>
           <div className={styles.webGL}>
-            <Container sx={{ height: 500 }}>
               <SceneWithModel file={URL.createObjectURL(selectedFile)} />
-            </Container>
           </div>
         </>
       ) : null}
@@ -277,6 +270,7 @@ const NFUploader = observer((props: Properties) => {
       <button
         className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
         onClick={() => createMint()}
+        onMouseOver={()=> {previewStore.setTrigger()}}
       >
         mint
       </button>

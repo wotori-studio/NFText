@@ -13,8 +13,8 @@ class previewStore {
   }
 
   public setTrigger() {
-    console.log("updating trigger");
     this.trigger = Math.random();
+    console.log("Mouse hover mint button:", this.trigger);
   }
 
   public setPreview(file: any) {
@@ -23,4 +23,4 @@ class previewStore {
   }
 }
 
-export default new previewStore();
+export default new previewStore;

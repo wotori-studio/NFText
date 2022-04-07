@@ -3,13 +3,13 @@ import { useEffect } from "react";
 import * as THREE from "three";
 import previewStore from "../../store/previewStore";
 
-function ScreenshotButton({ ...props }) {
+function ScreenShot({ ...props }) {
   const { gl, scene, camera } = useThree();
 
   useEffect(() => {
     console.log("screenshot effect");
     storeScreenShot();
-  }, [previewStore.trigger]);
+  }, [props.trigger]);
 
   function storeScreenShot() {
     console.log(gl);
@@ -20,7 +20,6 @@ function ScreenshotButton({ ...props }) {
     gl.preserveDrawingBuffer = true;
     gl.domElement.toBlob(
       function (blob) {
-        console.log(blob);
         previewStore.setPreview(blob);
       },
       "image/png",
@@ -50,17 +49,6 @@ function ScreenshotButton({ ...props }) {
   }
 
   return null;
-  // <sprite {...props} scale={[1, 1, 1]} onClick={storeScreenShot}>
-  //   <spriteMaterial
-  //     attach="material"
-  //     color={'lightblue'}
-  //     depthWrite={false}
-  //     depthTest={false}
-  //     renderOrder={10000}
-  //     fog={false}
-  //     onClick={storeScreenShot}
-  //   />
-  // </sprite>
 }
 
-export default ScreenshotButton;
+export default ScreenShot;

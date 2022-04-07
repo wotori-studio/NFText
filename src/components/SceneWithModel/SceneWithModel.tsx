@@ -1,8 +1,9 @@
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import UploadedModel from "./../UploadedModel/UploadedModel";
-import ScreenshotButton from "../fiber/screenshot"
+import ScreenShot from "../fiber/screenshot"
+import style from "./style.module.sass"
 
 interface Properties {
   file: string;
@@ -10,21 +11,30 @@ interface Properties {
 
 export default function SceneWithModel(props: Properties) {
   const { file } = props;
+  const [trigger, setTrigger] = useState(0);
+
+  function updateTrigger(){
+    console.log("mouse leave 3D canvas. Updating trigger.")
+    setTrigger(Math.random())
+    return 
+  }
 
   return (
-    <Canvas camera={{ position: [0, 0, 3] }}>
-      <OrbitControls />
+    <div className={style.child} onMouseLeave={()=>{updateTrigger()}}>
+      <Canvas camera={{ position: [0, 0, 3] }} onMouseLeave={()=>{updateTrigger()}}>
+        <OrbitControls />
 
-      {/* Model */}
-      <Suspense fallback={null}>
-        <UploadedModel file={file} scale={[1, 1, 1]} position={[0, 0, 0]} />
-        <ScreenshotButton />
-      </Suspense>
+        {/* Model */}
+        <Suspense fallback={null}>
+          <UploadedModel file={file} scale={[1, 1, 1]} position={[0, 0, 0]} />
+          <ScreenShot trigger={trigger}/>
+        </Suspense>
 
-      {/* Light */}
-      <ambientLight intensity={1} />
-      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-      <pointLight position={[-10, -10, -10]} />
-    </Canvas>
+        {/* Light */}
+        <ambientLight intensity={1} />
+        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+        <pointLight position={[-10, -10, -10]} />
+      </Canvas>
+      </div>
   );
 }
