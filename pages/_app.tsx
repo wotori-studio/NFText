@@ -1,4 +1,5 @@
 import Head from "next/head";
+import SayHi from "../src/components/SayHi";
 import { SigningCosmWasmProvider } from "./../src/context/cosmwasm";
 
 interface Properties {
@@ -11,11 +12,12 @@ export default function App(props: Properties) {
 
   return (
     <SigningCosmWasmProvider>
-        <Head>
-          <title>NFText</title>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-        </Head>
-        <Component {...pageProps} />
+      <Head>
+        <title>NFText</title>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
+      <SayHi />
+      <Component {...pageProps} />
     </SigningCosmWasmProvider>
   );
 }
