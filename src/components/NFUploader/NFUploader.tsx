@@ -214,7 +214,7 @@ const NFUploader = observer((props: Properties) => {
               (nftStore.typeNFT === "img" && !props.modalMode) ||
               props.modalMode === "img"
                 ? "image/*"
-                : ".glb, .gltf"
+                : ".glb"
             }
             onChange={(event) => getFile(event)}
           />
