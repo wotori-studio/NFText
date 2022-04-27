@@ -33,4 +33,24 @@ To run project localy you need to have an api key for Pinata file storage.
 #### congifure .env file
 - copy-paste `env.template` && rename It to `.env`
 - fullfill It
+
+### Networks
+#### Constantine
+```
+{
+  "chain-id": "constantine-1",
+  "rpc": "https://rpc.constantine-1.archway.tech:443",
+  "rest-api": "https://api.constantine-1.archway.tech",
+  "currency-denom": "uconst",
+}
+```
+#### Torii
+
+```
+{
+  "chain-id": "torii-1",
+  "rpc": "https://rpc.torii-1.archway.tech:443",
+  "rest-api": "https://api.torii-1.archway.tech:443",
+  "currency-denom": "utorii",
+}
 ```
