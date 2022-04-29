@@ -28,26 +28,6 @@ const NFBrowser = observer(() => {
   const [amount, setAmount] = useState();
   const [manyNFT, setManyNFT] = useState([]);
   console.log("Browser client: ", client);
-
-  useEffect(() => {
-    console.log("Let's build a tree! Nfts are here:", manyNFT);
-    console.log("current tree state:", treeStore.tree);
-    let treeProxy = {};
-    for (const i in manyNFT) {
-      let curObj = manyNFT[i];
-
-      if (!treeProxy[curObj.parent]) {
-        treeProxy[curObj.parent] = [];
-      }
-
-      if (curObj.parent) {
-        treeProxy[curObj.parent].push(curObj.id);
-      }
-      treeStore.setTree(treeProxy);
-      console.log("The tree is ready! At least I hope so.", treeStore.tree);
-    }
-  }, [manyNFT]);
-
   useEffect(() => {
     const isProduction = process.env.NODE_ENV === "production";
     const isDevelopment = process.env.NODE_ENV === "development";
@@ -76,7 +56,7 @@ const NFBrowser = observer(() => {
   let ignoreList = [12]; // TODO: move this to cloud variables
   return (
     <div className={styles.nftBrowser}>
-      {manyNFT
+      {nftStore.loadedNFT
         .slice(0)
         .filter((NFT) => NFT.type === nftStore.typeNFT)
         .reverse()

@@ -15,14 +15,11 @@ import axios from "axios";
 import devStore from "./../../store/devStore";
 import NFUploader from "../NFUploader/NFUploader";
 import { useSigningClient } from "../../context/cosmwasm";
-import query from "../../services/query";
 import NFText from "../NFText/NFText";
 import NFImage from "../NFImage/NFImage";
 import ModelViewer from "../ModelViewer";
 import NF3DPreview from "../NFImage/NF3DPreview";
-import treeStore from "../../store/treeStore";
-import { observer } from "mobx-react-lite";
-import { toJS } from "mobx";
+import nftStore from "../../store/nftStore";
 
 interface Properties {
   isOpen: boolean;
@@ -30,35 +27,17 @@ interface Properties {
   NFT: Nft;
 }
 
-const ModalWindow = observer((props: Properties) => {
-  const { client } = useSigningClient();
+const ModalWindow = (props: Properties) => {
   const { isOpen, close, NFT } = props;
   const [mode, setMode] = useState<string>("text");
 
   const [modalWindowIsOpen, setModalWindowIsOpen] = useState(isOpen);
   const [text, setText] = useState<string>();
 
-  const [nfts, setNfts] = useState<Array<Nft>>();
-  const [children, setChildren] = useState<Array<number>>(
-    treeStore.tree[NFT.id]
-  ); // TODO: children should came from smc query
-  const [nftParent, setNftParent] = useState<Array<Nft>>();
-
   useEffect(() => {
-    console.log("hello from modal. This is a tree:", toJS(treeStore.tree));
     console.log("hello from modal. This is selected NFT:", NFT);
     setModalWindowIsOpen(isOpen);
     getText();
-
-    if (!nfts) {
-      query(client, children, setNfts);
-    } else {
-      console.log("nfts:", nfts);
-    }
-
-    if (NFT.parent) {
-      query(client, [NFT.parent], setNftParent);
-    }
 
     if (
       NFT.type !== "text" &&
@@ -68,7 +47,7 @@ const ModalWindow = observer((props: Properties) => {
     ) {
       console.error(`Received unknown NFT type: ${NFT.type}`);
     }
-  }, [modalWindowIsOpen, nfts]);
+  }, [modalWindowIsOpen, nftStore.loadedNFT]);
 
   function closeModalWindow(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -165,8 +144,8 @@ const ModalWindow = observer((props: Properties) => {
             ) : (
               <p className={styles.header}>This Is root nft</p>
             )}
-            {nftParent
-              ? nftParent
+            {nftStore.loadedNFT[NFT.parent - 1]
+              ? [nftStore.loadedNFT[NFT.parent - 1]]
                   .slice(0)
                   .reverse()
                   .map((NFT) => (
@@ -200,27 +179,31 @@ const ModalWindow = observer((props: Properties) => {
           </div>
           <div className={styles.block}>
             <h2 className={styles.header}>
-              {nfts?.length !== 0
+              {nftStore.tree[NFT.id]
                 ? "NFTs based on this:"
                 : "There is no nfts based on this one yet"}
             </h2>
             {/* TODO: queried sm contract data with childrens*/}
             <div>
-              {nfts
-                ? nfts
+              {nftStore.loadedNFT
+                ? nftStore.loadedNFT
                     .slice(0)
                     .reverse()
-                    .map((NFT) => (
-                      <>
-                        {NFT.type === "text" ? (
-                          <NFText NFT={NFT} />
-                        ) : NFT.type === "img" ? (
-                          <NFImage NFT={NFT} />
-                        ) : NFT.type === "3d" ? (
-                          <NF3DPreview NFT={NFT} />
-                        ) : null}
-                      </>
-                    ))
+                    .map((mNFT) =>
+                      nftStore.tree[NFT.id] ? (
+                        nftStore.tree[NFT.id].includes(mNFT.id) ? (
+                          <>
+                            {mNFT.type === "text" ? (
+                              <NFText NFT={mNFT} />
+                            ) : mNFT.type === "img" ? (
+                              <NFImage NFT={mNFT} />
+                            ) : mNFT.type === "3d" ? (
+                              <NF3DPreview NFT={mNFT} />
+                            ) : null}
+                          </>
+                        ) : null
+                      ) : null
+                    )
                 : null}
             </div>
           </div>
@@ -228,6 +211,6 @@ const ModalWindow = observer((props: Properties) => {
       </div>
     </div>
   );
-});
+};
 
 export default ModalWindow;
