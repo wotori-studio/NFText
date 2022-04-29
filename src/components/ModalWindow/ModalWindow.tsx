@@ -20,6 +20,9 @@ import NFText from "../NFText/NFText";
 import NFImage from "../NFImage/NFImage";
 import ModelViewer from "../ModelViewer";
 import NF3DPreview from "../NFImage/NF3DPreview";
+import treeStore from "../../store/treeStore";
+import { observer } from "mobx-react-lite";
+import { toJS } from "mobx";
 
 interface Properties {
   isOpen: boolean;
@@ -27,7 +30,7 @@ interface Properties {
   NFT: Nft;
 }
 
-function ModalWindow(props: Properties) {
+const ModalWindow = observer((props: Properties) => {
   const { client } = useSigningClient();
   const { isOpen, close, NFT } = props;
   const [mode, setMode] = useState<string>("text");
@@ -36,10 +39,14 @@ function ModalWindow(props: Properties) {
   const [text, setText] = useState<string>();
 
   const [nfts, setNfts] = useState<Array<Nft>>();
-  const [children, setChildren] = useState<Array<number>>([1, 2, 3]); // TODO: children should came from smc query
+  const [children, setChildren] = useState<Array<number>>(
+    treeStore.tree[NFT.id]
+  ); // TODO: children should came from smc query
   const [nftParent, setNftParent] = useState<Array<Nft>>();
 
   useEffect(() => {
+    console.log("hello from modal. This is a tree:", toJS(treeStore.tree));
+    console.log("hello from modal. This is selected NFT:", NFT);
     setModalWindowIsOpen(isOpen);
     getText();
 
@@ -49,7 +56,7 @@ function ModalWindow(props: Properties) {
       console.log("nfts:", nfts);
     }
 
-    if (NFT.parent){
+    if (NFT.parent) {
       query(client, [NFT.parent], setNftParent);
     }
 
@@ -144,7 +151,7 @@ function ModalWindow(props: Properties) {
                 }
               />
             ) : (
-              NFT.type === "3d" && <ModelViewer NFT={NFT}/>
+              NFT.type === "3d" && <ModelViewer NFT={NFT} />
             )}
             <address className={styles.owner}>{NFT.owner}</address>
           </div>
@@ -153,7 +160,11 @@ function ModalWindow(props: Properties) {
             <input className={styles.createButton} type="button" value="+" />
           </div> */}
           <div className={styles.block}>
-            {NFT.parent?<p className={styles.title}>This NFT based on #{NFT.parent}</p>: <p className={styles.header}>This Is root nft</p>}
+            {NFT.parent ? (
+              <h2 className={styles.title}>This NFT based on #{NFT.parent}</h2>
+            ) : (
+              <p className={styles.header}>This Is root nft</p>
+            )}
             {nftParent
               ? nftParent
                   .slice(0)
@@ -188,7 +199,11 @@ function ModalWindow(props: Properties) {
             <NFUploader modalMode={mode} parentId={NFT.id} />
           </div>
           <div className={styles.block}>
-            <h2 className={styles.header}>NFTs based on this:</h2>
+            <h2 className={styles.header}>
+              {nfts?.length !== 0
+                ? "NFTs based on this:"
+                : "There is no nfts based on this one yet"}
+            </h2>
             {/* TODO: queried sm contract data with childrens*/}
             <div>
               {nfts
@@ -213,6 +228,6 @@ function ModalWindow(props: Properties) {
       </div>
     </div>
   );
-}
+});
 
 export default ModalWindow;
