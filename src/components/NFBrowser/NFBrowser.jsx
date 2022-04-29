@@ -21,16 +21,17 @@ import nftStore from "../../store/nftStore";
 import NF3DPreview from "../NFImage/NF3DPreview";
 import getNftTokenAmount from "../../services/tokenId";
 import query from "../../services/query";
+import treeStore from "../../store/treeStore";
 
 const NFBrowser = observer(() => {
   const { client } = useSigningClient();
   const [amount, setAmount] = useState();
   const [manyNFT, setManyNFT] = useState([]);
-  const [tree, setTree] = useState({});
   console.log("Browser client: ", client);
 
   useEffect(() => {
-    console.log("Let's build a tree!", manyNFT);
+    console.log("Let's build a tree! Nfts are here:", manyNFT);
+    console.log("current tree state:", treeStore.tree);
     let treeProxy = {};
     for (const i in manyNFT) {
       let curObj = manyNFT[i];
@@ -42,10 +43,11 @@ const NFBrowser = observer(() => {
       if (curObj.parent) {
         treeProxy[curObj.parent].push(curObj.id);
       }
-      setTree(treeProxy);
-      console.log("The tree is ready!", tree)
+      treeStore.setTree(treeProxy);
+      console.log("The tree is ready! At least I hope so.", treeStore.tree);
     }
   }, [manyNFT]);
+
   useEffect(() => {
     const isProduction = process.env.NODE_ENV === "production";
     const isDevelopment = process.env.NODE_ENV === "development";
