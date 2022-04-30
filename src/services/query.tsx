@@ -1,17 +1,11 @@
 import { CosmWasmClient } from "@cosmjs/cosmwasm-stargate/build/cosmwasmclient";
-import { number } from "prop-types";
-import { Metadata } from "../models/Metadata";
 import { Nft } from "../models/Nft";
 import nftStore from "../store/nftStore";
 
 const PUBLIC_CW721_CONTRACT = process.env
   .NEXT_PUBLIC_APP_CW721_CONTRACT as string;
 
-async function query(
-  client: CosmWasmClient | null,
-  children: any,
-  setData: Function
-) {
+async function query(client: CosmWasmClient | null, children: any) {
   if (!client) return;
   console.log("start query nft.", children);
   if (typeof children === "number") {
@@ -50,7 +44,6 @@ async function query(
     });
 
     console.log("query: ", manyNFT);
-    setData(manyNFT);
     nftStore.setLoadedNFT(manyNFT);
     return manyNFT;
   });
