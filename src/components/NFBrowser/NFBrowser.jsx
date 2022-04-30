@@ -26,7 +26,6 @@ import treeStore from "../../store/treeStore";
 const NFBrowser = observer(() => {
   const { client } = useSigningClient();
   const [amount, setAmount] = useState();
-  const [manyNFT, setManyNFT] = useState([]);
   console.log("Browser client: ", client);
   useEffect(() => {
     const isProduction = process.env.NODE_ENV === "production";
@@ -41,7 +40,7 @@ const NFBrowser = observer(() => {
 
     const queryNft = async (client) => {
       if (!client) return;
-      query(client, amount, setManyNFT);
+      query(client, amount);
     };
 
     if ((isProduction || isBlockchain) && client) {
@@ -53,7 +52,7 @@ const NFBrowser = observer(() => {
     }
   }, [client, amount]);
 
-  let ignoreList = [12]; // TODO: move this to cloud variables
+  let ignoreList = [0]; // TODO: move this to cloud variables
   return (
     <div className={styles.nftBrowser}>
       {nftStore.loadedNFT
