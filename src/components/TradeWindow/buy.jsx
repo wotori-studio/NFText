@@ -10,7 +10,8 @@ const MARKETPLACE = process.env.NEXT_PUBLIC_CW_MARKETPLACE || "";
 const BuySection = () => {
   const { walletAddress, signingClient, connectWallet } = useSigningClient();
   const [tokensObj, setTokensObj] = useState([]);
-  const [priceList, setPriceList] = useState([])
+  const [priceList, setPriceList] = useState([]);
+  const [marketIDs, setMarketIDs] = useState([]);
 
   useEffect(() => {
     signingClient
@@ -20,13 +21,16 @@ const BuySection = () => {
         let offerings = tokensForSale.offerings;
         let tokens = [];
         let prices = [];
+        let marketIDs = [];
         for (const index in offerings) {
           let offer = offerings[index];
           console.log(`iteration #${index}`, offer);
           tokens.push(offer.token_id);
           prices.push(offer.list_price.amount);
+          marketIDs.push(offer.id);
         }
-        setPriceList(prices)
+        setPriceList(prices);
+        setMarketIDs(marketIDs);
         console.log("Query list:", tokens);
         queryMini(signingClient, tokens).then((o) => setTokensObj(o));
         console.log("got tokens ids:", tokens);
@@ -42,7 +46,11 @@ const BuySection = () => {
           .reverse()
           .map((NFT, index) => (
             <>
-              <WrapBuy NFT={NFT} price={priceList[index]} />
+              <WrapBuy
+                NFT={NFT}
+                price={priceList[index]}
+                marketID={marketIDs[index]}
+              />
             </>
           ))}
       </div>

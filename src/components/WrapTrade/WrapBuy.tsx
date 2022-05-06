@@ -7,18 +7,17 @@ import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
 
 const CW20 = process.env.NEXT_PUBLIC_CW20 || "";
-const CW721 = process.env.NEXT_PUBLIC_CW721 || "";
 const MARKETPLACE = process.env.NEXT_PUBLIC_CW_MARKETPLACE || "";
 
 const WrapBuy = (props: any) => {
   const NFT = props.NFT;
   const PRICE = props.price;
+  const MARKET_ID = props.marketID;
   const { walletAddress, signingClient } = useSigningClient();
-  const [price, setPrice] = useState(0);
 
   const handleBuy = () => {
     console.log("lets buy this:", NFT);
-    const msg = `{"offering_id":"${NFT.id}"}`;
+    const msg = `{"offering_id":"${MARKET_ID}"}`;
     const encodedMsg = Buffer.from(msg).toString("base64");
 
     if (!signingClient) return;
