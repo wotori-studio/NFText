@@ -65,6 +65,7 @@ class NFTStore {
 
   public setTypeTrade(type: TypeTrade) {
     this.typeTrade = type;
+    console.log("update trade type to:", this.typeTrade)
   }
 }
 

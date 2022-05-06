@@ -20,7 +20,7 @@ import devStore from "../../store/devStore";
 import nftStore from "../../store/nftStore";
 import NF3DPreview from "../NFImage/NF3DPreview";
 import getNftTokenAmount from "../../services/tokenId";
-import query from "../../services/query";
+import query from "../../services/query/query";
 
 const NFBrowser = observer(() => {
   const { client } = useSigningClient();

@@ -25,8 +25,7 @@ import axiosPinataPost from "../../services/axiosPinataPost";
 import previewStore from "../../store/previewStore";
 
 // .env
-const PUBLIC_CW721_CONTRACT = process.env
-  .NEXT_PUBLIC_CW721 as string;
+const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_CW721 as string;
 
 interface Properties {
   modalMode: string | null;
@@ -108,8 +107,8 @@ const NFUploader = observer((props: Properties) => {
   async function createMint() {
     if (!signingClient) return;
 
-    let previewLink
-    console.log("preview file", previewStore.previewFile)
+    let previewLink;
+    console.log("preview file", previewStore.previewFile);
     let file = previewStore.previewFile;
     if ((nftStore.typeNFT === "3d" || props.modalMode === "3d") && file) {
       let formData = new FormData();
@@ -259,7 +258,7 @@ const NFUploader = observer((props: Properties) => {
               nftService.getLimitedString(selectedFile.name, 30, 4)}
           </span>
           <div className={styles.webGL}>
-              <SceneWithModel file={URL.createObjectURL(selectedFile)} />
+            <SceneWithModel file={URL.createObjectURL(selectedFile)} />
           </div>
         </>
       ) : null}
@@ -268,7 +267,9 @@ const NFUploader = observer((props: Properties) => {
       <button
         className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
         onClick={() => createMint()}
-        onMouseOver={()=> {previewStore.setTrigger()}}
+        onMouseOver={() => {
+          previewStore.setTrigger();
+        }}
       >
         mint
       </button>
