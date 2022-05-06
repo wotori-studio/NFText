@@ -1,24 +1,31 @@
 import { makeObservable, action, observable, toJS } from "mobx";
 
-import { TypeNft } from "./../models/Nft";
+import { TypeNft, TypeTrade } from "./../models/Nft";
 
-type OperatingMode = "create" | "explore";
+type OperatingMode = "create" | "explore" | "trade";
 
 class NFTStore {
   public operatingMode: OperatingMode = "create";
   public typeNFT: TypeNft = "text";
+  public typeTrade: TypeTrade = "buy";
   public loadedNFT: Array<any> = [];
   public tree: Array<any> = [];
 
   public constructor() {
     makeObservable(this, {
       operatingMode: observable,
-      typeNFT: observable,
-      loadedNFT: observable,
-      tree: observable,
       setOperatingMode: action,
+
+      typeNFT: observable,
       setNftType: action,
+
+      typeTrade: observable,
+      setTypeTrade: action,
+
+      loadedNFT: observable,
       setLoadedNFT: action,
+
+      tree: observable,
       setTree: action,
     });
   }
@@ -54,6 +61,10 @@ class NFTStore {
     }
     this.tree = treeProxy;
     console.log("MOBX. Tree builded! Here it is: ", treeProxy);
+  }
+
+  public setTypeTrade(type: TypeTrade) {
+    this.typeTrade = type;
   }
 }
 

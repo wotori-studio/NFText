@@ -3,7 +3,7 @@ import { Nft } from "../models/Nft";
 import nftStore from "../store/nftStore";
 
 const PUBLIC_CW721_CONTRACT = process.env
-  .NEXT_PUBLIC_APP_CW721_CONTRACT as string;
+  .NEXT_PUBLIC_CW721 as string;
 
 async function query(client: CosmWasmClient | null, children: any) {
   if (!client) return;

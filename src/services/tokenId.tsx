@@ -2,7 +2,7 @@ import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 
 // .env
 const PUBLIC_CW721_CONTRACT = process.env
-  .NEXT_PUBLIC_APP_CW721_CONTRACT as string;
+  .NEXT_PUBLIC_CW721 as string;
 
 async function getNftTokenAmount(signingClient:SigningCosmWasmClient, setter:Function | null = null){
     return await signingClient

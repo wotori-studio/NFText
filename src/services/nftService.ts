@@ -3,7 +3,7 @@ import artificialDatabase from "./../artificialDatabase/artificialDatabase.json"
 import { Metadata } from "./../models/Metadata";
 import { Nft } from "./../models/Nft";
 
-const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_APP_CW721_CONTRACT as string;
+const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_CW721 as string;
 
 class NFTService {
   getLimitedString(text: string, maxlength: number, lastSymbols: number, isBeautifulEnding: boolean = true, textMissingWarning?: string): string {

@@ -27,6 +27,10 @@ const Main = observer(() => {
       {
         name: "explore",
         action: () => {nftStore.setOperatingMode("explore")}
+      },
+      {
+        name: "trade",
+        action: () => {nftStore.setOperatingMode("trade")}
       }
     ]
   const [modes, setModes] = useState<Mode[]>(mod);

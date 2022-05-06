@@ -8,7 +8,7 @@ import NFText from "../../src/components/NFText/NFText";
 import { Nft } from "../../src/models/Nft";
 
 const PUBLIC_CW721_CONTRACT = process.env
-  .NEXT_PUBLIC_APP_CW721_CONTRACT as string;
+  .NEXT_PUBLIC_CW721 as string;
 
 const rpcEndpoint = process.env.NEXT_PUBLIC_CHAIN_RPC_ENDPOINT as string;
 

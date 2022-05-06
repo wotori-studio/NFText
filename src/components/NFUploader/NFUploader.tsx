@@ -3,9 +3,8 @@ import styles from "./NFUploader.module.sass";
 import globalStyles from "./../../globalStyles/styles.module.sass";
 
 // Dependencies
-import { createRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import axios from "axios";
 import { calculateFee } from "@cosmjs/stargate";
 
 // Components
@@ -27,7 +26,7 @@ import previewStore from "../../store/previewStore";
 
 // .env
 const PUBLIC_CW721_CONTRACT = process.env
-  .NEXT_PUBLIC_APP_CW721_CONTRACT as string;
+  .NEXT_PUBLIC_CW721 as string;
 
 interface Properties {
   modalMode: string | null;

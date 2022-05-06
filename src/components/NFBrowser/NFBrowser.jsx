@@ -21,7 +21,6 @@ import nftStore from "../../store/nftStore";
 import NF3DPreview from "../NFImage/NF3DPreview";
 import getNftTokenAmount from "../../services/tokenId";
 import query from "../../services/query";
-import treeStore from "../../store/treeStore";
 
 const NFBrowser = observer(() => {
   const { client } = useSigningClient();
