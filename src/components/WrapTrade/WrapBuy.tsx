@@ -17,37 +17,35 @@ const WrapBuy = (props: any) => {
   const [price, setPrice] = useState(0);
 
   const handleBuy = () => {
-    console.log("lets sell this:", NFT);
-    const msg = `{"list_price":{"address":"${CW20}","amount":"${price}"}}`;
+    console.log("lets buy this:", NFT);
+    const msg = `{"offering_id":"${NFT.id}"}`;
     const encodedMsg = Buffer.from(msg).toString("base64");
+
     if (!signingClient) return;
 
     signingClient
       ?.execute(
         walletAddress,
-        CW721,
+        CW20,
         {
-          send_nft: {
+          send: {
             contract: MARKETPLACE,
-            token_id: String(NFT.id + 1),
+            amount: PRICE,
             msg: encodedMsg,
           },
-        },
-        calculateFee(300_000, "20uconst")
+        }, // msg
+        calculateFee(600_000, "20uconst")
       )
       .then((res) => {
         console.log(res);
-        alert("Success");
+        alert("Successfully ordered!");
       })
       .catch((error) => {
         alert(`Error! ${error.message}`);
-        console.log("Error: ", error);
+        console.log("Error signingClient?.execute(): ", error);
       });
   };
 
-  const handleChange = (event: any) => {
-    setPrice(event.target.value);
-  };
   return (
     <div>
       {NFT.type === "text" && <NFText NFT={NFT} />}
@@ -57,6 +55,9 @@ const WrapBuy = (props: any) => {
       <div>
         <button className={globalStyles.customButtonActive} onClick={handleBuy}>
           buy
+        </button>
+        <button className={globalStyles.customButtonActive} onClick={handleBuy}>
+          withdraw if owner
         </button>
       </div>
     </div>
