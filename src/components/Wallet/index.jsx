@@ -11,9 +11,8 @@ const STAKING_DENOM = process.env.NEXT_PUBLIC_STAKING_DENOM || "utorii";
 
 export default function Wallet() {
   const { walletAddress, signingClient, connectWallet } = useSigningClient();
-  const [balance, setBalance] = useState("");
   const [walletAmount, setWalletAmount] = useState(0);
-  const [loadedAt, setLoadedAt] = useState(new Date());
+  const [trigger, setTrigger] = useState(0);
   const [loading, setLoading] = useState(false);
   const [nativeBalance, setNativeBalance] = useState("");
   const [wrappedBalance, setWrappedBalance] = useState("");
@@ -32,9 +31,7 @@ export default function Wallet() {
       .then((response) => {
         console.log("Native balance:", response);
         const { amount, denom } = response;
-        setNativeBalance(
-          `${convertMicroDenomToDenom(amount)}`
-        );
+        setNativeBalance(`${convertMicroDenomToDenom(amount)}`);
         setWalletAmount(convertMicroDenomToDenom(amount));
       })
       .catch((error) => {
@@ -48,7 +45,7 @@ export default function Wallet() {
       })
       .then((response) => {
         console.log("Wrapped balance:", response);
-        setWrappedBalance((Number(response.balance) / 1000000).toString());
+        setWrappedBalance((Number(response.balance) / 370370).toString());
       })
       .catch((error) => {
         alert(`Error! ${error.message}`);
@@ -57,16 +54,17 @@ export default function Wallet() {
           error
         );
       });
-  }, [signingClient, walletAddress, loadedAt]);
+  }, [signingClient, walletAddress, trigger]);
 
   const handleToriiToWrap = () => {
     console.log("Converting Torii to Wrapped token:", input1);
-    signingClient?.execute(
-      walletAddress,
-      CW20, 
-      {buy:{}},
-      calculateFee(300_000, "0utorii"), //fee
-      undefined, //memo
+    signingClient
+      ?.execute(
+        walletAddress,
+        CW20,
+        { buy: {} },
+        calculateFee(300_000, "0utorii"), //fee
+        undefined, //memo
         [
           {
             amount: (Number(input1) * 1000000).toString(),
@@ -79,26 +77,28 @@ export default function Wallet() {
         setInput1("");
         setLoading(false);
         alert("Successfully get wrapped token!");
-      })
+        setTrigger(Math.random());
+      });
   };
 
   const handleWrapToTorii = () => {
     console.log("Converting Wrapped token to Torii:", input2);
     signingClient
-    ?.execute(
-      walletAddress,
-      CW20,
-      {
-        burn: { amount: (input2 * 1000000).toString() },
-      }, // msg
-      calculateFee(300_000, "0utorii") //fee
-    )
-    .then((response) => {
-      console.log(response);
-      setInput2("");
-      setLoading(false);
-      alert("Successfully unwrapped token!");
-    })
+      ?.execute(
+        walletAddress,
+        CW20,
+        {
+          burn: { amount: (input2 * 370370).toString() },
+        }, // msg
+        calculateFee(300_000, "0utorii") //fee
+      )
+      .then((response) => {
+        console.log(response);
+        setInput2("");
+        setLoading(false);
+        alert("Successfully unwrapped token!");
+        setTrigger(Math.random());
+      });
   };
 
   return (
@@ -301,6 +301,10 @@ export default function Wallet() {
               className="side-b side-open"
               src="right_arrow.svg"
               alt="we don`t care about metadata here"
+              onClick={() => {
+                console.log("get click");
+                setTrigger(Math.random());
+              }}
             />
             <img
               className="side-b side-close rotate"
