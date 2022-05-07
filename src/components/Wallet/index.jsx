@@ -1,3 +1,4 @@
+import { calculateFee } from "@cosmjs/stargate";
 import { useState, useEffect } from "react";
 import { useSigningClient } from "../../context/cosmwasm";
 import {
@@ -60,10 +61,44 @@ export default function Wallet() {
 
   const handleToriiToWrap = () => {
     console.log("Converting Torii to Wrapped token:", input1);
+    signingClient?.execute(
+      walletAddress,
+      CW20, 
+      {buy:{}},
+      calculateFee(300_000, "0utorii"), //fee
+      undefined, //memo
+        [
+          {
+            amount: (Number(input1) * 1000000).toString(),
+            denom: "utorii",
+          },
+        ] //funds
+      )
+      .then((response) => {
+        console.log(response);
+        setInput1("");
+        setLoading(false);
+        alert("Successfully get wrapped token!");
+      })
   };
 
   const handleWrapToTorii = () => {
     console.log("Converting Wrapped token to Torii:", input2);
+    signingClient
+    ?.execute(
+      walletAddress,
+      CW20,
+      {
+        burn: { amount: (input2 * 1000000).toString() },
+      }, // msg
+      calculateFee(300_000, "0utorii") //fee
+    )
+    .then((response) => {
+      console.log(response);
+      setInput2("");
+      setLoading(false);
+      alert("Successfully unwrapped token!");
+    })
   };
 
   return (
@@ -234,7 +269,7 @@ export default function Wallet() {
           <p>CW20: {wrappedBalance}</p>
           <input
             type="text"
-            placeholder="torii to wTorii"
+            placeholder="torii to cw20"
             className={inputClass}
             value={input1}
             onChange={(e) => setInput1(e.target.value)}
@@ -247,7 +282,7 @@ export default function Wallet() {
           />
           <input
             type="text"
-            placeholder="wTorii to torii"
+            placeholder="cw20 to torii"
             className={inputClass}
             value={input2}
             onChange={(e) => setInput2(e.target.value)}
