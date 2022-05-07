@@ -2,7 +2,6 @@ import NF3DPreview from "../NFImage/NF3DPreview";
 import NFImage from "../NFImage/NFImage";
 import NFText from "../NFText/NFText";
 import globalStyles from "../../globalStyles/styles.module.sass";
-import { useState } from "react";
 import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
 
