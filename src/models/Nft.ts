@@ -1,5 +1,6 @@
 export interface Nft {
   id: number;
+  creator: string;
   owner: string;
   name: string;
   type: TypeNft;

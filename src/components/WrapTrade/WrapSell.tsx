@@ -17,7 +17,7 @@ const WrapSell = (props: any) => {
 
   const handleSell = () => {
     console.log("lets sell this:", NFT);
-    const msg = `{"list_price":{"address":"${CW20}","amount":"${price}"}}`;
+    const msg = `{"list_price":{"address":"${CW20}","amount":"${price * 370370}"}}`;
     const encodedMsg = Buffer.from(msg).toString("base64");
     if (!signingClient) return;
 
@@ -32,7 +32,7 @@ const WrapSell = (props: any) => {
             msg: encodedMsg,
           },
         },
-        calculateFee(300_000, "20uconst")
+        calculateFee(600_000, "20uconst")
       )
       .then((res) => {
         console.log(res);

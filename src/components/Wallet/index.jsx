@@ -63,7 +63,7 @@ export default function Wallet() {
         walletAddress,
         CW20,
         { buy: {} },
-        calculateFee(300_000, "0utorii"), //fee
+        calculateFee(600_000, "0utorii"), //fee
         undefined, //memo
         [
           {
@@ -90,7 +90,7 @@ export default function Wallet() {
         {
           burn: { amount: (input2 * 370370).toString() },
         }, // msg
-        calculateFee(300_000, "0utorii") //fee
+        calculateFee(600_000, "0utorii") //fee
       )
       .then((response) => {
         console.log(response);

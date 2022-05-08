@@ -33,7 +33,8 @@ async function queryMini(client: CosmWasmClient | null, ids: Array<number>) {
 
 function createNFT(index: any, metadata: any, decodedMetadata: any) {
   const nft: Nft = {
-    id: index, // TODO: get real index
+    id: decodedMetadata.id ? decodedMetadata.id : index, // TODO: get real index
+    creator: decodedMetadata.creator,
     owner: metadata.access.owner,
     name: decodedMetadata.title,
     type: decodedMetadata.type,

@@ -136,7 +136,9 @@ const NFUploader = observer((props: Properties) => {
     }
 
     const metadata = JSON.stringify({
+      id: token_id,
       title: nftTitle,
+      creator: walletAddress,
       content: contentLinkAxios,
       type: props.modalMode ? props.modalMode : nftStore.typeNFT,
       parent: props.parentId,
@@ -161,7 +163,7 @@ const NFUploader = observer((props: Properties) => {
             token_uri: `data:application/json;base64, ${encodedMetadata}`,
           },
         },
-        calculateFee(300_000, "20uconst")
+        calculateFee(600_000, "20uconst")
       )
       .then((response: any) => {
         setLoading(false);

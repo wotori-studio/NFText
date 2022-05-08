@@ -30,6 +30,7 @@ const WrapBuy = (props: any) => {
             contract: MARKETPLACE,
             amount: PRICE,
             msg: encodedMsg,
+            additional_info: "1 Torii = 370370 wTorii."
           },
         }, // msg
         calculateFee(600_000, "20uconst")
@@ -49,7 +50,7 @@ const WrapBuy = (props: any) => {
       {NFT.type === "text" && <NFText NFT={NFT} />}
       {NFT.type === "img" && <NFImage NFT={NFT} />}
       {NFT.type === "3d" && <NF3DPreview NFT={NFT} />}
-      <div>price:{PRICE}</div>
+      <div>price: {PRICE / 370370} cw20</div>
       <div>
         <button className={globalStyles.customButtonActive} onClick={handleBuy}>
           buy

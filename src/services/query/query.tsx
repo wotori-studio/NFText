@@ -2,8 +2,7 @@ import { CosmWasmClient } from "@cosmjs/cosmwasm-stargate/build/cosmwasmclient";
 import { Nft } from "../../models/Nft";
 import nftStore from "../../store/nftStore";
 
-const PUBLIC_CW721_CONTRACT = process.env
-  .NEXT_PUBLIC_CW721 as string;
+const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_CW721 as string;
 
 async function query(client: CosmWasmClient | null, children: any) {
   if (!client) return;
@@ -29,7 +28,8 @@ async function query(client: CosmWasmClient | null, children: any) {
         Buffer.from(metadata.info.token_uri.slice(30), "base64").toString()
       );
       const newNFT: Nft = {
-        id: index + 1, // TODO: get real index
+        id: decodedMetadata.id ? Number(decodedMetadata.id) : index + 1, // TODO: get real index
+        creator: decodedMetadata.creator,
         owner: metadata.access.owner,
         name: decodedMetadata.title,
         type: decodedMetadata.type,

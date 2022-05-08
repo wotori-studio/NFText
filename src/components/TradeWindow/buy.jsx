@@ -4,7 +4,6 @@ import queryMini from "../../services/query/queryMini";
 import WrapBuy from "../WrapTrade/WrapBuy";
 import styles from "./trade.module.sass";
 
-const CW721 = process.env.NEXT_PUBLIC_CW721 || "";
 const MARKETPLACE = process.env.NEXT_PUBLIC_CW_MARKETPLACE || "";
 
 const BuySection = () => {
@@ -31,8 +30,8 @@ const BuySection = () => {
         }
         setPriceList(prices);
         setMarketIDs(marketIDs);
-        console.log("Query list:", tokens);
         queryMini(signingClient, tokens).then((o) => setTokensObj(o));
+        console.log("Query list:", tokens);
         console.log("got tokens ids:", tokens);
       });
   }, [signingClient]);
