@@ -53,7 +53,7 @@ const WrapBuy = (props: any) => {
       {NFT.type === "img" && <NFImage NFT={NFT} />}
       {NFT.type === "3d" && <NF3DPreview NFT={NFT} />}
       <div className={styles.center}>
-        <div style={{ margin: "5px" }}>price: {PRICE / 370370} CW20</div>
+        <div style={{ margin: "5px" }}>price: {PRICE / 370370} CW20*</div>
         <div>
           <button
             className={globalStyles.customButtonActive}

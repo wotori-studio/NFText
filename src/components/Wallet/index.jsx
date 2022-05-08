@@ -293,6 +293,10 @@ export default function Wallet() {
             onClick={handleWrapToTorii}
             className="side-button"
           />
+          <br/>*
+          keep in mind:<br/>
+          1 torii = 370370 cw20<br/><br/>*
+          We convert it for better ux so you see and able to operate 1 cw20 as 1 torii
         </div>
         {/* Panel open / close buttons */}
         <div className="side-button-1-wr">
@@ -312,6 +316,8 @@ export default function Wallet() {
               alt="we don`t care about metadata here"
             />
           </label>
+        </div>
+        <div>
         </div>
       </div>
     </>

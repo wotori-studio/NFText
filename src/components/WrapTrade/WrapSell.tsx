@@ -57,7 +57,7 @@ const WrapSell = (props: any) => {
       {NFT.type === "3d" && <NF3DPreview NFT={NFT} />}
       <div className={styles.center}>
         <div style={{ margin: "7px" }}>
-          <input onChange={(event) => handleChange(event)} style={{width:"50px"}}></input> CW20
+          <input onChange={(event) => handleChange(event)} style={{width:"50px"}}></input> CW20*
         </div>
         <div>
           <button
