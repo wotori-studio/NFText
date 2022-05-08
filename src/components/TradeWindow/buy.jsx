@@ -22,17 +22,16 @@ const BuySection = () => {
         let prices = [];
         let marketIDs = [];
         for (const index in offerings) {
-          let offer = offerings[index];
           console.log(`iteration #${index}`, offer);
+          let offer = offerings[index];
           tokens.push(offer.token_id);
           prices.push(offer.list_price.amount);
           marketIDs.push(offer.id);
         }
-        setPriceList(prices);
-        setMarketIDs(marketIDs);
+        setPriceList(prices.reverse());
+        setMarketIDs(marketIDs.reverse());
         queryMini(signingClient, tokens).then((o) => setTokensObj(o));
-        console.log("Query list:", tokens);
-        console.log("got tokens ids:", tokens);
+        console.log("query tokens:", tokensObj)
       });
   }, [signingClient]);
   return (
