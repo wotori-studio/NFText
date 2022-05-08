@@ -26,6 +26,7 @@ const NFBrowser = observer(() => {
   const { client } = useSigningClient();
   const [amount, setAmount] = useState();
   console.log("Browser client: ", client);
+  
   useEffect(() => {
     const isProduction = process.env.NODE_ENV === "production";
     const isDevelopment = process.env.NODE_ENV === "development";

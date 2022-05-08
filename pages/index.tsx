@@ -80,9 +80,6 @@ const Main = observer(() => {
           <ModeSelector />
         </>
       }
-      {process.env.NODE_ENV === "development" && 
-        <DeveloperMenu />
-      }
     </div>  
   );
 });

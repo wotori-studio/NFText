@@ -55,9 +55,6 @@ const WrapBuy = (props: any) => {
         <button className={globalStyles.customButtonActive} onClick={handleBuy}>
           buy
         </button>
-        <button className={globalStyles.customButtonActive} onClick={handleBuy}>
-          withdraw if owner
-        </button>
       </div>
     </div>
   );
