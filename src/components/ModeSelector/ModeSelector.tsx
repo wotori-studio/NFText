@@ -15,6 +15,7 @@ import TradeWindow from "../TradeWindow";
 import nftStore from "./../../store/nftStore";
 
 const ModeSelector = observer(() => {
+  
   const [modes, setModes] = useState<Mode[]>([
     {
       name: "text",
