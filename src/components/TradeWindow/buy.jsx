@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useSigningClient } from "../../context/cosmwasm";
 import queryMini from "../../services/query/queryMini";
 import WrapBuy from "../WrapTrade/WrapBuy";
-import styles from "./trade.module.sass";
+import style from "./trade.module.sass";
 
 const MARKETPLACE = process.env.NEXT_PUBLIC_CW_MARKETPLACE || "";
 
 const BuySection = () => {
-  const { walletAddress, signingClient, connectWallet } = useSigningClient();
+  const { signingClient } = useSigningClient();
   const [tokensObj, setTokensObj] = useState([]);
   const [priceList, setPriceList] = useState([]);
   const [marketIDs, setMarketIDs] = useState([]);
@@ -37,9 +37,7 @@ const BuySection = () => {
   }, [signingClient]);
   return (
     <div>
-      <div>This all asset in the market that you able to buy</div>
-      <div>buy section with items</div>
-      <div className={styles.nftBrowser}>
+      <div className={style.nftBrowser}>
         {tokensObj
           .slice(0)
           .reverse()

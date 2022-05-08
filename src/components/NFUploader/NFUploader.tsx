@@ -206,7 +206,7 @@ const NFUploader = observer((props: Properties) => {
         <label
           className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
         >
-          select file
+          select
           <input
             className={globalStyles.hide}
             type="file"

@@ -4,6 +4,7 @@ import NFText from "../NFText/NFText";
 import globalStyles from "../../globalStyles/styles.module.sass";
 import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
+import styles from "./styles.module.sass";
 
 const CW20 = process.env.NEXT_PUBLIC_CW20 || "";
 const MARKETPLACE = process.env.NEXT_PUBLIC_CW_MARKETPLACE || "";
@@ -30,9 +31,9 @@ const WrapBuy = (props: any) => {
             contract: MARKETPLACE,
             amount: PRICE,
             msg: encodedMsg,
-            additional_info: "1 Torii = 370370 wTorii."
+            additional_info: "1 Torii = 370370 wTorii.",
           },
-        }, // msg
+        },
         calculateFee(600_000, "20uconst")
       )
       .then((res) => {
@@ -50,11 +51,16 @@ const WrapBuy = (props: any) => {
       {NFT.type === "text" && <NFText NFT={NFT} />}
       {NFT.type === "img" && <NFImage NFT={NFT} />}
       {NFT.type === "3d" && <NF3DPreview NFT={NFT} />}
-      <div>price: {PRICE / 370370} cw20</div>
-      <div>
-        <button className={globalStyles.customButtonActive} onClick={handleBuy}>
-          buy
-        </button>
+      <div className={styles.center}>
+        <div style={{ margin: "5px" }}>price: {PRICE / 370370} Torii</div>
+        <div>
+          <button
+            className={globalStyles.customButtonActive}
+            onClick={handleBuy}
+          >
+            buy
+          </button>
+        </div>
       </div>
     </div>
   );

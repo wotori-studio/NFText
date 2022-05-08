@@ -1,12 +1,19 @@
 .nftBrowser
-  margin: 15px auto 0 auto
+  margin: 0 100px 0 100px
+  display: flex
+  // align-items: flex-end
+  align-items: center
+  gap: 30px
+  flex-wrap: wrap
 
-  display: grid
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr
-  grid-row-gap: 20px
+.center
+  display: flex
+  align-content: center
 
-  width: 90%
-  max-width: 1500px
+.align
+    display: flex
+    align-content: center
+    flex-direction: row
 
 /* Media requests */
 @media screen and (max-width: 1220px)

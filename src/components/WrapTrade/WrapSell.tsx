@@ -5,6 +5,7 @@ import globalStyles from "../../globalStyles/styles.module.sass";
 import { useState } from "react";
 import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
+import styles from "./styles.module.sass";
 
 const CW20 = process.env.NEXT_PUBLIC_CW20 || "";
 const CW721 = process.env.NEXT_PUBLIC_CW721 || "";
@@ -17,7 +18,9 @@ const WrapSell = (props: any) => {
 
   const handleSell = () => {
     console.log("lets sell this:", NFT);
-    const msg = `{"list_price":{"address":"${CW20}","amount":"${price * 370370}"}}`;
+    const msg = `{"list_price":{"address":"${CW20}","amount":"${
+      price * 370370
+    }"}}`;
     const encodedMsg = Buffer.from(msg).toString("base64");
     if (!signingClient) return;
 
@@ -52,16 +55,18 @@ const WrapSell = (props: any) => {
       {NFT.type === "text" && <NFText NFT={NFT} />}
       {NFT.type === "img" && <NFImage NFT={NFT} />}
       {NFT.type === "3d" && <NF3DPreview NFT={NFT} />}
-      <div>
-        <input onChange={(event) => handleChange(event)}></input>
-      </div>
-      <div>
-        <button
-          className={globalStyles.customButtonActive}
-          onClick={handleSell}
-        >
-          sell
-        </button>
+      <div className={styles.center}>
+        <div style={{ margin: "7px" }}>
+          <input onChange={(event) => handleChange(event)} style={{width:"50px"}}></input> Torii
+        </div>
+        <div>
+          <button
+            className={globalStyles.customButtonActive}
+            onClick={handleSell}
+          >
+            sell
+          </button>
+        </div>
       </div>
     </div>
   );

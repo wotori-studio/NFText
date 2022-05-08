@@ -130,7 +130,7 @@ export default function Wallet() {
             left: -200px;
 
             /* Panel Font */
-            font-family: Roboto;
+            font-family: monospace;
             font-style: normal;
             font-weight: normal;
 
