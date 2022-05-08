@@ -29,7 +29,7 @@ const WrapBuy = (props: any) => {
         {
           send: {
             contract: MARKETPLACE,
-            amount: PRICE,
+            amount: PRICE * 370370,
             msg: encodedMsg,
             additional_info: "1 Torii = 370370 wTorii.",
           },
@@ -41,7 +41,8 @@ const WrapBuy = (props: any) => {
         alert("Successfully ordered!");
       })
       .catch((error) => {
-        alert(`Error! ${error.message}`);
+        // alert(`Error! ${error.message}`);
+        alert(`Error! Probably you don't have enough cw20 tokens. You can exchange Torii to CW20 in sliding window with arrow on the left side.`);
         console.log("Error signingClient?.execute(): ", error);
       });
   };
@@ -52,7 +53,7 @@ const WrapBuy = (props: any) => {
       {NFT.type === "img" && <NFImage NFT={NFT} />}
       {NFT.type === "3d" && <NF3DPreview NFT={NFT} />}
       <div className={styles.center}>
-        <div style={{ margin: "5px" }}>price: {PRICE / 370370} Torii</div>
+        <div style={{ margin: "5px" }}>price: {PRICE / 370370} CW20</div>
         <div>
           <button
             className={globalStyles.customButtonActive}
