@@ -5,6 +5,7 @@ import globalStyles from "../../globalStyles/styles.module.sass";
 import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
 import styles from "./styles.module.sass";
+import { isMobile } from "react-device-detect";
 
 const CW20 = process.env.NEXT_PUBLIC_CW20 || "";
 const MARKETPLACE = process.env.NEXT_PUBLIC_CW_MARKETPLACE || "";
@@ -42,7 +43,9 @@ const WrapBuy = (props: any) => {
       })
       .catch((error) => {
         // alert(`Error! ${error.message}`);
-        alert(`Error! Probably you don't have enough cw20 tokens. You can exchange Torii to CW20 in sliding window with arrow on the left side.`);
+        alert(
+          `Error! Probably you don't have enough cw20 tokens. You can exchange Torii to CW20 in sliding window with arrow on the left side.`
+        );
         console.log("Error signingClient?.execute(): ", error);
       });
   };
@@ -57,7 +60,13 @@ const WrapBuy = (props: any) => {
         <div>
           <button
             className={globalStyles.customButtonActive}
-            onClick={handleBuy}
+            onClick={() => {
+              if (!isMobile) {
+                handleBuy();
+              } else {
+                alert("Mobile devices currently not supported");
+              }
+            }}
           >
             buy
           </button>

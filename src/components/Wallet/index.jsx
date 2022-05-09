@@ -11,7 +11,7 @@ const STAKING_DENOM = process.env.NEXT_PUBLIC_STAKING_DENOM || "utorii";
 
 export default function Wallet() {
   const { walletAddress, signingClient, connectWallet } = useSigningClient();
-  const [walletAmount, setWalletAmount] = useState(0);
+  const [setWalletAmount] = useState(0);
   const [trigger, setTrigger] = useState(0);
   const [loading, setLoading] = useState(false);
   const [nativeBalance, setNativeBalance] = useState("");
@@ -21,7 +21,6 @@ export default function Wallet() {
   const [input2, setInput2] = useState("");
 
   const [inputClass, setInputClass] = useState("side-input");
-  const [btnValue, setBtnValue] = useState("Login");
 
   useEffect(() => {
     if (!signingClient || walletAddress.length === 0) return;
@@ -293,10 +292,12 @@ export default function Wallet() {
             onClick={handleWrapToTorii}
             className="side-button"
           />
-          <br/>*
-          keep in mind:<br/>
-          1 torii = 370370 cw20<br/><br/>*
-          We convert it for better ux so you see and able to operate 1 cw20 as 1 torii
+          <br />* keep in mind:
+          <br />
+          1 torii = 370370 cw20
+          <br />
+          <br />* We convert it for better ux so you see and able to operate 1
+          cw20 as 1 torii
         </div>
         {/* Panel open / close buttons */}
         <div className="side-button-1-wr">
@@ -317,8 +318,7 @@ export default function Wallet() {
             />
           </label>
         </div>
-        <div>
-        </div>
+        <div></div>
       </div>
     </>
   );
