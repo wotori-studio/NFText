@@ -7,13 +7,13 @@ import style from "./trade.module.sass";
 const MARKETPLACE = process.env.NEXT_PUBLIC_CW_MARKETPLACE || "";
 
 const BuySection = () => {
-  const { signingClient } = useSigningClient();
+  const { client } = useSigningClient();
   const [tokensObj, setTokensObj] = useState([]);
   const [priceList, setPriceList] = useState([]);
   const [marketIDs, setMarketIDs] = useState([]);
 
   useEffect(() => {
-    signingClient
+    client
       .queryContractSmart(MARKETPLACE, { get_offerings: {} })
       .then((tokensForSale) => {
         console.log(tokensForSale);
@@ -30,10 +30,10 @@ const BuySection = () => {
         }
         setPriceList(prices.reverse());
         setMarketIDs(marketIDs.reverse());
-        queryMini(signingClient, tokens).then((o) => setTokensObj(o));
+        queryMini(client, tokens).then((o) => setTokensObj(o));
         console.log("query tokens:", tokensObj)
       });
-  }, [signingClient]);
+  }, [client]);
   return (
     <div>
       <div className={style.nftBrowser}>
