@@ -1,12 +1,12 @@
 import { CosmWasmClient } from "@cosmjs/cosmwasm-stargate/build/cosmwasmclient";
-import { Nft } from "../models/Nft";
-import nftStore from "../store/nftStore";
+import { Nft } from "../../models/Nft";
+import nftStore from "../../store/nftStore";
 
-const PUBLIC_CW721_CONTRACT = process.env
-  .NEXT_PUBLIC_APP_CW721_CONTRACT as string;
+const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_CW721 as string;
 
 async function query(client: CosmWasmClient | null, children: any) {
   if (!client) return;
+
   console.log("start query nft.", children);
   if (typeof children === "number") {
     children = Array.from({ length: children - 1 }, (x, i) => i + 1);
@@ -14,7 +14,6 @@ async function query(client: CosmWasmClient | null, children: any) {
   }
 
   const manyMetadata = [];
-
   for (const prop in children) {
     manyMetadata.push(
       client.queryContractSmart(PUBLIC_CW721_CONTRACT, {
@@ -24,12 +23,13 @@ async function query(client: CosmWasmClient | null, children: any) {
   }
 
   await Promise.all(manyMetadata).then((manyMetadata) => {
-    const manyNFT: Nft[] = manyMetadata.map((metadata, index) => {
+    const NFTs: Nft[] = manyMetadata.map((metadata, index) => {
       const decodedMetadata = JSON.parse(
         Buffer.from(metadata.info.token_uri.slice(30), "base64").toString()
       );
       const newNFT: Nft = {
-        id: index + 1, // TODO: get real index
+        id: decodedMetadata.id ? Number(decodedMetadata.id) : index + 1, // TODO: get real index
+        creator: decodedMetadata.creator,
         owner: metadata.access.owner,
         name: decodedMetadata.title,
         type: decodedMetadata.type,
@@ -43,9 +43,9 @@ async function query(client: CosmWasmClient | null, children: any) {
       return newNFT;
     });
 
-    console.log("query: ", manyNFT);
-    nftStore.setLoadedNFT(manyNFT);
-    return manyNFT;
+    console.log("query: ", NFTs);
+    nftStore.setLoadedNFT(NFTs);
+    return NFTs;
   });
 }
 

@@ -5,8 +5,7 @@ import NFImage from "../../src/components/NFImage/NFImage";
 import NFText from "../../src/components/NFText/NFText";
 import { Nft } from "../../src/models/Nft";
 
-const PUBLIC_CW721_CONTRACT = process.env
-  .NEXT_PUBLIC_APP_CW721_CONTRACT as string;
+const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_CW721 as string;
 
 const rpcEndpoint = process.env.NEXT_PUBLIC_CHAIN_RPC_ENDPOINT as string;
 
@@ -48,6 +47,7 @@ const NFTPage = () => {
 
           const newNFT: Nft = {
             id: parseInt(token_id),
+            creator: decodedMetadata.creator,
             owner: meta.access.owner,
             name: decodedMetadata.title,
             type: decodedMetadata.type,
@@ -55,7 +55,9 @@ const NFTPage = () => {
             parent: decodedMetadata.parent,
             content:
               decodedMetadata.content || "https://dummyimage.com/404x404",
-            preview: decodedMetadata.preview || "https://dummyimage.com/600x400/1aeddf/ffffff&text=3D+file"
+            preview:
+              decodedMetadata.preview ||
+              "https://dummyimage.com/600x400/1aeddf/ffffff&text=3D+file",
           };
           setNft(newNFT);
           console.log("decoded meta", decodedMetadata);

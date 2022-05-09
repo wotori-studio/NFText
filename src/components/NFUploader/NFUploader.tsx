@@ -3,9 +3,8 @@ import styles from "./NFUploader.module.sass";
 import globalStyles from "./../../globalStyles/styles.module.sass";
 
 // Dependencies
-import { createRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import axios from "axios";
 import { calculateFee } from "@cosmjs/stargate";
 
 // Components
@@ -26,8 +25,7 @@ import axiosPinataPost from "../../services/axiosPinataPost";
 import previewStore from "../../store/previewStore";
 
 // .env
-const PUBLIC_CW721_CONTRACT = process.env
-  .NEXT_PUBLIC_APP_CW721_CONTRACT as string;
+const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_CW721 as string;
 
 interface Properties {
   modalMode: string | null;
@@ -109,8 +107,8 @@ const NFUploader = observer((props: Properties) => {
   async function createMint() {
     if (!signingClient) return;
 
-    let previewLink
-    console.log("preview file", previewStore.previewFile)
+    let previewLink;
+    console.log("preview file", previewStore.previewFile);
     let file = previewStore.previewFile;
     if ((nftStore.typeNFT === "3d" || props.modalMode === "3d") && file) {
       let formData = new FormData();
@@ -138,7 +136,9 @@ const NFUploader = observer((props: Properties) => {
     }
 
     const metadata = JSON.stringify({
+      id: token_id,
       title: nftTitle,
+      creator: walletAddress,
       content: contentLinkAxios,
       type: props.modalMode ? props.modalMode : nftStore.typeNFT,
       parent: props.parentId,
@@ -163,7 +163,7 @@ const NFUploader = observer((props: Properties) => {
             token_uri: `data:application/json;base64, ${encodedMetadata}`,
           },
         },
-        calculateFee(300_000, "20uconst")
+        calculateFee(600_000, "20uconst")
       )
       .then((response: any) => {
         setLoading(false);
@@ -206,7 +206,7 @@ const NFUploader = observer((props: Properties) => {
         <label
           className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
         >
-          select file
+          select
           <input
             className={globalStyles.hide}
             type="file"
@@ -260,7 +260,7 @@ const NFUploader = observer((props: Properties) => {
               nftService.getLimitedString(selectedFile.name, 30, 4)}
           </span>
           <div className={styles.webGL}>
-              <SceneWithModel file={URL.createObjectURL(selectedFile)} />
+            <SceneWithModel file={URL.createObjectURL(selectedFile)} />
           </div>
         </>
       ) : null}
@@ -269,7 +269,9 @@ const NFUploader = observer((props: Properties) => {
       <button
         className={`${globalStyles.customButtonActive} ${styles.overviewChild}`}
         onClick={() => createMint()}
-        onMouseOver={()=> {previewStore.setTrigger()}}
+        onMouseOver={() => {
+          previewStore.setTrigger();
+        }}
       >
         mint
       </button>

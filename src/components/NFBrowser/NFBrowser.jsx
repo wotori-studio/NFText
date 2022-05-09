@@ -20,13 +20,13 @@ import devStore from "../../store/devStore";
 import nftStore from "../../store/nftStore";
 import NF3DPreview from "../NFImage/NF3DPreview";
 import getNftTokenAmount from "../../services/tokenId";
-import query from "../../services/query";
-import treeStore from "../../store/treeStore";
+import query from "../../services/query/query";
 
 const NFBrowser = observer(() => {
   const { client } = useSigningClient();
   const [amount, setAmount] = useState();
   console.log("Browser client: ", client);
+  
   useEffect(() => {
     const isProduction = process.env.NODE_ENV === "production";
     const isDevelopment = process.env.NODE_ENV === "development";

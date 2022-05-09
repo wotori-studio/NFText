@@ -1,0 +1,33 @@
+.nftBrowser
+  margin: 0 100px 0 100px
+  display: flex
+  // align-items: flex-end
+  align-items: center
+  gap: 30px
+  flex-wrap: wrap
+
+.center
+  display: flex
+  align-content: center
+
+.align
+    display: flex
+    align-content: center
+    flex-direction: row
+
+/* Media requests */
+@media screen and (max-width: 1220px)
+  .nftBrowser
+    grid-template-columns: 1fr 1fr 1fr 1fr
+
+@media screen and (max-width: 1000px)
+  .nftBrowser
+    grid-template-columns: 1fr 1fr 1fr
+
+@media screen and (max-width: 750px)
+  .nftBrowser
+    grid-template-columns: 1fr 1fr
+
+@media screen and (max-width: 550px)
+  .nftBrowser
+    grid-template-columns: 1fr

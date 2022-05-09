@@ -27,6 +27,10 @@ const Main = observer(() => {
       {
         name: "explore",
         action: () => {nftStore.setOperatingMode("explore")}
+      },
+      {
+        name: "trade",
+        action: () => {nftStore.setOperatingMode("trade")}
       }
     ]
   const [modes, setModes] = useState<Mode[]>(mod);
@@ -75,9 +79,6 @@ const Main = observer(() => {
           </div>
           <ModeSelector />
         </>
-      }
-      {process.env.NODE_ENV === "development" && 
-        <DeveloperMenu />
       }
     </div>  
   );
