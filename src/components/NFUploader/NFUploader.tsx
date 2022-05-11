@@ -106,7 +106,7 @@ const NFUploader = observer((props: Properties) => {
   async function createMint() {
     if (!signingClient) return;
 
-    dappState.setState("uloading to ipfs")
+    dappState.setState("uploading to ipfs")
     dappState.setOn()
     let previewLink;
     console.log("preview file", previewStore.previewFile);
