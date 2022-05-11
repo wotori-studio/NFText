@@ -305,7 +305,7 @@ export default function Wallet() {
           <br />
           <br />* We convert it for better ux so you see and able to operate 1
           cw20 as 1 torii<br/><br/>
-          <a href={FAUCET}>faucet</a>
+          <a target="_blank" href={FAUCET}>faucet</a>
         </div>
         {/* Panel open / close buttons */}
         <div className="side-button-1-wr">

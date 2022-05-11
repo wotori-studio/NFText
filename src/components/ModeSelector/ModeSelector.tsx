@@ -13,9 +13,9 @@ import TradeWindow from "../TradeWindow";
 
 // Stores
 import nftStore from "./../../store/nftStore";
+import { isMobile } from "react-device-detect";
 
 const ModeSelector = observer(() => {
-  
   const [modes, setModes] = useState<Mode[]>([
     {
       name: "text",
@@ -49,7 +49,7 @@ const ModeSelector = observer(() => {
       action: () => {
         nftStore.setTypeTrade("sell");
       },
-    }
+    },
   ]);
 
   return (
@@ -63,13 +63,14 @@ const ModeSelector = observer(() => {
       </div>
 
       {/* TODO: replace with switchcase if it exists in js */}
-      {nftStore.operatingMode === "create" ? (
+      {nftStore.operatingMode === "create" && !isMobile ? (
         <NFUploader modalMode={null} parentId={null} />
-      ) : nftStore.operatingMode === "explore" ? (
-        <NFBrowser />
-      ) : (
-        <TradeWindow />
-      )}
+      ) : nftStore.operatingMode === "create" && isMobile ? (
+        "Mobile devices currently not suported"
+      ) : null}
+
+      {nftStore.operatingMode === "explore" ? <NFBrowser /> : null}
+      {nftStore.operatingMode === "trade" ? <TradeWindow /> : null}
     </>
   );
 });
