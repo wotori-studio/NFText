@@ -2,18 +2,15 @@ import { calculateFee } from "@cosmjs/stargate";
 import { useState, useEffect } from "react";
 import { useSigningClient } from "../../context/cosmwasm";
 import {
-  convertMicroDenomToDenom,
-  convertDenomToMicroDenom,
-  convertFromMicroDenom,
+  convertMicroDenomToDenom
 } from "../../services/converter";
+import dappState from "../../store/dappState";
 const CW20 = process.env.NEXT_PUBLIC_CW20 || "";
 const STAKING_DENOM = process.env.NEXT_PUBLIC_STAKING_DENOM || "utorii";
 
 export default function Wallet() {
-  const { walletAddress, signingClient, connectWallet } = useSigningClient();
-  const [setWalletAmount] = useState(0);
+  const { walletAddress, signingClient } = useSigningClient();
   const [trigger, setTrigger] = useState(0);
-  const [loading, setLoading] = useState(false);
   const [nativeBalance, setNativeBalance] = useState("");
   const [wrappedBalance, setWrappedBalance] = useState("");
 
@@ -31,7 +28,6 @@ export default function Wallet() {
         console.log("Native balance:", response);
         const { amount, denom } = response;
         setNativeBalance(`${convertMicroDenomToDenom(amount)}`);
-        setWalletAmount(convertMicroDenomToDenom(amount));
       })
       .catch((error) => {
         alert(`Error! ${error.message}`);
@@ -56,6 +52,8 @@ export default function Wallet() {
   }, [signingClient, walletAddress, trigger]);
 
   const handleToriiToWrap = () => {
+    dappState.setState("Converting Torii to CW20");
+    dappState.setOn();
     console.log("Converting Torii to Wrapped token:", input1);
     signingClient
       ?.execute(
@@ -74,13 +72,18 @@ export default function Wallet() {
       .then((response) => {
         console.log(response);
         setInput1("");
-        setLoading(false);
         alert("Successfully get wrapped token!");
+        dappState.setOff();
         setTrigger(Math.random());
+      })
+      .catch((error) => {
+        dappState.setOff();
       });
   };
 
   const handleWrapToTorii = () => {
+    dappState.setState("Converting CW20 to Torii");
+    dappState.setOn();
     console.log("Converting Wrapped token to Torii:", input2);
     signingClient
       ?.execute(
@@ -92,11 +95,14 @@ export default function Wallet() {
         calculateFee(600_000, "0utorii") //fee
       )
       .then((response) => {
+        dappState.setOff();
         console.log(response);
         setInput2("");
-        setLoading(false);
         alert("Successfully unwrapped token!");
         setTrigger(Math.random());
+      })
+      .catch(() => {
+        dappState.setOff();
       });
   };
 

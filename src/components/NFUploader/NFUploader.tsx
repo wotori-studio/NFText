@@ -23,6 +23,7 @@ import getNftTokenAmount from "../../services/tokenId";
 //hooks
 import axiosPinataPost from "../../services/axiosPinataPost";
 import previewStore from "../../store/previewStore";
+import dappState from "../../store/dappState";
 
 // .env
 const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_CW721 as string;
@@ -33,10 +34,8 @@ interface Properties {
 }
 
 const NFUploader = observer((props: Properties) => {
-  const [nftTokenId, setNftTokenId] = useState(0);
   const [nftTitle, setNftTitle] = useState("");
   const [textNft, setTextNft] = useState("");
-  const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>();
   const { walletAddress, signingClient } = useSigningClient();
 
@@ -107,6 +106,8 @@ const NFUploader = observer((props: Properties) => {
   async function createMint() {
     if (!signingClient) return;
 
+    dappState.setState("uloading to ipfs")
+    dappState.setOn()
     let previewLink;
     console.log("preview file", previewStore.previewFile);
     let file = previewStore.previewFile;
@@ -151,7 +152,7 @@ const NFUploader = observer((props: Properties) => {
     if (!signingClient) {
       throw new Error(`Not valid value of signingClient: ${signingClient}`);
     }
-
+    dappState.setState("minting")
     signingClient
       ?.execute(
         walletAddress,
@@ -166,11 +167,11 @@ const NFUploader = observer((props: Properties) => {
         calculateFee(600_000, "20uconst")
       )
       .then((response: any) => {
-        setLoading(false);
+        dappState.setOff()
         alert("Successfully minted!");
       })
       .catch((error: any) => {
-        setLoading(false);
+        dappState.setOff()
         alert("Error during minted.");
         if (process.env.NODE_ENV === "development") {
           console.log(error);

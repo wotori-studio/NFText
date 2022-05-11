@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
 import styles from "./styles.module.sass";
+import dappState from "../../store/dappState";
 
 const CW20 = process.env.NEXT_PUBLIC_CW20 || "";
 const CW721 = process.env.NEXT_PUBLIC_CW721 || "";
@@ -17,6 +18,8 @@ const WrapSell = (props: any) => {
   const [price, setPrice] = useState(0);
 
   const handleSell = () => {
+    dappState.setState("pushing to market")
+    dappState.setOn()
     console.log("lets sell this:", NFT);
     const msg = `{"list_price":{"address":"${CW20}","amount":"${
       price * 370370
@@ -40,10 +43,12 @@ const WrapSell = (props: any) => {
       .then((res) => {
         console.log(res);
         alert("Success");
+        dappState.setOff()
       })
       .catch((error) => {
         alert(`Error! ${error.message}`);
         console.log("Error: ", error);
+        dappState.setOff()
       });
   };
 

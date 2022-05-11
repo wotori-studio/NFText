@@ -6,6 +6,7 @@ import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
 import styles from "./styles.module.sass";
 import { isMobile } from "react-device-detect";
+import dappState from "../../store/dappState";
 
 const CW20 = process.env.NEXT_PUBLIC_CW20 || "";
 const MARKETPLACE = process.env.NEXT_PUBLIC_CW_MARKETPLACE || "";
@@ -17,6 +18,8 @@ const WrapBuy = (props: any) => {
   const { walletAddress, signingClient } = useSigningClient();
 
   const handleBuy = () => {
+    dappState.setState("Buy transaction");
+    dappState.setOn();
     console.log("lets buy this:", NFT);
     const msg = `{"offering_id":"${MARKET_ID}"}`;
     const encodedMsg = Buffer.from(msg).toString("base64");
@@ -39,9 +42,11 @@ const WrapBuy = (props: any) => {
       )
       .then((res) => {
         console.log(res);
+        dappState.setOff();
         alert("Successfully ordered!");
       })
       .catch((error) => {
+        dappState.setOff();
         // alert(`Error! ${error.message}`);
         alert(
           `Error! Probably you don't have enough cw20 tokens. You can exchange Torii to CW20 in sliding window with arrow on the left side.`
