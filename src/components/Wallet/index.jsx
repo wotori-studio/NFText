@@ -7,6 +7,7 @@ import {
 import dappState from "../../store/dappState";
 const CW20 = process.env.NEXT_PUBLIC_CW20 || "";
 const STAKING_DENOM = process.env.NEXT_PUBLIC_STAKING_DENOM || "utorii";
+const FAUCET = process.env.NEXT_PUBLIC_FAUCET
 
 export default function Wallet() {
   const { walletAddress, signingClient } = useSigningClient();
@@ -303,7 +304,8 @@ export default function Wallet() {
           1 torii = 370370 cw20
           <br />
           <br />* We convert it for better ux so you see and able to operate 1
-          cw20 as 1 torii
+          cw20 as 1 torii<br/><br/>
+          <a href={FAUCET}>faucet</a>
         </div>
         {/* Panel open / close buttons */}
         <div className="side-button-1-wr">
