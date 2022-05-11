@@ -1,7 +1,6 @@
 import Head from "next/head";
 import SayHi from "../src/components/SayHi";
 import { SigningCosmWasmProvider } from "./../src/context/cosmwasm";
-import Wallet from "../src/components/Wallet";
 import Loading from "../src/components/Loading...";
 interface Properties {
   Component: any;
@@ -19,7 +18,6 @@ export default function App(props: Properties) {
       </Head>
       <Loading />
       <SayHi />
-      <Wallet />
       <Component {...pageProps} />
     </SigningCosmWasmProvider>
   );

@@ -16,25 +16,32 @@ import { useSigningClient } from "./../src/context/cosmwasm";
 // Stores
 import devStore from "../src/store/devStore";
 import nftStore from "./../src/store/nftStore";
+import Wallet from "../src/components/Wallet";
+import { isMobile } from "react-device-detect";
 
 const Main = observer(() => {
-  let mod = []
-    mod = [
-      {
-        name: "create",
-        action: () => {nftStore.setOperatingMode("create")}
+  let mod = [];
+  mod = [
+    {
+      name: "create",
+      action: () => {
+        nftStore.setOperatingMode("create");
       },
-      {
-        name: "explore",
-        action: () => {nftStore.setOperatingMode("explore")}
+    },
+    {
+      name: "explore",
+      action: () => {
+        nftStore.setOperatingMode("explore");
       },
-      {
-        name: "trade",
-        action: () => {nftStore.setOperatingMode("trade")}
-      }
-    ]
+    },
+    {
+      name: "trade",
+      action: () => {
+        nftStore.setOperatingMode("trade");
+      },
+    },
+  ];
   const [modes, setModes] = useState<Mode[]>(mod);
-  
   const { walletAddress, connectWallet, disconnect } = useSigningClient();
   const [connect, setConnect] = useState(false);
 
@@ -47,40 +54,42 @@ const Main = observer(() => {
       if (!walletAddress.length) {
         connectWallet();
         setConnect(true);
-      }
-      else {
+      } else {
         disconnect();
         setConnect(false);
       }
-    } 
-    else if (isDevelopment && isDatabase) {
+    } else if (isDevelopment && isDatabase) {
       setConnect(true);
-    }
-    else {
+    } else {
       setConnect(false);
       throw new Error("Error while connecting to wallet.");
     }
-  };
+  }
 
   return (
     <div className={globalStyles.mainBlock}>
       <div className={`${globalStyles.onlineModes}`}>
         <button
-          className={connect ? globalStyles.customButtonNotActive : globalStyles.customButtonActive}
+          className={
+            connect
+              ? globalStyles.customButtonNotActive
+              : globalStyles.customButtonActive
+          }
           onClick={() => connectToWallet()}
         >
           {connect ? "disconnect" : "connect"}
         </button>
       </div>
-      {connect &&
+      {connect && (
         <>
+          {!isMobile ? <Wallet /> : null}
           <div className={globalStyles.modes}>
             <ModeToggle modes={modes} />
           </div>
           <ModeSelector />
         </>
-      }
-    </div>  
+      )}
+    </div>
   );
 });
 
