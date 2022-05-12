@@ -11,9 +11,9 @@ export default function NFTBlock(props: Properties) {
   let NFT = props.nft;
   let text = props.text;
   return (
-    <div style={{ backgroundColor: "yellow" }}>
-      <h1>{NFT.name || "title undefined"}</h1>
-      <div className={styles.NFTComponent}>
+    <>
+      <div className={styles.nftBlock}>
+        <h1 className={styles.title}>{NFT.name || "title undefined"}</h1>
         {NFT.type === "text" && text ? (
           <span>{text}</span>
         ) : NFT.type === "img" ? (
@@ -29,7 +29,7 @@ export default function NFTBlock(props: Properties) {
         )}
         <address className={styles.owner}>{NFT.owner}</address>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -12,8 +12,7 @@ export default function CreateBasedBlock(props: any) {
   }
 
   return (
-    <div style={{ backgroundColor: "yellow" }}>
-      <div className={styles.block}>
+      <div className={styles.createBasedBlock}>
         <h2 className={styles.header}>Create new NFT based on this:</h2>
         <select
           name="modes"
@@ -29,6 +28,5 @@ export default function CreateBasedBlock(props: any) {
         </select>
         <NFUploader modalMode={mode} parentId={NFT.id} />
       </div>
-    </div>
   );
 }
