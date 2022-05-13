@@ -12,7 +12,13 @@ class dappState {
       display: observable,
       setOn: action,
       setOff: action,
+      setStateAndOn: action,
     });
+  }
+
+  public setStateAndOn(state: string){
+    this.setState(state)
+    this.setOn()
   }
 
   public setState(state: string) {

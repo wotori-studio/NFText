@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSigningClient } from "../../context/cosmwasm";
 import queryMini from "../../services/query/queryMini";
+import dappState from "../../store/dappState";
 import WrapBuy from "../WrapTrade/WrapBuy";
 import style from "./trade.module.sass";
 
@@ -13,6 +14,7 @@ const BuySection = () => {
   const [marketIDs, setMarketIDs] = useState([]);
 
   useEffect(() => {
+    dappState.setStateAndOn("Loading content")
     client
       .queryContractSmart(MARKETPLACE, { get_offerings: {} })
       .then((tokensForSale) => {
@@ -32,6 +34,7 @@ const BuySection = () => {
         setMarketIDs(marketIDs.reverse());
         queryMini(client, tokens).then((o) => setTokensObj(o));
         console.log("query tokens:", tokensObj)
+        dappState.setOff()
       });
   }, [client]);
   return (

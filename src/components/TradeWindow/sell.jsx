@@ -29,14 +29,14 @@ const SellSection = () => {
         <p className={styles.title}>Mobile devices currently not supported</p>
       ) : null}
       <div className={styles.nftBrowser}>
-        {tokensObj
+        {tokensObj !== [] ? tokensObj
           .slice(0)
           .reverse()
           .map((NFT) => (
             <>
               <WrapSell NFT={NFT} />
             </>
-          ))}
+          )): "You don't have nft for sell"}
       </div>
     </div>
   );
