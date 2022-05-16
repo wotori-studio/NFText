@@ -8,36 +8,49 @@ import { Nft } from "./../../models/Nft";
 
 import React, { useState } from "react";
 
-
 interface Properties {
   NFT: Nft;
 }
 
 function NFImage(props: Properties) {
   const { NFT } = props;
-
   const [modalWindowIsOpen, setModalWindowIsOpen] = useState(false);
-  
+  const [loaded, setLoaded] = useState(false);
+
+  function updateState(event: any) {
+    nftService.setImageLimits(event, 209);
+    setLoaded(true);
+    console.log("loaded?", loaded);
+  }
+
   return (
     <>
       <div className={styles.block}>
-        <h2 className={`${styles.title} ${styles.font}`}>{nftService.getLimitedString(NFT.name, 20, 0, true, "Without title")}</h2>
-        <img 
-          onLoad={(event) => nftService.setImageLimits(event, 209)}
+        <h2 className={`${styles.title} ${styles.font}`}>
+          {nftService.getLimitedString(NFT.name, 20, 0, true, "undefined")}
+        </h2>
+        <img
+          onLoad={(event) => updateState(event)}
           onClick={() => setModalWindowIsOpen(true)}
           className={styles.NFImage}
-          src={NFT.content} 
-          alt="Error uploading photo, please try reloading the page."
+          src={NFT.content}
+          alt="Error loading the image, try reloading the page."
         />
-        
+        {!loaded ? (
+          <img className={styles.preloader} src="/assets/loader.webp"></img>
+        ) : null}
         <address className={`${styles.walletAddress} ${styles.font}`}>
           {nftService.getLimitedString(NFT.owner, 16, 5, true, "Without owner")}
         </address>
       </div>
-      
-      {modalWindowIsOpen && 
-        <ModalWindow isOpen={modalWindowIsOpen} close={() => setModalWindowIsOpen(!modalWindowIsOpen)} NFT={NFT} />
-      }
+
+      {modalWindowIsOpen && (
+        <ModalWindow
+          isOpen={modalWindowIsOpen}
+          close={() => setModalWindowIsOpen(!modalWindowIsOpen)}
+          NFT={NFT}
+        />
+      )}
     </>
   );
 }

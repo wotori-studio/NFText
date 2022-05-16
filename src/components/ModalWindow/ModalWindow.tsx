@@ -124,7 +124,7 @@ const ModalWindow = (props: Properties) => {
             ) : NFT.type === "img" ? (
               <img
                 src={NFT.content}
-                alt="An error occurred while loading the image, please try reloading the page."
+                alt="An error occurred while loading the image, try reloading the page."
                 onLoad={(event) =>
                   nftService.setImageLimits(event, calculateSizeForImage())
                 }
