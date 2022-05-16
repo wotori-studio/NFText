@@ -45,7 +45,7 @@ function NFText(props: Properties) {
         <div className={styles.body} onClick={() => setModalWindowIsOpen(true)}>
           <span className={`${styles.title} ${styles.font}`}>{NFTService.getLimitedString(NFT.name, 20, 0, true, "Without title")}</span>
           <span className={`${styles.text} ${styles.font}`}>
-            {NFTService.getLimitedString(text, 69, 0, true, "Loading...")}
+            {NFTService.getLimitedString(text, 69, 0, true, "Loading")}
           </span>                            
           <address className={`${styles.walletAddress} ${styles.font}`}>{NFTService.getLimitedString(NFT.owner, 16, 5, true, "Without owner")}</address>
         </div>
