@@ -18,7 +18,6 @@ import NFImage from "../NFImage/NFImage";
 // Stores
 import devStore from "../../store/devStore";
 import nftStore from "../../store/nftStore";
-import NF3DPreview from "../NFImage/NF3DPreview";
 import getNftTokenAmount from "../../services/tokenId";
 import query from "../../services/query/query";
 
@@ -66,7 +65,7 @@ const NFBrowser = observer(() => {
 
               {NFT.type === "img" && <NFImage NFT={NFT} />}
 
-              {NFT.type === "3d" && <NF3DPreview NFT={NFT} />}
+              {NFT.type === "3d" && <NFImage NFT={NFT} />}
             </>
           ) : null
         )}

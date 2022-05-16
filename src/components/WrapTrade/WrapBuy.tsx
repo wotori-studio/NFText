@@ -1,4 +1,3 @@
-import NF3DPreview from "../NFImage/NF3DPreview";
 import NFImage from "../NFImage/NFImage";
 import NFText from "../NFText/NFText";
 import globalStyles from "../../globalStyles/styles.module.sass";
@@ -59,7 +58,7 @@ const WrapBuy = (props: any) => {
     <div>
       {NFT.type === "text" && <NFText NFT={NFT} />}
       {NFT.type === "img" && <NFImage NFT={NFT} />}
-      {NFT.type === "3d" && <NF3DPreview NFT={NFT} />}
+      {NFT.type === "3d" && <NFImage NFT={NFT} />}
       <div className={styles.center}>
         <div style={{ margin: "5px" }}>price: {PRICE / 370370} CW20*</div>
         <div>

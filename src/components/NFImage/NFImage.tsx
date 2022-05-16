@@ -17,6 +17,18 @@ function NFImage(props: Properties) {
   const [modalWindowIsOpen, setModalWindowIsOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
+  let imgUrl;
+  if (NFT.type === "img") {
+    imgUrl = NFT.content;
+  }
+  if (NFT.type === "3d") {
+    if (NFT.preview) {
+      imgUrl = NFT.preview;
+    } else {
+      imgUrl = "https://dummyimage.com/600x400/1aeddf/ffffff&text=3D+file";
+    }
+  }
+
   function updateState(event: any) {
     nftService.setImageLimits(event, 209);
     setLoaded(true);
@@ -33,7 +45,7 @@ function NFImage(props: Properties) {
           onLoad={(event) => updateState(event)}
           onClick={() => setModalWindowIsOpen(true)}
           className={styles.NFImage}
-          src={NFT.content}
+          src={imgUrl}
           alt="Error loading the image, try reloading the page."
         />
         {!loaded ? (

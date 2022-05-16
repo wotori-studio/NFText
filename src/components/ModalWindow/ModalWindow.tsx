@@ -18,7 +18,6 @@ import { useSigningClient } from "../../context/cosmwasm";
 import NFText from "../NFText/NFText";
 import NFImage from "../NFImage/NFImage";
 import ModelViewer from "../ModelViewer";
-import NF3DPreview from "../NFImage/NF3DPreview";
 import nftStore from "../../store/nftStore";
 
 interface Properties {
@@ -198,7 +197,7 @@ const ModalWindow = (props: Properties) => {
                             ) : mNFT.type === "img" ? (
                               <NFImage NFT={mNFT} />
                             ) : mNFT.type === "3d" ? (
-                              <NF3DPreview NFT={mNFT} />
+                              <NFImage NFT={mNFT} />
                             ) : null}
                           </>
                         ) : null
