@@ -1,11 +1,7 @@
 import styles from "./NFImage.module.sass";
-
 import nftService from "./../../services/nftService";
-
 import ModalWindow from "./../ModalWindow/ModalWindow";
-
 import { Nft } from "./../../models/Nft";
-
 import React, { useState } from "react";
 
 interface Properties {
@@ -29,9 +25,9 @@ function NFImage(props: Properties) {
   }
 
   function updateState(event: any) {
-    nftService.setImageLimits(event, 209);
     setLoaded(true);
     console.log("loaded?", loaded);
+    nftService.setImageLimits(event, 209);
   }
 
   return (
