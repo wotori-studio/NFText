@@ -20,8 +20,7 @@ function NFImage(props: Properties) {
   let imgUrl;
   if (NFT.type === "img") {
     imgUrl = NFT.content;
-  }
-  if (NFT.type === "3d") {
+  } else if (NFT.type === "3d") {
     if (NFT.preview) {
       imgUrl = NFT.preview;
     } else {
@@ -37,16 +36,15 @@ function NFImage(props: Properties) {
 
   return (
     <>
-      <div className={styles.block}>
+      <div onClick={() => setModalWindowIsOpen(true)} className={styles.block}>
         <h2 className={`${styles.title} ${styles.font}`}>
           {nftService.getLimitedString(NFT.name, 20, 0, true, "undefined")}
         </h2>
         <img
           onLoad={(event) => updateState(event)}
-          onClick={() => setModalWindowIsOpen(true)}
           className={styles.NFImage}
           src={imgUrl}
-          alt="Error loading the image, try reloading the page."
+          alt="Error loading the image, try reload the page."
         />
         {!loaded ? (
           <img className={styles.preloader} src="/assets/loader.webp"></img>
