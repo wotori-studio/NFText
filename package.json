@@ -24,12 +24,12 @@
     "next": "^12.1.6",
     "next-compose-plugins": "^2.2.1",
     "next-optimized-images": "^2.6.2",
-    "node-sass": "^7.0.1",
     "prop-types": "^15.8.1",
     "react": "^18.1.0",
     "react-device-detect": "^2.2.2",
     "react-dom": "^18.1.0",
     "react-painter": "^0.4.0",
+    "sass": "^1.51.0",
     "styled-jsx": "^5.0.2",
     "three": "^0.140.2",
     "yarn": "^1.22.18"
@@ -42,7 +42,6 @@
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --*"
   },
   "devDependencies": {
-    "@types/next": "^9.0.0",
     "@types/node-sass": "^4.11.2",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
