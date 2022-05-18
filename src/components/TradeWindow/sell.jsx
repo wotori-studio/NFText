@@ -12,7 +12,7 @@ const SellSection = () => {
   const [tokensObj, setTokensObj] = useState([]);
 
   useEffect(() => {
-    if (!isMobile) {
+    if (!isMobile && walletAddress) {
       client
         .queryContractSmart(CW721, { tokens: { owner: walletAddress } })
         .then((response) => {
@@ -28,15 +28,20 @@ const SellSection = () => {
       {isMobile ? (
         <p className={styles.title}>Mobile devices currently not supported</p>
       ) : null}
+      {!walletAddress ? (
+        <p className={styles.title}>Install keplr to be able to mint tokens and sell</p>
+      ) : null}
       <div className={styles.nftBrowser}>
-        {tokensObj !== [] ? tokensObj
-          .slice(0)
-          .reverse()
-          .map((NFT) => (
-            <>
-              <WrapSell NFT={NFT} />
-            </>
-          )): "You don't have nft for sell"}
+        {tokensObj !== []
+          ? tokensObj
+              .slice(0)
+              .reverse()
+              .map((NFT) => (
+                <>
+                  <WrapSell NFT={NFT} />
+                </>
+              ))
+          : "You don't have nft for sell"}
       </div>
     </div>
   );

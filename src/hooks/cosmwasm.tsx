@@ -57,6 +57,9 @@ export const useSigningCosmWasmClient = (): ISigningCosmWasmClientContext => {
     if (signingClient) {
       signingClient.disconnect();
     }
+    if (client) {
+      setClient(null)
+    }
     setWalletAddress("");
     setSigningClient(null);
     setLoading(false);

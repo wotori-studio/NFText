@@ -8,7 +8,7 @@ import { observer } from "mobx-react-lite";
 // Components
 import ModeSelector from "./../src/components/ModeSelector/ModeSelector";
 import ModeToggle, { Mode } from "./../src/components/ModeToggle/ModeToggle";
-import RawFooter from "../src/components/footer"
+import RawFooter from "../src/components/footer";
 
 // Contexts
 import { useSigningClient } from "./../src/context/cosmwasm";
@@ -42,27 +42,18 @@ const Main = observer(() => {
     },
   ];
   const [modes, setModes] = useState<Mode[]>(mod);
-  const { walletAddress, connectWallet, disconnect } = useSigningClient();
+  const { walletAddress, connectWallet, disconnect, client } = useSigningClient();
   const [connect, setConnect] = useState(false);
 
   function connectToWallet() {
-    const isProduction = process.env.NODE_ENV === "production";
-    const isDevelopment = process.env.NODE_ENV === "development";
-    const isBlockchain = devStore.dataPlatform === "Blockchain";
-    const isDatabase = devStore.dataPlatform === "Database";
-    if (isProduction || isBlockchain) {
-      if (!walletAddress.length) {
-        connectWallet();
-        setConnect(true);
-      } else {
-        disconnect();
-        setConnect(false);
-      }
-    } else if (isDevelopment && isDatabase) {
+    if (!client) {
+      console.log("connecting");
+      connectWallet();
       setConnect(true);
     } else {
+      console.log("disconecting");
+      disconnect();
       setConnect(false);
-      throw new Error("Error while connecting to wallet.");
     }
   }
 

@@ -14,8 +14,10 @@ import TradeWindow from "../TradeWindow";
 // Stores
 import nftStore from "./../../store/nftStore";
 import { isMobile } from "react-device-detect";
+import { useSigningClient } from "../../context/cosmwasm";
 
 const ModeSelector = observer(() => {
+  const { signingClient } = useSigningClient();
   const [modes, setModes] = useState<Mode[]>([
     {
       name: "text",
@@ -63,10 +65,12 @@ const ModeSelector = observer(() => {
         ) : null}
       </div>
       {/* TODO: replace with switchcase if it exists in js */}
-      {nftStore.operatingMode === "create" && !isMobile ? (
+      {nftStore.operatingMode === "create" && !isMobile && signingClient ? (
         <NFUploader modalMode={null} parentId={null} />
       ) : nftStore.operatingMode === "create" && isMobile ? (
         "Mobile devices currently not suported"
+      ) : nftStore.operatingMode === "create" && !isMobile && !signingClient ? (
+        "Install Keplr to be able to mint tokens"
       ) : null}
 
       {nftStore.operatingMode === "explore" && <NFBrowser />}

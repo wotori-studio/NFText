@@ -17,41 +17,45 @@ const WrapBuy = (props: any) => {
   const { walletAddress, signingClient } = useSigningClient();
 
   const handleBuy = () => {
-    dappState.setState("Buy transaction");
-    dappState.setOn();
-    console.log("lets buy this:", NFT);
-    const msg = `{"offering_id":"${MARKET_ID}"}`;
-    const encodedMsg = Buffer.from(msg).toString("base64");
+    if (walletAddress) {
+      dappState.setState("Buy transaction");
+      dappState.setOn();
+      console.log("lets buy this:", NFT);
+      const msg = `{"offering_id":"${MARKET_ID}"}`;
+      const encodedMsg = Buffer.from(msg).toString("base64");
 
-    if (!signingClient) return;
+      if (!signingClient) return;
 
-    signingClient
-      ?.execute(
-        walletAddress,
-        CW20,
-        {
-          send: {
-            contract: MARKETPLACE,
-            amount: PRICE * 370370,
-            msg: encodedMsg,
-            additional_info: "1 Torii = 370370 wTorii.",
+      signingClient
+        ?.execute(
+          walletAddress,
+          CW20,
+          {
+            send: {
+              contract: MARKETPLACE,
+              amount: PRICE * 370370,
+              msg: encodedMsg,
+              additional_info: "1 Torii = 370370 wTorii.",
+            },
           },
-        },
-        calculateFee(600_000, "20uconst")
-      )
-      .then((res) => {
-        console.log(res);
-        dappState.setOff();
-        alert("Successfully ordered!");
-      })
-      .catch((error) => {
-        dappState.setOff();
-        // alert(`Error! ${error.message}`);
-        alert(
-          `Error! Probably you don't have enough cw20 tokens. You can exchange Torii to CW20 in sliding window with arrow on the left side.`
-        );
-        console.log("Error signingClient?.execute(): ", error);
-      });
+          calculateFee(600_000, "20uconst")
+        )
+        .then((res) => {
+          console.log(res);
+          dappState.setOff();
+          alert("Successfully ordered!");
+        })
+        .catch((error) => {
+          dappState.setOff();
+          // alert(`Error! ${error.message}`);
+          alert(
+            `Error! Probably you don't have enough cw20 tokens. You can exchange Torii to CW20 in sliding window with arrow on the left side.`
+          );
+          console.log("Error signingClient?.execute(): ", error);
+        });
+    } else {
+      alert("Install Keplr to be able to buy NFTs")
+    }
   };
 
   return (

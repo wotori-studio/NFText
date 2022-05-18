@@ -14,7 +14,7 @@ const BuySection = () => {
   const [marketIDs, setMarketIDs] = useState([]);
 
   useEffect(() => {
-    dappState.setStateAndOn("Loading content")
+    dappState.setStateAndOn("Loading content");
     client
       .queryContractSmart(MARKETPLACE, { get_offerings: {} })
       .then((tokensForSale) => {
@@ -33,8 +33,8 @@ const BuySection = () => {
         setPriceList(prices.reverse());
         setMarketIDs(marketIDs.reverse());
         queryMini(client, tokens).then((o) => setTokensObj(o));
-        console.log("query tokens:", tokensObj)
-        dappState.setOff()
+        console.log("query tokens:", tokensObj);
+        dappState.setOff();
       });
   }, [client]);
   return (
