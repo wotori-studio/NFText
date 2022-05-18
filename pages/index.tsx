@@ -8,7 +8,7 @@ import { observer } from "mobx-react-lite";
 // Components
 import ModeSelector from "./../src/components/ModeSelector/ModeSelector";
 import ModeToggle, { Mode } from "./../src/components/ModeToggle/ModeToggle";
-import DeveloperMenu from "./../src/components/DeveloperMenu/DeveloperMenu";
+import RawFooter from "../src/components/footer"
 
 // Contexts
 import { useSigningClient } from "./../src/context/cosmwasm";
@@ -67,28 +67,31 @@ const Main = observer(() => {
   }
 
   return (
-    <div className={globalStyles.mainBlock}>
-      <div className={`${globalStyles.onlineModes}`}>
-        <button
-          className={
-            connect
-              ? globalStyles.customButtonNotActive
-              : globalStyles.customButtonActive
-          }
-          onClick={() => connectToWallet()}
-        >
-          {connect ? "disconnect" : "connect"}
-        </button>
+    <div className={globalStyles.app}>
+      <div className={globalStyles.mainBlock}>
+        <div className={`${globalStyles.onlineModes}`}>
+          <button
+            className={
+              connect
+                ? globalStyles.customButtonNotActive
+                : globalStyles.customButtonActive
+            }
+            onClick={() => connectToWallet()}
+          >
+            {connect ? "disconnect" : "connect"}
+          </button>
+        </div>
+        {connect && (
+          <>
+            {!isMobile ? <Wallet /> : null}
+            <div className={globalStyles.modes}>
+              <ModeToggle modes={modes} />
+            </div>
+            <ModeSelector />
+            <RawFooter />
+          </>
+        )}
       </div>
-      {connect && (
-        <>
-          {!isMobile ? <Wallet /> : null}
-          <div className={globalStyles.modes}>
-            <ModeToggle modes={modes} />
-          </div>
-          <ModeSelector />
-        </>
-      )}
     </div>
   );
 });

@@ -17,24 +17,26 @@ const ModeToggle = ({ modes }: Properties): JSX.Element => {
     modes[indexActiveButton].action();
   }, []);
 
-  return <>{modes.map((mode, index) => {
-    let buttonMode =
-      index === indexActiveButton
-        ? globalStyles.customButtonActive
-        : globalStyles.customButtonNotActive;
-    return (
-      <button
-        key={index}
-        className={buttonMode}
-        onClick={() => {
-          setIndexActiveButton(index)
-          mode.action()
-        }}
-      >
-        {mode.name}
-      </button>
-    );
-  })}</>
+  return <>
+    {modes.map((mode, index) => {
+      let buttonMode =
+        index === indexActiveButton
+          ? globalStyles.customButtonActive
+          : globalStyles.customButtonNotActive;
+      return (
+        <button
+          key={index}
+          className={buttonMode}
+          onClick={() => {
+            setIndexActiveButton(index)
+            mode.action()
+          }}
+        >
+          {mode.name}
+        </button>
+      );
+    })}
+  </>
 };
 
 export default ModeToggle;
