@@ -62,7 +62,6 @@ const ModeSelector = observer(() => {
           <ModeToggle modes={modesTrading} />
         ) : null}
       </div>
-
       {/* TODO: replace with switchcase if it exists in js */}
       {nftStore.operatingMode === "create" && !isMobile ? (
         <NFUploader modalMode={null} parentId={null} />
@@ -70,8 +69,8 @@ const ModeSelector = observer(() => {
         "Mobile devices currently not suported"
       ) : null}
 
-      {nftStore.operatingMode === "explore" ? <NFBrowser /> : null}
-      {nftStore.operatingMode === "trade" ? <TradeWindow /> : null}
+      {nftStore.operatingMode === "explore" && <NFBrowser />}
+      {nftStore.operatingMode === "trade" && <TradeWindow />}
     </>
   );
 });
