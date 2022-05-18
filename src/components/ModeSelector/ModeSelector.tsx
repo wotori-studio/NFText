@@ -57,9 +57,10 @@ const ModeSelector = observer(() => {
       <div className={styles.overview}>
         {nftStore.operatingMode !== "trade" ? (
           <ModeToggle modes={modes} />
-        ) : (
+        ) : null}
+        {nftStore.operatingMode === "trade" ? (
           <ModeToggle modes={modesTrading} />
-        )}
+        ) : null}
       </div>
 
       {/* TODO: replace with switchcase if it exists in js */}

@@ -22,12 +22,6 @@ const ModeToggle = observer((props: Properties) => {
     modes[indexActiveButton].action();
   }, []);
 
-  useEffect(() => {
-    if (modes.length === 2) {
-      if (indexActiveButton === 2) setIndexActiveButton(1);
-    }
-  }, [nftStore.operatingMode]);
-
   function toggle(index: number) {
     setIndexActiveButton(index);
     modes[index].action();
