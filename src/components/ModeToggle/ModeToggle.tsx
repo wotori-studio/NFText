@@ -10,20 +10,18 @@ interface Properties {
   modes: Array<Mode>;
 }
 
-const ModeToggle = (props: Properties) => {
-  const { modes } = props;
+const ModeToggle = ({ modes }: Properties): JSX.Element => {
 
   const [indexActiveButton, setIndexActiveButton] = useState(0);
   useEffect(() => {
     modes[indexActiveButton].action();
   }, []);
 
-  return modes.map((mode, index) => {
+  return <>{modes.map((mode, index) => {
     let buttonMode =
       index === indexActiveButton
         ? globalStyles.customButtonActive
         : globalStyles.customButtonNotActive;
-
     return (
       <button
         key={index}
@@ -36,7 +34,7 @@ const ModeToggle = (props: Properties) => {
         {mode.name}
       </button>
     );
-  });
+  })}</>
 };
 
 export default ModeToggle;
