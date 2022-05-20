@@ -17,6 +17,7 @@ const BuySection = () => {
 
   //  Query tokens that user own. TODO: move to user profile component
   useEffect(() => {
+    if (!walletAddress) return
     client
       .queryContractSmart(CW721, {
         tokens: { owner: walletAddress },
@@ -24,7 +25,7 @@ const BuySection = () => {
       .then((ownersTokens) => {
         console.log("OWNER`S TOKENS:", ownersTokens);
       });
-  });
+  }, [client]);
 
   useEffect(() => {
     dappState.setStateAndOn("Loading content");
@@ -43,7 +44,7 @@ const BuySection = () => {
           tokens.push(offer.token_id);
           prices.push(offer.list_price.amount);
           marketIDs.push(offer.id);
-          sellerList.push(offer.seller)
+          sellerList.push(offer.seller);
         }
         setPriceList(prices.reverse());
         setMarketIDs(marketIDs.reverse());

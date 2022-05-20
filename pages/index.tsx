@@ -14,7 +14,6 @@ import RawFooter from "../src/components/footer";
 import { useSigningClient } from "./../src/context/cosmwasm";
 
 // Stores
-import devStore from "../src/store/devStore";
 import nftStore from "./../src/store/nftStore";
 import Wallet from "../src/components/Wallet";
 import { isMobile } from "react-device-detect";
@@ -74,7 +73,7 @@ const Main = observer(() => {
         </div>
         {connect && (
           <>
-            {!isMobile ? <Wallet /> : null}
+            {!isMobile && walletAddress && <Wallet />}
             <div className={globalStyles.modes}>
               <ModeToggle modes={modes} />
             </div>
