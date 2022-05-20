@@ -5,7 +5,9 @@ import styles from "./styles.module.css";
 export default observer(function Loading(props) {
   return dappState.display ? (
     <div className={styles.container}>
-      <p className={styles.loading}>{dappState.state}</p>
+      <div className={styles.bgColor}>
+        <p className={styles.loading}>{dappState.state}</p>
+      </div>
     </div>
   ) : null;
 });
