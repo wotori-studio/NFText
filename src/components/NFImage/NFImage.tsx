@@ -1,6 +1,6 @@
 import styles from "./NFImage.module.sass";
 import nftService from "./../../services/nftService";
-import ModalWindow from "./../ModalWindow/ModalWindow";
+import ModalWindow from "../ModalWindow";
 import { Nft } from "./../../models/Nft";
 import React, { useState } from "react";
 
