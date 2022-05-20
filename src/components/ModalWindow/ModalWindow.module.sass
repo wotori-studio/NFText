@@ -34,16 +34,12 @@
     background-color: #ffffffff
 
 .window
-  display: flex
-  align-items: center
-  justify-content: flex-end
-  overflow: hidden
 
-  border-radius: 3px
+  border-radius: 10px
   min-width: 280px
   min-height: 500px
 
-  // background-color: #eee
+  background-color: #eee
 
   cursor: default
 
@@ -57,8 +53,8 @@
       width: 60%
 
   @media screen and (orientation: portrait)
-    width: 95%
-    height: 90%
+    width: 85%
+    height: 85%
 
 .interface
   width: 90%
@@ -99,28 +95,33 @@
   font-size: 24px
 
 .nftBlock
+  width: 100%
+  min-height: 400px
+
   border-radius: 15px
   background-color: #fff
-  padding: 2%
-  margin: 0
+  padding: 20px
   font-family: monospace
   font-style: normal
   font-weight: 400
   font-size: 18px
 
 .basedBlock
+  width: 100%
   border-radius: 20px
-  background-color: aqua
+  background-color: #f0f0f0
   padding: 20px
 
 .createBasedBlock
+  width: 100%
   border-radius: 20px
-  background-color: pink
+  background-color: #fff
   padding: 20px
 
 .childrenBlock
+  width: 100%
   border-radius: 20px
-  background-color: red
+  background-color: #f0f0f0
   padding: 20px
 
 .owner
@@ -175,3 +176,14 @@
     transition: 0.15s
     box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25)
     cursor: pointer
+
+.navwrapper
+  ::-webkit-scrollbar
+    width: 5px
+
+  ::-webkit-scrollbar-track
+    border-radius: 100px
+
+  ::-webkit-scrollbar-thumb
+    background: #00d1ff
+    border-radius: 10px

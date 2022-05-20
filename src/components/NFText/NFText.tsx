@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 // Components
-import ModalWindow from "./../ModalWindow/ModalWindow";
+import ModalWindow from "../ModalWindow";
 
 // Models
 import { Nft } from "./../../models/Nft";

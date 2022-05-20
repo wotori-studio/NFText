@@ -2,14 +2,14 @@
 import styles from "./ModalWindow.module.sass";
 
 // Models
-import { Nft } from "./../../models/Nft";
+import { Nft } from "../../models/Nft";
 
 // Dependencies
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 // Stores
-import devStore from "./../../store/devStore";
+import devStore from "../../store/devStore";
 import nftStore from "../../store/nftStore";
 
 // Comps
@@ -76,8 +76,8 @@ const ModalWindow = (props: Properties) => {
       onClick={(event) => closeModalWindow(event)}
     >
       <input type="button" className={styles.close} />
-      <div className={styles.window}>
-        <div className={styles.interface}>
+      <div className={`${styles.window} ${styles.navwrapper}`}>
+        <div className={`${styles.interface}`}>
           <NFTBlock nft={NFT} text={text} />
           <BasedBlock nft={NFT} />
           <CreateBasedBlock nft={NFT} />
