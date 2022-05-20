@@ -80,8 +80,7 @@ const WrapBuy = (props: any) => {
           calculateFee(600_000, "20utorii")
         ).then(()=>{
           alert("Withdaw success!")
-          dappState.setState("Withdraw transaction");
-          dappState.setOn();
+          dappState.setOff();
         })
     }
   };
