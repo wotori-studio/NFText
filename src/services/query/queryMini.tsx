@@ -1,9 +1,11 @@
 import { CosmWasmClient } from "@cosmjs/cosmwasm-stargate/build/cosmwasmclient";
 import { Nft } from "../../models/Nft";
+import dappState from "../../store/dappState";
 
 const CW721 = process.env.NEXT_PUBLIC_CW721 as string;
 
 async function queryMini(client: CosmWasmClient | null, ids: Array<number>) {
+  dappState.setStateAndOn("Query content")
   if (!client) return;
 
   const manyMetadata = [];
@@ -25,6 +27,7 @@ async function queryMini(client: CosmWasmClient | null, ids: Array<number>) {
         return newNFT;
       });
       console.log("queried NFTs: ", NFTs);
+      dappState.setOff()
       return NFTs;
     })
     .catch((e) => console.log(e));

@@ -1,12 +1,13 @@
 import { CosmWasmClient } from "@cosmjs/cosmwasm-stargate/build/cosmwasmclient";
 import { Nft } from "../../models/Nft";
+import dappState from "../../store/dappState";
 import nftStore from "../../store/nftStore";
 
 const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_CW721 as string;
 
 async function query(client: CosmWasmClient | null, children: any) {
   if (!client) return;
-
+  dappState.setStateAndOn("Query NFTs")
   console.log("start query nft.", children);
   if (typeof children === "number") {
     children = Array.from({ length: children - 1 }, (x, i) => i + 1);
@@ -40,6 +41,7 @@ async function query(client: CosmWasmClient | null, children: any) {
           decodedMetadata.preview ||
           "https://dummyimage.com/600x400/1aeddf/ffffff&text=3D+file",
       };
+      dappState.setOff()
       return newNFT;
     });
 

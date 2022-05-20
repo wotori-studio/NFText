@@ -1,13 +1,12 @@
 import { calculateFee } from "@cosmjs/stargate";
 import { useState, useEffect } from "react";
 import { useSigningClient } from "../../context/cosmwasm";
-import {
-  convertMicroDenomToDenom
-} from "../../services/converter";
+import { convertMicroDenomToDenom } from "../../services/converter";
 import dappState from "../../store/dappState";
-const CW20 = process.env.NEXT_PUBLIC_CW20 || "";
-const STAKING_DENOM = process.env.NEXT_PUBLIC_STAKING_DENOM || "utorii";
-const FAUCET = process.env.NEXT_PUBLIC_FAUCET
+
+const CW20 = process.env.NEXT_PUBLIC_CW20;
+const STAKING_DENOM = process.env.NEXT_PUBLIC_STAKING_DENOM;
+const FAUCET = process.env.NEXT_PUBLIC_FAUCET;
 
 export default function Wallet() {
   const { walletAddress, signingClient } = useSigningClient();
@@ -17,8 +16,6 @@ export default function Wallet() {
 
   const [input1, setInput1] = useState("");
   const [input2, setInput2] = useState("");
-
-  const [inputClass, setInputClass] = useState("side-input");
 
   useEffect(() => {
     if (!signingClient || walletAddress.length === 0) return;
@@ -61,19 +58,19 @@ export default function Wallet() {
         walletAddress,
         CW20,
         { buy: {} },
-        calculateFee(600_000, "0utorii"), //fee
+        calculateFee(600_000, "0utorii"),
         undefined, //memo
         [
           {
             amount: (Number(input1) * 1000000).toString(),
             denom: "utorii",
           },
-        ] //funds
+        ]
       )
       .then((response) => {
         console.log(response);
         setInput1("");
-        alert("Successfully get wrapped token!");
+        alert("Successfully recieved wrapped token!");
         dappState.setOff();
         setTrigger(Math.random());
       })
@@ -92,8 +89,8 @@ export default function Wallet() {
         CW20,
         {
           burn: { amount: (input2 * 370370).toString() },
-        }, // msg
-        calculateFee(600_000, "0utorii") //fee
+        },
+        calculateFee(600_000, "0utorii")
       )
       .then((response) => {
         dappState.setOff();
@@ -121,7 +118,7 @@ export default function Wallet() {
             user-select: none;
           }
 
-          /* anel decoration */
+          /* Panel decoration */
           #side-checkbox {
             display: none;
           }
@@ -240,16 +237,16 @@ export default function Wallet() {
           .side-button-1 .side-close {
             display: none;
           }
-          #side-checkbox:checked + .side-panel .side-button-1 .side-open {
+          #side-checkbox:not(:checked) + .side-panel .side-button-1 .side-open {
             display: none;
           }
-          #side-checkbox:checked + .side-panel .side-button-1 .side-close {
+          #side-checkbox:not(:checked) + .side-panel .side-button-1 .side-close {
             display: block;
           }
-          #side-checkbox:checked + .side-panel {
+          #side-checkbox:not(:checked) + .side-panel {
             left: 8px;
           }
-          #side-checkbox:checked + .go-left {
+          #side-checkbox:not(:checked) + .go-left {
             left: -200px;
           }
 
@@ -266,9 +263,8 @@ export default function Wallet() {
           }
         `}
       </style>
-      <input type="checkbox" id="side-checkbox" /> {/* hidden */}
+      <input type="checkbox" id="side-checkbox" />
       <div className="side-panel">
-        {" "}
         <div className="side-title">Exchange</div>
         <div className="side-body">
           <p>Torii: {nativeBalance}</p>
@@ -276,7 +272,7 @@ export default function Wallet() {
           <input
             type="text"
             placeholder="torii to cw20"
-            className={inputClass}
+            className="side-input"
             value={input1}
             onChange={(e) => setInput1(e.target.value)}
           />
@@ -289,7 +285,7 @@ export default function Wallet() {
           <input
             type="text"
             placeholder="cw20 to torii"
-            className={inputClass}
+            className="side-input"
             value={input2}
             onChange={(e) => setInput2(e.target.value)}
           />
@@ -304,8 +300,12 @@ export default function Wallet() {
           1 torii = 370370 cw20
           <br />
           <br />* We convert it for better ux so you see and able to operate 1
-          cw20 as 1 torii<br/><br/>
-          <a target="_blank" href={FAUCET}>faucet</a>
+          cw20 as 1 torii
+          <br />
+          <br />
+          <a target="_blank" href={FAUCET}>
+            faucet
+          </a>
         </div>
         {/* Panel open / close buttons */}
         <div className="side-button-1-wr">
@@ -326,7 +326,6 @@ export default function Wallet() {
             />
           </label>
         </div>
-        <div></div>
       </div>
     </>
   );

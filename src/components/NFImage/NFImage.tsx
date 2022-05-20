@@ -1,13 +1,8 @@
 import styles from "./NFImage.module.sass";
-
 import nftService from "./../../services/nftService";
-
 import ModalWindow from "./../ModalWindow/ModalWindow";
-
 import { Nft } from "./../../models/Nft";
-
 import React, { useState } from "react";
-
 
 interface Properties {
   NFT: Nft;
@@ -15,29 +10,53 @@ interface Properties {
 
 function NFImage(props: Properties) {
   const { NFT } = props;
-
   const [modalWindowIsOpen, setModalWindowIsOpen] = useState(false);
-  
+  const [loaded, setLoaded] = useState(false);
+
+  let imgUrl;
+  if (NFT.type === "img") {
+    imgUrl = NFT.content;
+  } else if (NFT.type === "3d") {
+    if (NFT.preview) {
+      imgUrl = NFT.preview;
+    } else {
+      imgUrl = "https://dummyimage.com/600x400/1aeddf/ffffff&text=3D+file";
+    }
+  }
+
+  function updateState(event: any) {
+    setLoaded(true);
+    console.log("loaded?", loaded);
+    nftService.setImageLimits(event, 209);
+  }
+
   return (
     <>
-      <div className={styles.block}>
-        <h2 className={`${styles.title} ${styles.font}`}>{nftService.getLimitedString(NFT.name, 20, 0, true, "Without title")}</h2>
-        <img 
-          onLoad={(event) => nftService.setImageLimits(event, 209)}
-          onClick={() => setModalWindowIsOpen(true)}
+      <div onClick={() => setModalWindowIsOpen(true)} className={styles.block}>
+        <h2 className={`${styles.title} ${styles.font}`}>
+          {nftService.getLimitedString(NFT.name, 20, 0, true, "undefined")}
+        </h2>
+        <img
+          onLoad={(event) => updateState(event)}
           className={styles.NFImage}
-          src={NFT.content} 
-          alt="Error uploading photo, please try reloading the page."
+          src={imgUrl}
+          alt="Error loading the image, try reload the page."
         />
-        
+        {!loaded ? (
+          <img className={styles.preloader} src="/assets/loader.webp"></img>
+        ) : null}
         <address className={`${styles.walletAddress} ${styles.font}`}>
           {nftService.getLimitedString(NFT.owner, 16, 5, true, "Without owner")}
         </address>
       </div>
-      
-      {modalWindowIsOpen && 
-        <ModalWindow isOpen={modalWindowIsOpen} close={() => setModalWindowIsOpen(!modalWindowIsOpen)} NFT={NFT} />
-      }
+
+      {modalWindowIsOpen && (
+        <ModalWindow
+          isOpen={modalWindowIsOpen}
+          close={() => setModalWindowIsOpen(!modalWindowIsOpen)}
+          NFT={NFT}
+        />
+      )}
     </>
   );
 }

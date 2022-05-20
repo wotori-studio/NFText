@@ -5,9 +5,6 @@ import styles from "./NFBrowser.module.sass";
 import { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 
-// Services
-import nftService from "../../services/nftService";
-
 // Contexts
 import { useSigningClient } from "../../context/cosmwasm";
 
@@ -16,9 +13,7 @@ import NFText from "../NFText/NFText";
 import NFImage from "../NFImage/NFImage";
 
 // Stores
-import devStore from "../../store/devStore";
 import nftStore from "../../store/nftStore";
-import NF3DPreview from "../NFImage/NF3DPreview";
 import getNftTokenAmount from "../../services/tokenId";
 import query from "../../services/query/query";
 
@@ -26,13 +21,8 @@ const NFBrowser = observer(() => {
   const { client } = useSigningClient();
   const [amount, setAmount] = useState();
   console.log("Browser client: ", client);
-  
-  useEffect(() => {
-    const isProduction = process.env.NODE_ENV === "production";
-    const isDevelopment = process.env.NODE_ENV === "development";
-    const isBlockchain = devStore.dataPlatform === "Blockchain";
-    const isDatabase = devStore.dataPlatform === "Database";
 
+  useEffect(() => {
     const getAmount = async (client) => {
       if (!client) return;
       getNftTokenAmount(client, setAmount);
@@ -43,13 +33,9 @@ const NFBrowser = observer(() => {
       query(client, amount);
     };
 
-    if ((isProduction || isBlockchain) && client) {
-      getAmount(client);
-      console.log("amount", amount);
-      if (amount) queryNft(client);
-    } else if (isDevelopment && isDatabase) {
-      setManyNFT(nftService.getNFTFromDatabase());
-    }
+    getAmount(client);
+    console.log("amount", amount);
+    if (amount) queryNft(client);
   }, [client, amount]);
 
   let ignoreList = [0]; // TODO: move this to cloud variables
@@ -66,7 +52,7 @@ const NFBrowser = observer(() => {
 
               {NFT.type === "img" && <NFImage NFT={NFT} />}
 
-              {NFT.type === "3d" && <NF3DPreview NFT={NFT} />}
+              {NFT.type === "3d" && <NFImage NFT={NFT} />}
             </>
           ) : null
         )}

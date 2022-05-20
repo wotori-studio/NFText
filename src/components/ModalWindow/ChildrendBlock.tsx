@@ -1,5 +1,4 @@
 import nftStore from "../../store/nftStore";
-import NF3DPreview from "../NFImage/NF3DPreview";
 import NFImage from "../NFImage/NFImage";
 import NFText from "../NFText/NFText";
 import styles from "./ModalWindow.module.sass";
@@ -28,7 +27,7 @@ export default function ChildrenBlock(props: any) {
                       ) : mNFT.type === "img" ? (
                         <NFImage NFT={mNFT} />
                       ) : mNFT.type === "3d" ? (
-                        <NF3DPreview NFT={mNFT} />
+                        <NFImage NFT={mNFT} />
                       ) : null}
                     </>
                   ) : null
