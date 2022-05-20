@@ -14,7 +14,9 @@ const WrapBuy = (props: any) => {
   const NFT = props.NFT;
   const PRICE = props.price;
   const MARKET_ID = props.marketID;
+  const SELLER = props.seller;
   const { walletAddress, signingClient } = useSigningClient();
+  console.log("This is seller:", SELLER)
 
   const handleBuy = () => {
     if (walletAddress) {
@@ -34,11 +36,10 @@ const WrapBuy = (props: any) => {
             send: {
               contract: MARKETPLACE,
               amount: PRICE * 370370,
-              msg: encodedMsg,
-              additional_info: "1 Torii = 370370 wTorii.",
+              msg: encodedMsg
             },
           },
-          calculateFee(600_000, "20uconst")
+          calculateFee(600_000, "20utoriit")
         )
         .then((res) => {
           console.log(res);
@@ -58,6 +59,33 @@ const WrapBuy = (props: any) => {
     }
   };
 
+
+  const handleWithdraw = () => {
+    if (walletAddress) {
+      dappState.setState("Withdraw transaction");
+      dappState.setOn();
+      console.log("lets withdraw this:", NFT);
+
+      if (!signingClient) return;
+
+      signingClient
+        ?.execute(
+          walletAddress,
+          MARKETPLACE,
+          {
+            "withdraw_nft": {
+              "offering_id": MARKET_ID
+            }
+          },
+          calculateFee(600_000, "20utorii")
+        ).then(()=>{
+          alert("Withdaw success!")
+          dappState.setState("Withdraw transaction");
+          dappState.setOn();
+        })
+    }
+  };
+
   return (
     <div>
       {NFT.type === "text" && <NFText NFT={NFT} />}
@@ -66,7 +94,7 @@ const WrapBuy = (props: any) => {
       <div className={styles.center}>
         <div style={{ margin: "5px" }}>price: {PRICE / 370370} CW20*</div>
         <div>
-          <button
+          {SELLER !== walletAddress ? <button
             className={globalStyles.customButtonActive}
             onClick={() => {
               if (!isMobile) {
@@ -77,7 +105,18 @@ const WrapBuy = (props: any) => {
             }}
           >
             buy
-          </button>
+          </button> : <button
+            className={globalStyles.customButtonActive}
+            onClick={() => {
+              if (!isMobile) {
+                handleWithdraw();
+              } else {
+                alert("Mobile devices currently not supported");
+              }
+            }}
+          >
+            withdraw
+          </button>}
         </div>
       </div>
     </div>
