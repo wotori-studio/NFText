@@ -7,15 +7,13 @@ The goal is -  to allow all around the world participate in art and vitual world
 
 ## Features
 Current release:
-- interface for minting different types of assets.
-- minting text, img and 3D
+- interface for minting different types of assets (text, img and 3D)
 - .png, .jpg, gif, .glb support
-- all content stored in ipfs (InterPlanetary File System) using [pinata](https://www.pinata.cloud/)
-- mint NFT based on others!
+- all content stores in ipfs (InterPlanetary File System) using [pinata](https://www.pinata.cloud/)
+- mint NFT based on others
 - query parent & child NFTs in modal window (explore section)
-- display all artist`s NFT
-- exchange Torii to CW20 and back back with sliding window
-- Sell & Buy Nfts for CW20 tokens
+- exchange Torii to cw20 and back back with sliding window
+- sell & buy nfts for cw20 tokens
   
 In progress:
 - mint project file token (blender, maya, zBrush, e.t.c.)
@@ -31,8 +29,8 @@ In progress:
 
 
 ### Smart Contracts
-All smart contracts used in NFText are [here](https://github.com/wotori-studio/NFText-CosmWasm).
-Basically source is here:
+All smart contracts used in NFText are in this [repository](https://github.com/wotori-studio/NFText-CosmWasm).
+Basicaly this dApp builded with this CosmWasm smart contracts:
 - [cw20-bounding](https://github.com/CosmWasm/cw-tokens/tree/main/contracts/cw20-bonding)
 - [cw721-base](https://github.com/CosmWasm/cw-nfts/tree/test-resolver/contracts/cw721-base)
 - [cw-marketplace](https://github.com/wotori-studio/CW-Marketplace)
