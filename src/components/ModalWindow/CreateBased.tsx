@@ -12,21 +12,21 @@ export default function CreateBasedBlock(props: any) {
   }
 
   return (
-      <div className={styles.createBasedBlock}>
-        <h2 className={styles.header}>Create new NFT based on this:</h2>
-        <select
-          name="modes"
-          className="{styles.modes}"
-          value={mode}
-          onChange={(e) => {
-            handleModeChange(e);
-          }}
-        >
-          <option value="text">text</option>
-          <option value="img">img</option>
-          <option value="3d">3d</option>
-        </select>
-        <NFUploader modalMode={mode} parentId={NFT.id} />
-      </div>
+    <div className={styles.createBasedBlock}>
+      <h2 className={styles.header}>Create new NFT based on "{NFT.name}":</h2>
+      <select
+        name="modes"
+        className="{styles.modes}"
+        value={mode}
+        onChange={(e) => {
+          handleModeChange(e);
+        }}
+      >
+        <option value="text">text</option>
+        <option value="img">img</option>
+        <option value="3d">3d</option>
+      </select>
+      <NFUploader modalMode={mode} parentId={NFT.id} />
+    </div>
   );
 }

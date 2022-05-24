@@ -12,8 +12,14 @@ export default function NFTBlock(props: Properties) {
   let text = props.text;
   return (
     <>
-      <div className={`${styles.nftBlock} ${ NFT.type === "3d" && styles.injectHeigh}`}>
-        <h1 className={styles.title}>{NFT.name || "title undefined"}</h1>
+      <div
+        className={`${styles.nftBlock} ${
+          NFT.type === "3d" && styles.injectHeigh
+        }`}
+      >
+        <h1 style={{ padding: "0 0 10px 0" }} className={styles.title}>
+          {NFT.name || "title undefined"}
+        </h1>
         {NFT.type === "text" && text ? (
           <span>{text}</span>
         ) : NFT.type === "img" ? (
@@ -46,10 +52,10 @@ function calculateSizeForImage(): number {
     return innerWidth < 780
       ? innerWidth * 0.55
       : innerWidth < 850
-        ? innerWidth * 0.45
-        : innerWidth > 850
-          ? innerWidth * 0.35
-          : 0;
+      ? innerWidth * 0.45
+      : innerWidth > 850
+      ? innerWidth * 0.35
+      : 0;
   } else if (orientation === portrait) {
     return innerWidth * 0.8;
   } else {
