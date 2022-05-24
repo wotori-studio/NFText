@@ -8,9 +8,7 @@ export default function ChildrenBlock(props: any) {
   return (
     <div className={styles.childrenBlock}>
       <h2 className={styles.title}>
-        {nftStore.tree[NFT.id]
-          ? `NFTs based on "${NFT.name}":`
-          : "There is no nfts based on this one yet"}
+        {nftStore.tree[NFT.id] && `NFTs based on "${NFT.name}":`}
       </h2>
       {/* TODO: queried sm contract data with childrens*/}
       <div>

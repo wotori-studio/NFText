@@ -79,13 +79,9 @@ const ModalWindow = (props: Properties) => {
       <div className={`${styles.window} ${styles.navwrapper}`}>
         <div className={`${styles.interface}`}>
           <NFTBlock nft={NFT} text={text} />
-          <div className={styles.space} />
           <BasedBlock nft={NFT} />
-          <div className={styles.space} />
           <CreateBasedBlock nft={NFT} />
-          <div className={styles.space} />
           <ChildrenBlock nft={NFT} />
-          <div className={styles.space} />
         </div>
       </div>
     </div>
