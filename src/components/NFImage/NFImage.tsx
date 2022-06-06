@@ -13,7 +13,7 @@ function NFImage(props: Properties) {
   const [modalWindowIsOpen, setModalWindowIsOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
-  let imgUrl;
+  let imgUrl:string = "";
   if (NFT.type === "img") {
     imgUrl = NFT.content;
   } else if (NFT.type === "3d") {
@@ -26,7 +26,7 @@ function NFImage(props: Properties) {
 
   function updateState(event: any) {
     setLoaded(true);
-    console.log("loaded?", loaded);
+    console.log("img loaded!");
     nftService.setImageLimits(event, 209);
   }
 
@@ -38,6 +38,11 @@ function NFImage(props: Properties) {
         </h2>
         <img
           onLoad={(event) => updateState(event)}
+          onError={({ currentTarget }) => {
+            console.log("on img error reload the same url")
+            console.log(imgUrl)
+            currentTarget.src=`${imgUrl}`;
+          }}
           className={styles.NFImage}
           src={imgUrl}
           alt="Error loading the image, try reload the page."
