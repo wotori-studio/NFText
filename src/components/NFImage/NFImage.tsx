@@ -47,9 +47,9 @@ function NFImage(props: Properties) {
           src={imgUrl}
           alt="Error loading the image, try reload the page."
         />
-        {!loaded ? (
+        {!loaded &&
           <img className={styles.preloader} src="/assets/loader.webp"></img>
-        ) : null}
+        }
         <address className={`${styles.walletAddress} ${styles.font}`}>
           {nftService.getLimitedString(NFT.owner, 16, 5, true, "Without owner")}
         </address>

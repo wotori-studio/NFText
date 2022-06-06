@@ -1,6 +1,7 @@
 import styles from "./ModalWindow.module.sass";
 import ModelViewer from "../ModelViewer";
 import nftService from "../../services/nftService";
+import { useState } from "react";
 
 interface Properties {
   nft: any;
@@ -10,6 +11,15 @@ interface Properties {
 export default function NFTBlock(props: Properties) {
   let NFT = props.nft;
   let text = props.text;
+  const [loaded, setLoaded] = useState(false);
+
+
+  function updateState(event: any) {
+    setLoaded(true);
+    console.log("img loaded!");
+    nftService.setImageLimits(event, 209);
+  }
+
   return (
     <>
       <div
@@ -20,14 +30,19 @@ export default function NFTBlock(props: Properties) {
         <h1 style={{ padding: "0 0 10px 0" }} className={styles.title}>
           {NFT.name || "title undefined"}
         </h1>
+        {!loaded && NFT.type !== "text" &&
+          <p>Loading...</p>
+        }
         {NFT.type === "text" && text ? (
           <span>{text}</span>
         ) : NFT.type === "img" ? (
           <img
             src={NFT.content}
             alt="An error occurred while loading the image, please try reloading the page."
-            onLoad={(event) =>
+            onLoad={(event) => {
               nftService.setImageLimits(event, calculateSizeForImage())
+              updateState(event)
+            }
             }
           />
         ) : (
