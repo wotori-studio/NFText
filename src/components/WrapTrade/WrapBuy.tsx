@@ -35,7 +35,7 @@ const WrapBuy = (props: any) => {
           {
             send: {
               contract: MARKETPLACE,
-              amount: PRICE * 370370,
+              amount: PRICE,
               msg: encodedMsg
             },
           },
