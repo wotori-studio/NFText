@@ -4,7 +4,7 @@ import { OrbitControls } from "@react-three/drei";
 import UploadedModel from "./../UploadedModel/UploadedModel";
 import ScreenShot from "../fiber/screenshot"
 import style from "./style.module.sass"
-
+import Loader from "../r3f/Loader"
 interface Properties {
   file: string;
 }
@@ -24,7 +24,7 @@ export default function SceneWithModel(props: Properties) {
       <Canvas camera={{ position: [0, 0, 3] }}>
         <OrbitControls />
 
-        <Suspense fallback={null}>
+        <Suspense fallback={<Loader />}>
           <UploadedModel file={file} scale={[1, 1, 1]} position={[0, 0, 0]} />
           <ScreenShot trigger={trigger}/>
         </Suspense>

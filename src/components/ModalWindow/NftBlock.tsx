@@ -30,7 +30,7 @@ export default function NFTBlock(props: Properties) {
         <h1 style={{ padding: "0 0 10px 0" }} className={styles.title}>
           {NFT.name || "title undefined"}
         </h1>
-        {!loaded && NFT.type !== "text" &&
+        {!loaded && NFT.type === "img" &&
           <p>Loading...</p>
         }
         {NFT.type === "text" && text ? (

@@ -39,7 +39,7 @@ function NFImage(props: Properties) {
         <img
           onLoad={(event) => updateState(event)}
           onError={({ currentTarget }) => {
-            console.log("on img error reload the same url")
+            console.log("Onload img error. Reload the same url.")
             console.log(imgUrl)
             currentTarget.src=`${imgUrl}`;
           }}
