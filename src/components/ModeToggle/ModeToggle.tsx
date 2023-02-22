@@ -12,7 +12,7 @@ interface Properties {
 
 const ModeToggle = ({ modes }: Properties): JSX.Element => {
 
-  const [indexActiveButton, setIndexActiveButton] = useState(0);
+  const [indexActiveButton, setIndexActiveButton] = useState(1);
   useEffect(() => {
     modes[indexActiveButton].action();
   }, []);

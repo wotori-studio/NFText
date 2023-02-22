@@ -2,7 +2,7 @@
 import globalStyles from "./../src/globalStyles/styles.module.sass";
 
 // Dependencies
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 
 // Components
@@ -41,8 +41,13 @@ const Main = observer(() => {
     },
   ];
   const [modes, setModes] = useState<Mode[]>(mod);
-  const { walletAddress, connectWallet, disconnect, client } = useSigningClient();
+  const { walletAddress, connectWallet, disconnect, client } =
+    useSigningClient();
   const [connect, setConnect] = useState(false);
+
+  useEffect(() => {
+    connectToWallet();
+  }, []);
 
   function connectToWallet() {
     if (!client) {
@@ -59,28 +64,15 @@ const Main = observer(() => {
   return (
     <div className={globalStyles.app}>
       <div className={globalStyles.mainBlock}>
+        <h1>NFText</h1> beta test
         <div className={`${globalStyles.onlineModes}`}>
-          <button
-            className={
-              connect
-                ? globalStyles.customButtonNotActive
-                : globalStyles.customButtonActive
-            }
-            onClick={() => connectToWallet()}
-          >
-            {connect ? "disconnect" : "connect"}
-          </button>
         </div>
-        {connect && (
-          <>
-            {!isMobile && walletAddress && <Wallet />}
-            <div className={globalStyles.modes}>
-              <ModeToggle modes={modes} />
-            </div>
-            <ModeSelector />
-            <RawFooter />
-          </>
-        )}
+        {!isMobile && walletAddress && <Wallet />}
+        <div className={globalStyles.modes}>
+          <ModeToggle modes={modes} />
+        </div>
+        <ModeSelector />
+        <RawFooter />
       </div>
     </div>
   );
