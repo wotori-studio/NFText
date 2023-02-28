@@ -70,7 +70,7 @@ const ModeSelector = observer(() => {
       ) : nftStore.operatingMode === "create" && isMobile ? (
         "Mobile devices currently not suported"
       ) : nftStore.operatingMode === "create" && !isMobile && !signingClient ? (
-        "Install Keplr to be able to mint tokens"
+        "Login or install Keplr to be able to mint tokens"
       ) : null}
 
       {nftStore.operatingMode === "explore" && <NFBrowser />}

@@ -17,7 +17,7 @@ const BuySection = () => {
 
   //  Query tokens that user own. TODO: move to user profile component
   useEffect(() => {
-    if (!walletAddress) return
+    if (!walletAddress) return;
     client
       .queryContractSmart(CW721, {
         tokens: { owner: walletAddress },
@@ -28,30 +28,32 @@ const BuySection = () => {
   }, [client]);
 
   useEffect(() => {
-    dappState.setStateAndOn("Loading content");
-    client
-      .queryContractSmart(MARKETPLACE, { get_offerings: {} })
-      .then((tokensForSale) => {
-        console.log("tokensForSale: ", tokensForSale);
-        let offerings = tokensForSale.offerings;
-        let tokens = [];
-        let prices = [];
-        let marketIDs = [];
-        let sellerList = [];
-        for (const index in offerings) {
-          console.log(`iteration #${index}`, offer);
-          let offer = offerings[index];
-          tokens.push(offer.token_id);
-          prices.push(offer.list_price.amount);
-          marketIDs.push(offer.id);
-          sellerList.push(offer.seller);
-        }
-        setPriceList(prices.reverse());
-        setMarketIDs(marketIDs.reverse());
-        setSeller(sellerList.reverse());
-        queryMini(client, tokens).then((o) => setTokensObj(o));
-        dappState.setOff();
-      });
+    if (client) {
+      dappState.setStateAndOn("Loading content");
+      client
+        .queryContractSmart(MARKETPLACE, { get_offerings: {} })
+        .then((tokensForSale) => {
+          console.log("tokensForSale: ", tokensForSale);
+          let offerings = tokensForSale.offerings;
+          let tokens = [];
+          let prices = [];
+          let marketIDs = [];
+          let sellerList = [];
+          for (const index in offerings) {
+            console.log(`iteration #${index}`, offer);
+            let offer = offerings[index];
+            tokens.push(offer.token_id);
+            prices.push(offer.list_price.amount);
+            marketIDs.push(offer.id);
+            sellerList.push(offer.seller);
+          }
+          setPriceList(prices.reverse());
+          setMarketIDs(marketIDs.reverse());
+          setSeller(sellerList.reverse());
+          queryMini(client, tokens).then((o) => setTokensObj(o));
+          dappState.setOff();
+        });
+    }
   }, [client]);
 
   return (

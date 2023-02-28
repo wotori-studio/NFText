@@ -23,6 +23,7 @@ const NFBrowser = observer(() => {
   console.log("Browser client: ", client);
 
   useEffect(() => {
+    console.log("LOOK AT ME:", client);
     const getAmount = async (client) => {
       if (!client) return;
       getNftTokenAmount(client, setAmount);

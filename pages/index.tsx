@@ -18,6 +18,8 @@ import nftStore from "./../src/store/nftStore";
 import Wallet from "../src/components/Wallet";
 import { isMobile } from "react-device-detect";
 
+import { LoginHeader } from "../src/components/LoginHeader";
+
 const Main = observer(() => {
   let mod = [];
   mod = [
@@ -43,38 +45,26 @@ const Main = observer(() => {
   const [modes, setModes] = useState<Mode[]>(mod);
   const { walletAddress, connectWallet, disconnect, client } =
     useSigningClient();
-  const [connect, setConnect] = useState(false);
-
   useEffect(() => {
-    connectToWallet();
+    connectWallet();
   }, []);
 
-  function connectToWallet() {
-    if (!client) {
-      console.log("connecting");
-      connectWallet();
-      setConnect(true);
-    } else {
-      console.log("disconecting");
-      disconnect();
-      setConnect(false);
-    }
-  }
-
   return (
-    <div className={globalStyles.app}>
-      <div className={globalStyles.mainBlock}>
-        <h1>NFText</h1> beta test
-        <div className={`${globalStyles.onlineModes}`}>
+    <>
+      <LoginHeader />
+      <div className={globalStyles.app}>
+        <div className={globalStyles.mainBlock}>
+          <h1>NFText</h1> beta test
+          <div className={`${globalStyles.onlineModes}`}></div>
+          {!isMobile && walletAddress && <Wallet />}
+          <div className={globalStyles.modes}>
+            <ModeToggle modes={modes} />
+          </div>
+          <ModeSelector />
         </div>
-        {!isMobile && walletAddress && <Wallet />}
-        <div className={globalStyles.modes}>
-          <ModeToggle modes={modes} />
-        </div>
-        <ModeSelector />
-        <RawFooter />
       </div>
-    </div>
+      <RawFooter />
+    </>
   );
 });
 

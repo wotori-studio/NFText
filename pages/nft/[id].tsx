@@ -20,7 +20,7 @@ const NFTID = () => {
 
   useEffect(() => {
     const getClient = async () => {
-      const res = await CosmWasmClient.connect(rpcEndpoint);
+      const res = await CosmWasmClient.connect(rpcEndpoint); // TODO: move to global state with context or whatever
       setClient(res);
       console.log("signingClient: ", client);
     };
