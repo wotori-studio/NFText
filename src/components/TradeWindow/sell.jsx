@@ -29,7 +29,7 @@ const SellSection = () => {
         <p className={styles.title}>Mobile devices currently not supported</p>
       ) : null}
       {!walletAddress ? (
-        <p className={styles.title}>Install keplr to be able to mint tokens and sell</p>
+        <p className={styles.title}>Login to be able to mint and sell NFTs</p>
       ) : null}
       <div className={styles.nftBrowser}>
         {tokensObj !== []

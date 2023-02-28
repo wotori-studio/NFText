@@ -16,7 +16,7 @@ const WrapBuy = (props: any) => {
   const MARKET_ID = props.marketID;
   const SELLER = props.seller;
   const { walletAddress, signingClient } = useSigningClient();
-  console.log("This is seller:", SELLER)
+  console.log("This is seller:", SELLER);
 
   const handleBuy = () => {
     if (walletAddress) {
@@ -36,7 +36,7 @@ const WrapBuy = (props: any) => {
             send: {
               contract: MARKETPLACE,
               amount: PRICE,
-              msg: encodedMsg
+              msg: encodedMsg,
             },
           },
           calculateFee(600_000, "20utoriit")
@@ -55,10 +55,9 @@ const WrapBuy = (props: any) => {
           console.log("Error signingClient?.execute(): ", error);
         });
     } else {
-      alert("Install Keplr to be able to buy NFTs")
+      alert("Login to be able to buy NFTs");
     }
   };
-
 
   const handleWithdraw = () => {
     if (walletAddress) {
@@ -73,15 +72,16 @@ const WrapBuy = (props: any) => {
           walletAddress,
           MARKETPLACE,
           {
-            "withdraw_nft": {
-              "offering_id": MARKET_ID
-            }
+            withdraw_nft: {
+              offering_id: MARKET_ID,
+            },
           },
           calculateFee(600_000, "20utorii")
-        ).then(()=>{
-          alert("Withdaw success!")
+        )
+        .then(() => {
+          alert("Withdaw success!");
           dappState.setOff();
-        })
+        });
     }
   };
 
@@ -93,29 +93,33 @@ const WrapBuy = (props: any) => {
       <div className={styles.center}>
         <div style={{ margin: "5px" }}>price: {PRICE / 370370} CW20*</div>
         <div>
-          {SELLER !== walletAddress ? <button
-            className={globalStyles.customButtonActive}
-            onClick={() => {
-              if (!isMobile) {
-                handleBuy();
-              } else {
-                alert("Mobile devices currently not supported");
-              }
-            }}
-          >
-            buy
-          </button> : <button
-            className={globalStyles.customButtonActive}
-            onClick={() => {
-              if (!isMobile) {
-                handleWithdraw();
-              } else {
-                alert("Mobile devices currently not supported");
-              }
-            }}
-          >
-            withdraw
-          </button>}
+          {SELLER !== walletAddress ? (
+            <button
+              className={globalStyles.customButtonActive}
+              onClick={() => {
+                if (!isMobile) {
+                  handleBuy();
+                } else {
+                  alert("Mobile devices currently not supported");
+                }
+              }}
+            >
+              buy
+            </button>
+          ) : (
+            <button
+              className={globalStyles.customButtonActive}
+              onClick={() => {
+                if (!isMobile) {
+                  handleWithdraw();
+                } else {
+                  alert("Mobile devices currently not supported");
+                }
+              }}
+            >
+              withdraw
+            </button>
+          )}
         </div>
       </div>
     </div>

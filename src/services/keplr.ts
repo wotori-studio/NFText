@@ -15,7 +15,7 @@ export const connectKeplr = async (counter) => {
   if (!window.getOfflineSigner || !window.keplr) {
     if (counter > 1) {
       alert(
-        "Install keplr extension. Without It you will be unable to login, mint tokens and to use other amazing features."
+        "Install keplr extension. Without It you will be unable to login, mint tokens and use other amazing features."
       );
     }
   } else {
