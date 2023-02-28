@@ -1,11 +1,11 @@
 import { useSigningClient } from "../../context/cosmwasm";
 
 export function LoginHeader() {
-  const { walletAddress, connectWallet, disconnect, client } =
+  const { walletAddress, connectWallet, signingClient, disconnect, client } =
     useSigningClient();
 
   function connectToWallet() {
-    if (!client) {
+    if (!signingClient) {
       console.log("connecting");
       connectWallet();
     } else {
