@@ -14,7 +14,7 @@ declare let window: CosmosKeplrWindow;
 export const connectKeplr = async () => {
   if (!window.getOfflineSigner || !window.keplr) {
     alert(
-      "Install keplr extension. Without It you will be unable to login, mint tokens and to do more amazing features."
+      "Install keplr extension. Without It you will be unable to login, mint tokens and to use other amazing features."
     );
   } else {
     try {
