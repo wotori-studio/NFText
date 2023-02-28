@@ -11,7 +11,7 @@ interface CosmosKeplrWindow extends Window {
 
 declare let window: CosmosKeplrWindow;
 
-export const connectKeplr = async (counter) => {
+export const connectKeplr = async (counter: number) => {
   if (!window.getOfflineSigner || !window.keplr) {
     if (counter > 1) {
       alert(
