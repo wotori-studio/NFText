@@ -20,7 +20,7 @@ export const connectKeplr = async (counter: number) => {
     }
   } else {
     try {
-      console.log("network settings:", ToriiInfo);
+      console.log("keplr connection\nnetwork settings:", ToriiInfo);
       await window.keplr.experimentalSuggestChain(ToriiInfo);
     } catch {
       alert("Failed to suggest the chain");
