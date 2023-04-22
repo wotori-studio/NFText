@@ -55,7 +55,10 @@ const Main = observer(() => {
       {/* <TestContract /> */}
       <div className={globalStyles.app}>
         <div className={globalStyles.mainBlock}>
-          <h1>NFText</h1> beta test
+          <h1>NFText</h1> testnet:{" "}
+          <a href="https://docs.archway.io/resources/networks" target="_blank">
+            contantine-2
+          </a>
           <div className={`${globalStyles.onlineModes}`}></div>
           {!isMobile && walletAddress && <Wallet />}
           <div className={globalStyles.modes}>
