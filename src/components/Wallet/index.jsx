@@ -58,12 +58,12 @@ export default function Wallet() {
         walletAddress,
         CW20,
         { buy: {} },
-        calculateFee(600_000, "0utorii"),
+        calculateFee(600_000, "0uconst"),
         undefined, //memo
         [
           {
             amount: (Number(input1) * 1000000).toString(),
-            denom: "utorii",
+            denom: "uconst",
           },
         ]
       )
@@ -90,7 +90,7 @@ export default function Wallet() {
         {
           burn: { amount: (input2 * 370370).toString() },
         },
-        calculateFee(600_000, "0utorii")
+        calculateFee(600_000, "0uconst")
       )
       .then((response) => {
         dappState.setOff();

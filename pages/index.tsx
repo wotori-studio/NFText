@@ -52,8 +52,8 @@ const Main = observer(() => {
   return (
     <>
       <LoginHeader />
-      <TestContract />
-      {/* <div className={globalStyles.app}>
+      {/* <TestContract /> */}
+      <div className={globalStyles.app}>
         <div className={globalStyles.mainBlock}>
           <h1>NFText</h1> beta test
           <div className={`${globalStyles.onlineModes}`}></div>
@@ -63,7 +63,7 @@ const Main = observer(() => {
           </div>
           <ModeSelector />
         </div>
-      </div> */}
+      </div>
       <RawFooter />
     </>
   );

@@ -34,6 +34,6 @@ export function convertMicroDenomToDenom(amount: number | string) {
   
   export const zeroStakingCoin = {
     amount: '0',
-    denom: process.env.NEXT_PUBLIC_STAKING_DENOM || 'utorii',
+    denom: process.env.NEXT_PUBLIC_STAKING_DENOM || 'uconst',
   }
   
