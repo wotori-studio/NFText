@@ -10,6 +10,7 @@ import dappState from "../../store/dappState";
 const CW20 = process.env.NEXT_PUBLIC_CW20 || "";
 const CW721 = process.env.NEXT_PUBLIC_CW721 || "";
 const MARKETPLACE = process.env.NEXT_PUBLIC_CW_MARKETPLACE || "";
+const MULTIPLIER = Number(process.env.NEXT_PUBLIC_MULTIPLIER) || 1;
 
 const WrapSell = (props: any) => {
   const NFT = props.NFT;
@@ -17,11 +18,11 @@ const WrapSell = (props: any) => {
   const [price, setPrice] = useState(0);
 
   const handleSell = () => {
-    dappState.setState("pushing to market")
-    dappState.setOn()
+    dappState.setState("pushing to market");
+    dappState.setOn();
     console.log("lets sell this:", NFT);
     const msg = `{"list_price":{"address":"${CW20}","amount":"${
-      price * 370370
+      price * MULTIPLIER
     }"}}`;
     const encodedMsg = Buffer.from(msg).toString("base64");
     if (!signingClient) return;
@@ -42,12 +43,12 @@ const WrapSell = (props: any) => {
       .then((res) => {
         console.log(res);
         alert("Success");
-        dappState.setOff()
+        dappState.setOff();
       })
       .catch((error) => {
         alert(`Error! ${error.message}`);
         console.log("Error: ", error);
-        dappState.setOff()
+        dappState.setOff();
       });
   };
 
@@ -61,7 +62,11 @@ const WrapSell = (props: any) => {
       {NFT.type === "3d" && <NFImage NFT={NFT} />}
       <div className={styles.center}>
         <div style={{ margin: "7px" }}>
-          <input onChange={(event) => handleChange(event)} style={{width:"50px"}}></input> CW20*
+          <input
+            onChange={(event) => handleChange(event)}
+            style={{ width: "50px" }}
+          ></input>{" "}
+          CW20*
         </div>
         <div>
           <button

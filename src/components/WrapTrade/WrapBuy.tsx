@@ -9,6 +9,7 @@ import dappState from "../../store/dappState";
 
 const CW20 = process.env.NEXT_PUBLIC_CW20 || "";
 const MARKETPLACE = process.env.NEXT_PUBLIC_CW_MARKETPLACE || "";
+const MULTIPLIER = Number(process.env.NEXT_PUBLIC_MULTIPLIER) || 1;
 
 const WrapBuy = (props: any) => {
   const NFT = props.NFT;
@@ -39,7 +40,7 @@ const WrapBuy = (props: any) => {
               msg: encodedMsg,
             },
           },
-          calculateFee(600_000, "20utoriit")
+          calculateFee(600_000, "20uconst")
         )
         .then((res) => {
           console.log(res);
@@ -76,7 +77,7 @@ const WrapBuy = (props: any) => {
               offering_id: MARKET_ID,
             },
           },
-          calculateFee(600_000, "20utorii")
+          calculateFee(600_000, "20uconst")
         )
         .then(() => {
           alert("Withdaw success!");
@@ -91,7 +92,7 @@ const WrapBuy = (props: any) => {
       {NFT.type === "img" && <NFImage NFT={NFT} />}
       {NFT.type === "3d" && <NFImage NFT={NFT} />}
       <div className={styles.center}>
-        <div style={{ margin: "5px" }}>price: {PRICE / 370370} CW20*</div>
+        <div style={{ margin: "5px" }}>price: {PRICE / MULTIPLIER} CW20*</div>
         <div>
           {SELLER !== walletAddress ? (
             <button

@@ -7,6 +7,7 @@ import dappState from "../../store/dappState";
 const CW20 = process.env.NEXT_PUBLIC_CW20;
 const STAKING_DENOM = process.env.NEXT_PUBLIC_STAKING_DENOM;
 const FAUCET = process.env.NEXT_PUBLIC_FAUCET;
+const MULTIPLIER = Number(process.env.NEXT_PUBLIC_MULTIPLIER) || 1;
 
 export default function Wallet() {
   const { walletAddress, signingClient } = useSigningClient();
@@ -38,7 +39,7 @@ export default function Wallet() {
       })
       .then((response) => {
         console.log("Wrapped balance:", response);
-        setWrappedBalance((Number(response.balance) / 370370).toString());
+        setWrappedBalance((Number(response.balance) / MULTIPLIER).toString());
       })
       .catch((error) => {
         alert(`Error! ${error.message}`);
@@ -50,9 +51,9 @@ export default function Wallet() {
   }, [signingClient, walletAddress, trigger]);
 
   const handleToriiToWrap = () => {
-    dappState.setState("Converting Torii to CW20");
+    dappState.setState("Converting Const to CW20");
     dappState.setOn();
-    console.log("Converting Torii to Wrapped token:", input1);
+    console.log("Converting Const to Wrapped token:", input1);
     signingClient
       ?.execute(
         walletAddress,
@@ -62,7 +63,7 @@ export default function Wallet() {
         undefined, //memo
         [
           {
-            amount: (Number(input1) * 1000000).toString(),
+            amount: (Number(input1) * MULTIPLIER).toString(),
             denom: "uconst",
           },
         ]
@@ -80,15 +81,15 @@ export default function Wallet() {
   };
 
   const handleWrapToTorii = () => {
-    dappState.setState("Converting CW20 to Torii");
+    dappState.setState("Converting CW20 to Const");
     dappState.setOn();
-    console.log("Converting Wrapped token to Torii:", input2);
+    console.log("Converting Wrapped token to Const:", input2);
     signingClient
       ?.execute(
         walletAddress,
         CW20,
         {
-          burn: { amount: (input2 * 370370).toString() },
+          burn: { amount: (input2 * MULTIPLIER).toString() },
         },
         calculateFee(600_000, "0uconst")
       )
@@ -267,11 +268,11 @@ export default function Wallet() {
       <div className="side-panel">
         <div className="side-title">Exchange</div>
         <div className="side-body">
-          <p>Torii: {nativeBalance}</p>
+          <p>Const: {nativeBalance}</p>
           <p>CW20: {wrappedBalance}</p>
           <input
             type="text"
-            placeholder="torii to cw20"
+            placeholder="Const to cw20"
             className="side-input"
             value={input1}
             onChange={(e) => setInput1(e.target.value)}
@@ -284,7 +285,7 @@ export default function Wallet() {
           />
           <input
             type="text"
-            placeholder="cw20 to torii"
+            placeholder="cw20 to Const"
             className="side-input"
             value={input2}
             onChange={(e) => setInput2(e.target.value)}
@@ -297,10 +298,10 @@ export default function Wallet() {
           />
           <br />* keep in mind:
           <br />
-          1 torii = 370370 cw20
+          1 Const = 1000 cw20
           <br />
-          <br />* We convert it for better ux so you see and able to operate 1
-          cw20 as 1 torii
+          {/* <br />* We convert it for better ux so you see and able to operate 1
+          cw20 as 1 Const */}
           <br />
           <br />
           {/* <a target="_blank" href={FAUCET}>
