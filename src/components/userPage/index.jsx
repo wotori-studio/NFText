@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useSigningClient } from "../../../context/cosmwasm";
+import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
 
-export default function TestContract() {
+export default function UserPage() {
   const { walletAddress, signingClient } = useSigningClient();
   let [txHash, setTxHash] = useState(0);
   let [newContract, setNewContract] = useState(0);

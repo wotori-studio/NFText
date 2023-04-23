@@ -1,6 +1,6 @@
 import { useSigningClient } from "../../context/cosmwasm";
 
-export function LoginHeader() {
+export function LoginHeader({ userPageSetter, userPageState }) {
   const { walletAddress, connectWallet, signingClient, disconnect, client } =
     useSigningClient();
 
@@ -24,7 +24,7 @@ export function LoginHeader() {
         >
           {walletAddress ? "Logout" : "Login"}
         </p>
-        <div>
+        <div onClick={() => userPageSetter(!userPageState)}>
           <p>
             {walletAddress &&
               walletAddress.slice(0, 7) + "..." + walletAddress.slice(-3)}

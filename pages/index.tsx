@@ -1,6 +1,6 @@
 // Styles
 import globalStyles from "./../src/globalStyles/styles.module.sass";
-import TestContract from "../src/components/devTests/testContract/test";
+import UserPage from "../src/components/userPage";
 // Dependencies
 import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
@@ -45,28 +45,44 @@ const Main = observer(() => {
   const [modes, setModes] = useState<Mode[]>(mod);
   const { walletAddress, connectWallet, disconnect, client } =
     useSigningClient();
+  const [userPageOpen, setUserPageOpen] = useState(false);
   useEffect(() => {
     connectWallet();
   }, []);
 
   return (
     <>
-      <LoginHeader />
-      {/* <TestContract /> */}
-      <div className={globalStyles.app}>
-        <div className={globalStyles.mainBlock}>
-          <h1>NFText</h1> testnet:{" "}
-          <a href="https://docs.archway.io/resources/networks" target="_blank">
-            contantine-2
-          </a>
-          <div className={`${globalStyles.onlineModes}`}></div>
-          {!isMobile && walletAddress && <Wallet />}
-          <div className={globalStyles.modes}>
-            <ModeToggle modes={modes} />
+      <LoginHeader userPageSetter={setUserPageOpen} userPageState={userPageOpen}/>
+      {userPageOpen ? (
+        <UserPage />
+      ) : (
+        <>
+          <div className={globalStyles.app}>
+            <div className={globalStyles.mainBlock}>
+              <h1>NFText</h1> testnet:{" "}
+              <a
+                href="https://docs.archway.io/resources/networks"
+                target="_blank"
+              >
+                contantine-2
+              </a>
+              <a
+                href="https://ekza.space/ppt/wotori-pitchdeck.pdf"
+                target="_blank"
+              >
+                pitchdeck
+              </a>
+              <div className={`${globalStyles.onlineModes}`}></div>
+              {!isMobile && walletAddress && <Wallet />}
+              <div className={globalStyles.modes}>
+                <ModeToggle modes={modes} />
+              </div>
+              <ModeSelector />
+            </div>
           </div>
-          <ModeSelector />
-        </div>
-      </div>
+        </>
+      )}
+
       <RawFooter />
     </>
   );
