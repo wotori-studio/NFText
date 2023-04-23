@@ -173,21 +173,33 @@ export default function UserPage() {
 
   function findUserCollections() {
     let userCollectionArray = [];
-    console.log("find");
+    console.log("find...");
+    // get all instances of 633 code with CW721
     signingClient.getContracts(633).then((response) => {
-      // console.log("response data:", response);
       response.map((address, i) => {
-        // console.log(i, address);
+        // get all detailed information of each address
         signingClient.getContract(address).then((result) => {
           if (result.admin == walletAddress) {
-            // console.log(result);
-            userCollectionArray.push(result);
+            userCollectionArray.push(result.address);
           }
         });
       });
     });
     console.log("current user own this collections: ", userCollectionArray);
     setUserCollections(userCollectionArray);
+  }
+
+  function loadCollections() {
+    console.log(userCollections);
+    let queryMessage = {
+      all_nft_info: { token_id: 0 + "" },
+    };
+    userCollections.map((address) => {
+      console.log(address);
+      signingClient.queryContractSmart(address, queryMessage).then((result) => {
+        console.log(result);
+      });
+    });
   }
 
   useEffect(() => {
@@ -212,6 +224,7 @@ export default function UserPage() {
       <button onClick={getAddress}>address</button>
       <button onClick={mintNFT}>mint</button>
       <button onClick={findUserCollections}>find</button>
+      <button onClick={loadCollections}>load collections data</button>
 
       <div style={{ marginBottom: "20px" }}>
         <h2>Create a new NFT Collection</h2>
