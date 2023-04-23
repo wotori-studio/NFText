@@ -16,16 +16,23 @@ export default function RawFooter() {
           Discord
         </a>
       </div> */}
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <a href="https://wotori.com" target="_blank">
           Wotori Studio
         </a>
-        <br></br>
-        <a href="https://ekza.space/ppt/wotori-pitchdeck.pdf" target="_blank">
-          about the project
-        </a>
         <p style={{ margin: 0 }}>{new Date().getFullYear()}</p>
+        <a href="https://ekza.space/ppt/wotori-pitchdeck.pdf" target="_blank">
+          about
+        </a>
       </div>
+
       {/* <div>
         <p>Login</p>
       </div> */}

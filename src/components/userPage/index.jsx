@@ -140,7 +140,6 @@ export default function UserPage() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "flex-start",
-        minHeight: "100vh",
         padding: "20px",
         boxSizing: "border-box",
         overflowY: "auto",
