@@ -2,10 +2,42 @@ import { useEffect, useState } from "react";
 import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
 
+const CW721Factory =
+  "archway19nhk3a94lpvtwgp3z7fuz75jrkv2y5seuwrt883y9362jrz4w42qelsk6e"; // TODO: move to .env
+
+async function executeContract(
+  client,
+  walletAddress,
+  contractAddress,
+  executeMsg,
+  memo,
+  coins,
+  onSuccess,
+  onError
+) {
+  try {
+    const result = await client.execute(
+      walletAddress,
+      contractAddress,
+      executeMsg,
+      calculateFee(600_000, "20uconst"),
+      memo,
+      coins
+    );
+    console.log(result);
+    onSuccess(result);
+  } catch (error) {
+    console.error(error);
+    onError(error);
+  }
+}
+
 export default function UserPage() {
   const { walletAddress, signingClient } = useSigningClient();
   let [txHash, setTxHash] = useState(0);
   let [newContract, setNewContract] = useState(0);
+  const [userCollections, setUserCollections] = useState([]);
+
   let [collections, setCollections] = useState([
     {
       name: "Sample Collection 1",
@@ -59,35 +91,8 @@ export default function UserPage() {
     },
   ]);
 
-  async function executeContract(
-    client,
-    walletAddress,
-    contractAddress,
-    executeMsg,
-    memo,
-    coins,
-    onSuccess,
-    onError
-  ) {
-    try {
-      const result = await client.execute(
-        walletAddress,
-        contractAddress,
-        executeMsg,
-        calculateFee(600_000, "20uconst"),
-        memo,
-        coins
-      );
-      console.log(result);
-      onSuccess(result);
-    } catch (error) {
-      console.error(error);
-      onError(error);
-    }
-  }
-
-  function executeSmartContract() {
-    console.log("test execute", signingClient);
+  function instantiateCW721() {
+    console.log("instantiate new collection", signingClient);
     let newSmartContractData = {
       minter: walletAddress,
       name: "Collection Name",
@@ -107,7 +112,7 @@ export default function UserPage() {
     executeContract(
       signingClient,
       walletAddress,
-      "archway19nhk3a94lpvtwgp3z7fuz75jrkv2y5seuwrt883y9362jrz4w42qelsk6e",
+      CW721Factory,
       instantiateMessage,
       undefined,
       undefined,
@@ -140,18 +145,18 @@ export default function UserPage() {
 
   function mintNFT() {
     console.log("Minting...");
-
+    let mintMessage = {
+      mint: {
+        token_id: "1",
+        owner: `${walletAddress}`,
+        token_uri: `data:application/json;base64, test`,
+      },
+    };
     executeContract(
       signingClient,
       walletAddress,
       newContract,
-      {
-        mint: {
-          token_id: "1",
-          owner: `${walletAddress}`,
-          token_uri: `data:application/json;base64, test`,
-        },
-      },
+      mintMessage,
       undefined,
       undefined,
       (result) => {
@@ -164,6 +169,25 @@ export default function UserPage() {
         }
       }
     );
+  }
+
+  function findUserCollections() {
+    let userCollectionArray = [];
+    console.log("find");
+    signingClient.getContracts(633).then((response) => {
+      // console.log("response data:", response);
+      response.map((address, i) => {
+        // console.log(i, address);
+        signingClient.getContract(address).then((result) => {
+          if (result.admin == walletAddress) {
+            // console.log(result);
+            userCollectionArray.push(result);
+          }
+        });
+      });
+    });
+    console.log("current user own this collections: ", userCollectionArray);
+    setUserCollections(userCollectionArray);
   }
 
   useEffect(() => {
@@ -184,16 +208,17 @@ export default function UserPage() {
     >
       <p>txHash: {txHash}</p>
       <p>new contract address: {newContract}</p>
-      <button onClick={executeSmartContract}>execute</button>
+      <button onClick={instantiateCW721}>execute</button>
       <button onClick={getAddress}>address</button>
       <button onClick={mintNFT}>mint</button>
+      <button onClick={findUserCollections}>find</button>
 
       <div style={{ marginBottom: "20px" }}>
         <h2>Create a new NFT Collection</h2>
-        <button onClick={executeSmartContract}>Mint Collection</button>
+        <button onClick={instantiateCW721}>Mint Collection</button>
       </div>
       <div>
-        <h2>My NFT Collections:</h2>
+        <h2>{walletAddress} NFT Collections:</h2>
 
         <div
           style={{
