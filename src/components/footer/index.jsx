@@ -20,8 +20,11 @@ export default function RawFooter() {
         <a href="https://wotori.com" target="_blank">
           Wotori Studio
         </a>
-        {/* {new Date().getFullYear()} */}
-        {/* <p style={{ margin: 0 }}>{new Date().getFullYear()}</p> */}
+        <br></br>
+        <a href="https://ekza.space/ppt/wotori-pitchdeck.pdf" target="_blank">
+          about the project
+        </a>
+        <p style={{ margin: 0 }}>{new Date().getFullYear()}</p>
       </div>
       {/* <div>
         <p>Login</p>

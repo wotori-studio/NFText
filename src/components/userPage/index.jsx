@@ -6,6 +6,58 @@ export default function UserPage() {
   const { walletAddress, signingClient } = useSigningClient();
   let [txHash, setTxHash] = useState(0);
   let [newContract, setNewContract] = useState(0);
+  let [collections, setCollections] = useState([
+    {
+      name: "Sample Collection 1",
+      symbol: "SC1",
+      contractAddress: "contract_address_1",
+      nfts: [
+        {
+          id: "1",
+          image:
+            "https://ipfs.io/ipfs/QmTY4xbcUe5bNA6yC85LbuwojTk6ZAKjAExtzgfFqDKgNt",
+          owner: "owner_address_1",
+        },
+        {
+          id: "2",
+          image:
+            "https://ipfs.io/ipfs/QmTY4xbcUe5bNA6yC85LbuwojTk6ZAKjAExtzgfFqDKgNt",
+          owner: "owner_address_1",
+        },
+        {
+          id: "2",
+          image:
+            "https://ipfs.io/ipfs/QmTY4xbcUe5bNA6yC85LbuwojTk6ZAKjAExtzgfFqDKgNt",
+          owner: "owner_address_1",
+        },
+        {
+          id: "2",
+          image:
+            "https://ipfs.io/ipfs/QmTY4xbcUe5bNA6yC85LbuwojTk6ZAKjAExtzgfFqDKgNt",
+          owner: "owner_address_1",
+        },
+      ],
+    },
+    {
+      name: "Sample Collection 2",
+      symbol: "SC2",
+      contractAddress: "contract_address_2",
+      nfts: [
+        {
+          id: "1",
+          image:
+            "https://ipfs.io/ipfs/QmTY4xbcUe5bNA6yC85LbuwojTk6ZAKjAExtzgfFqDKgNt",
+          owner: "owner_address_1",
+        },
+        {
+          id: "1",
+          image:
+            "https://ipfs.io/ipfs/QmTY4xbcUe5bNA6yC85LbuwojTk6ZAKjAExtzgfFqDKgNt",
+          owner: "owner_address_1",
+        },
+      ],
+    },
+  ]);
 
   function executeSmartContract() {
     console.log("test execute", signingClient);
@@ -88,6 +140,10 @@ export default function UserPage() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "flex-start",
+        minHeight: "100vh",
+        padding: "20px",
+        boxSizing: "border-box",
+        overflowY: "auto",
       }}
     >
       <p>txHash: {txHash}</p>
@@ -95,6 +151,79 @@ export default function UserPage() {
       <button onClick={executeSmartContract}>execute</button>
       <button onClick={getAddress}>address</button>
       <button onClick={mintNFT}>mint</button>
+
+      <div style={{ marginBottom: "20px" }}>
+        <h2>Create a new NFT Collection</h2>
+        <button onClick={executeSmartContract}>Create Collection</button>
+      </div>
+      <div>
+        <h2>My NFT Collections:</h2>
+
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "20px",
+          }}
+        >
+          {collections.map((collection, index) => (
+            <div
+              key={index}
+              style={{
+                marginBottom: "20px",
+                border: "1px solid black",
+                padding: "10px",
+                borderRadius: "5px",
+              }}
+            >
+              <h3>
+                {collection.name} ({collection.symbol})
+              </h3>
+              <p>Contract address: {collection.contractAddress}</p>
+              <button onClick={mintNFT}>Mint NFT to {collection.symbol}</button>
+              <div>
+                <h4>NFTs in this collection:</h4>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns:
+                      "repeat(auto-fill, minmax(100px, 1fr))",
+                    gap: "10px",
+                  }}
+                >
+                  {collection.nfts.map((nft, nftIndex) => (
+                    <div
+                      key={nftIndex}
+                      style={{
+                        position: "relative",
+                        width: "100px",
+                        height: "100px",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <img
+                        src={nft.image}
+                        alt={`NFT ${nft.id}`}
+                        style={{
+                          position: "absolute",
+                          left: "50%",
+                          top: "50%",
+                          height: "100%",
+                          width: "auto",
+                          transform: "translate(-50%, -50%)",
+                          minWidth: "100%",
+                          minHeight: "100%",
+                        }}
+                      />
+                      <p>Owner: {nft.owner}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

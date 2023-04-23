@@ -66,12 +66,7 @@ const Main = observer(() => {
               >
                 contantine-2
               </a>
-              <a
-                href="https://ekza.space/ppt/wotori-pitchdeck.pdf"
-                target="_blank"
-              >
-                pitchdeck
-              </a>
+
               <div className={`${globalStyles.onlineModes}`}></div>
               {!isMobile && walletAddress && <Wallet />}
               <div className={globalStyles.modes}>
