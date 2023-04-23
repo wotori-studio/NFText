@@ -24,6 +24,6 @@
     "src/components/NFBrowser/NFBrowser.jsx",
     "src/components/Wallet/index.jsx",
     "src/components/ModeToggle/ModeToggle.jsx"
-  ],
+, "src/utils/findCollections.js"  ],
   "exclude": ["node_modules"]
 }

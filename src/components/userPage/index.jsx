@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
-
+import {
+  findUserCollections,
+  findCollectionsData,
+  getCollectionDataHibrid,
+} from "../../utils/findCollections";
 const CW721Factory =
   "archway19nhk3a94lpvtwgp3z7fuz75jrkv2y5seuwrt883y9362jrz4w42qelsk6e"; // TODO: move to .env
 
@@ -57,13 +61,13 @@ export default function UserPage() {
           owner: "owner_address_1",
         },
         {
-          id: "2",
+          id: "3",
           image:
             "https://ipfs.io/ipfs/QmTY4xbcUe5bNA6yC85LbuwojTk6ZAKjAExtzgfFqDKgNt",
           owner: "owner_address_1",
         },
         {
-          id: "2",
+          id: "4",
           image:
             "https://ipfs.io/ipfs/QmTY4xbcUe5bNA6yC85LbuwojTk6ZAKjAExtzgfFqDKgNt",
           owner: "owner_address_1",
@@ -82,7 +86,7 @@ export default function UserPage() {
           owner: "owner_address_1",
         },
         {
-          id: "1",
+          id: "2",
           image:
             "https://ipfs.io/ipfs/QmTY4xbcUe5bNA6yC85LbuwojTk6ZAKjAExtzgfFqDKgNt",
           owner: "owner_address_1",
@@ -171,37 +175,6 @@ export default function UserPage() {
     );
   }
 
-  function findUserCollections() {
-    let userCollectionArray = [];
-    console.log("find...");
-    // get all instances of 633 code with CW721
-    signingClient.getContracts(633).then((response) => {
-      response.map((address, i) => {
-        // get all detailed information of each address
-        signingClient.getContract(address).then((result) => {
-          if (result.admin == walletAddress) {
-            userCollectionArray.push(result.address);
-          }
-        });
-      });
-    });
-    console.log("current user own this collections: ", userCollectionArray);
-    setUserCollections(userCollectionArray);
-  }
-
-  function loadCollections() {
-    console.log(userCollections);
-    let queryMessage = {
-      all_nft_info: { token_id: 0 + "" },
-    };
-    userCollections.map((address) => {
-      console.log(address);
-      signingClient.queryContractSmart(address, queryMessage).then((result) => {
-        console.log(result);
-      });
-    });
-  }
-
   useEffect(() => {
     console.log("recieved signingClient");
   }, [signingClient]);
@@ -223,8 +196,29 @@ export default function UserPage() {
       <button onClick={instantiateCW721}>execute</button>
       <button onClick={getAddress}>address</button>
       <button onClick={mintNFT}>mint</button>
-      <button onClick={findUserCollections}>find</button>
-      <button onClick={loadCollections}>load collections data</button>
+      <button
+        onClick={async () => {
+          let data = findUserCollections(walletAddress, signingClient);
+          setUserCollections(data);
+        }}
+      >
+        find
+      </button>
+      <button
+        onClick={() => {
+          findCollectionsData(userCollections, signingClient);
+        }}
+      >
+        load collections data
+      </button>
+      <button
+        onClick={() => {
+          console.log("getting data");
+          getCollectionDataHibrid(walletAddress, signingClient);
+        }}
+      >
+        hybrid
+      </button>
 
       <div style={{ marginBottom: "20px" }}>
         <h2>Create a new NFT Collection</h2>

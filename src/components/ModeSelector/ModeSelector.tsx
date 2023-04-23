@@ -64,7 +64,7 @@ const ModeSelector = observer(() => {
           <ModeToggle modes={modesTrading} />
         ) : null}
       </div>
-      {/* TODO: replace with switchcase if it exists in js */}
+      {/* TODO: replace with switchcase */}
       {nftStore.operatingMode === "create" && !isMobile && signingClient ? (
         <NFUploader modalMode={null} parentId={null} />
       ) : nftStore.operatingMode === "create" && isMobile ? (

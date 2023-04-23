@@ -19,6 +19,10 @@ import Wallet from "../src/components/Wallet";
 import { isMobile } from "react-device-detect";
 
 import { LoginHeader } from "../src/components/LoginHeader";
+import Select from "react-select";
+import { getCollectionDataHibrid } from "../src/utils/findCollections";
+
+const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_CW721 as string;
 
 const Main = observer(() => {
   let mod = [];
@@ -43,16 +47,37 @@ const Main = observer(() => {
     },
   ];
   const [modes, setModes] = useState<Mode[]>(mod);
-  const { walletAddress, connectWallet, disconnect, client } =
+  const { walletAddress, connectWallet, signingClient, disconnect, client } =
     useSigningClient();
   const [userPageOpen, setUserPageOpen] = useState(false);
+  const [collections, setCollections] = useState([
+    { value: PUBLIC_CW721_CONTRACT, label: "Community" },
+  ]);
+  // const options = [
+  //   {
+  //     value:
+  //       "archway12jnzwwdzpljgnpu7mnuv6sm83w62kthm888qwdmd60yruwf3fufsn75zhd",
+  //     label: "Community",
+  //   },
+  // ];
+
   useEffect(() => {
     connectWallet();
   }, []);
 
+  useEffect(() => {
+    if (signingClient && walletAddress) {
+      let data = getCollectionDataHibrid(walletAddress, signingClient);
+      console.log(data);
+    }
+  }, [signingClient, walletAddress]);
+
   return (
     <>
-      <LoginHeader userPageSetter={setUserPageOpen} userPageState={userPageOpen}/>
+      <LoginHeader
+        userPageSetter={setUserPageOpen}
+        userPageState={userPageOpen}
+      />
       {userPageOpen ? (
         <UserPage />
       ) : (
@@ -66,8 +91,8 @@ const Main = observer(() => {
               >
                 contantine-2
               </a>
-
               <div className={`${globalStyles.onlineModes}`}></div>
+              <Select defaultValue={collections[0]} options={collections} />
               {!isMobile && walletAddress && <Wallet />}
               <div className={globalStyles.modes}>
                 <ModeToggle modes={modes} />

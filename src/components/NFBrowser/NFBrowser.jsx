@@ -39,7 +39,7 @@ const NFBrowser = observer(() => {
     if (amount) queryNft(client);
   }, [client, amount]);
 
-  let ignoreList = [22]; // TODO: move this to cloud variables
+  let ignoreList = []; // TODO: move this to cloud variables
   return (
     <div className={styles.nftBrowser}>
       {nftStore.loadedNFT
