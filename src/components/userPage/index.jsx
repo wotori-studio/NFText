@@ -59,6 +59,33 @@ export default function UserPage() {
     },
   ]);
 
+  async function executeContract(
+    client,
+    walletAddress,
+    contractAddress,
+    executeMsg,
+    memo,
+    coins,
+    onSuccess,
+    onError
+  ) {
+    try {
+      const result = await client.execute(
+        walletAddress,
+        contractAddress,
+        executeMsg,
+        calculateFee(600_000, "20uconst"),
+        memo,
+        coins
+      );
+      console.log(result);
+      onSuccess(result);
+    } catch (error) {
+      console.error(error);
+      onError(error);
+    }
+  }
+
   function executeSmartContract() {
     console.log("test execute", signingClient);
     let newSmartContractData = {
@@ -76,25 +103,27 @@ export default function UserPage() {
       },
     };
     console.log("smart contract data: ", newSmartContractData, base64Str);
-    signingClient
-      ?.execute(
-        walletAddress,
-        "archway19nhk3a94lpvtwgp3z7fuz75jrkv2y5seuwrt883y9362jrz4w42qelsk6e",
-        instantiateMessage,
-        calculateFee(600_000, "20uconst")
-      )
-      .then((response) => {
-        let txHashResp = response.transactionHash;
+
+    executeContract(
+      signingClient,
+      walletAddress,
+      "archway19nhk3a94lpvtwgp3z7fuz75jrkv2y5seuwrt883y9362jrz4w42qelsk6e",
+      instantiateMessage,
+      undefined,
+      undefined,
+      (result) => {
+        let txHashResp = result.transactionHash;
         alert(`Success! TxHash: ${txHashResp}`);
         setTxHash(txHashResp);
-        console.log(response);
-      })
-      .catch((error) => {
+        console.log(result);
+      },
+      (error) => {
         alert("Error during minted.");
         if (process.env.NODE_ENV === "development") {
           console.log(error);
         }
-      });
+      }
+    );
   }
 
   function getAddress() {
@@ -111,22 +140,30 @@ export default function UserPage() {
 
   function mintNFT() {
     console.log("Minting...");
-    signingClient
-      ?.execute(
-        walletAddress,
-        newContract,
-        {
-          mint: {
-            token_id: "1",
-            owner: `${walletAddress}`,
-            token_uri: `data:application/json;base64, test`,
-          },
+
+    executeContract(
+      signingClient,
+      walletAddress,
+      newContract,
+      {
+        mint: {
+          token_id: "1",
+          owner: `${walletAddress}`,
+          token_uri: `data:application/json;base64, test`,
         },
-        calculateFee(600_000, "20uconst")
-      )
-      .then((response) => {
-        alert("Successfully minted!", response);
-      });
+      },
+      undefined,
+      undefined,
+      (result) => {
+        alert("Successfully minted!", result);
+      },
+      (error) => {
+        alert("Error during minted.");
+        if (process.env.NODE_ENV === "development") {
+          console.log(error);
+        }
+      }
+    );
   }
 
   useEffect(() => {
@@ -153,7 +190,7 @@ export default function UserPage() {
 
       <div style={{ marginBottom: "20px" }}>
         <h2>Create a new NFT Collection</h2>
-        <button onClick={executeSmartContract}>Create Collection</button>
+        <button onClick={executeSmartContract}>Mint Collection</button>
       </div>
       <div>
         <h2>My NFT Collections:</h2>
