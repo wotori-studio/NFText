@@ -23,6 +23,7 @@ import Select from "react-select";
 import { getCollectionDataHibrid } from "../src/utils/findCollections";
 import { useAtom } from "jotai/react";
 import { globalStateAtom } from "../src/jotai/activeCollection";
+import CollectionForm from "../src/components/CollectionForm";
 
 const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_CW721 as string;
 
@@ -90,7 +91,7 @@ const Main = observer(() => {
 
       fetchData();
     }
-  }, [signingClient, walletAddress]);
+  }, [signingClient, walletAddress, globalState]);
 
   return (
     <>
@@ -98,7 +99,7 @@ const Main = observer(() => {
         userPageSetter={setUserPageOpen}
         userPageState={userPageOpen}
       />
-      {userPageOpen ? (
+      {false ? ( //replace false with "userPageOpen" to load user interface
         <UserPage />
       ) : (
         <>
@@ -112,22 +113,34 @@ const Main = observer(() => {
                 contantine-2
               </a>
               <div className={`${globalStyles.onlineModes}`}></div>
-              <Select
-                defaultValue={collections[0]}
-                options={collections}
-                onChange={(selectedOption) => {
-                  if (selectedOption) {
-                    console.log(
-                      `Selected option label: ${selectedOption.value}`,
-                      `Selected option value: ${selectedOption.label}`
-                    );
-                    setGlobalState({
-                      cw721: selectedOption.value,
-                      collectionName: selectedOption.label,
-                    });
-                  }
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  margin: "10px",
+                  gap: "5px",
                 }}
-              />
+              >
+                <Select
+                  defaultValue={collections[0]}
+                  options={collections}
+                  onChange={(selectedOption) => {
+                    if (selectedOption) {
+                      console.log(
+                        `Selected option label: ${selectedOption.value}`,
+                        `Selected option value: ${selectedOption.label}`
+                      );
+                      setGlobalState({
+                        cw721: selectedOption.value,
+                        collectionName: selectedOption.label,
+                        trigger: Math.random(),
+                      });
+                    }
+                  }}
+                />
+                <CollectionForm />
+              </div>
               {!isMobile && walletAddress && <Wallet />}
               <div className={globalStyles.modes}>
                 <ModeToggle modes={modes} />

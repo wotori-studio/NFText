@@ -6,37 +6,11 @@ import {
   findCollectionsData,
   getCollectionDataHibrid,
 } from "../../utils/findCollections";
+import { CollectionForm } from "../CollectionForm";
 
 const CW721_CODE_ID = process.env.NEXT_PUBLIC_CW721_CODE_ID;
 const CW721Factory = process.env.NEXT_PUBLIC_CW_FACTORY;
 const MARKETPLACE = process.env.NEXT_PUBLIC_CW_MARKETPLACE;
-
-async function executeContract(
-  client,
-  walletAddress,
-  contractAddress,
-  executeMsg,
-  memo,
-  coins,
-  onSuccess,
-  onError
-) {
-  try {
-    const result = await client.execute(
-      walletAddress,
-      contractAddress,
-      executeMsg,
-      calculateFee(600_000, "20uconst"),
-      memo,
-      coins
-    );
-    console.log(result);
-    onSuccess(result);
-  } catch (error) {
-    console.error(error);
-    onError(error);
-  }
-}
 
 export default function UserPage() {
   const { walletAddress, signingClient } = useSigningClient();
