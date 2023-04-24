@@ -16,7 +16,7 @@ import NFImage from "../NFImage/NFImage";
 import nftStore from "../../store/nftStore";
 import getNftTokenAmount from "../../services/tokenId";
 import query from "../../services/query/query";
-import { useAtom } from 'jotai/react';
+import { useAtom } from "jotai/react";
 import { globalStateAtom } from "../../jotai/activeCollection";
 
 const NFBrowser = observer(() => {
@@ -27,20 +27,31 @@ const NFBrowser = observer(() => {
 
   useEffect(() => {
     console.log("LOOK AT ME:", client);
+    console.log("global state", globalState);
+
     const getAmount = async (client) => {
       if (!client) return;
-      getNftTokenAmount(client, setAmount);
+      let amountData = await getNftTokenAmount(client, globalState);
+      console.log("current amount is:", amountData);
+      setAmount(amountData);
     };
 
+    if (client) {
+      getAmount(client);
+    }
+  }, [client, globalState.cw721]);
+
+  useEffect(() => {
     const queryNft = async (client) => {
-      if (!client) return;
       query(globalState.cw721, client, amount);
     };
 
-    getAmount(client);
-    console.log("amount", amount);
-    if (amount) queryNft(client);
-  }, [client, amount]);
+    if (client && amount > 1) {
+      queryNft(client);
+    } else {
+      nftStore.setLoadedNFT([]);
+    }
+  }, [amount]);
 
   let ignoreList = []; // TODO: move this to cloud variables
   return (

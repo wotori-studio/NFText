@@ -24,9 +24,10 @@ import getNftTokenAmount from "../../services/tokenId";
 import axiosPinataPost from "../../services/axiosPinataPost";
 import previewStore from "../../store/previewStore";
 import dappState from "../../store/dappState";
+import { globalState } from "mobx/dist/internal";
+import { useAtom } from "jotai/react";
+import { globalStateAtom } from "../../jotai/activeCollection";
 
-// .env
-const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_CW721 as string;
 
 interface Properties {
   modalMode: string | null;
@@ -38,6 +39,7 @@ const NFUploader = observer((props: Properties) => {
   const [textNft, setTextNft] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>();
   const { walletAddress, signingClient } = useSigningClient();
+  const [globalState, setGlobalState] = useAtom(globalStateAtom);
 
   useEffect(() => {
     console.log("props: ", props);
@@ -106,8 +108,8 @@ const NFUploader = observer((props: Properties) => {
   async function createMint() {
     if (!signingClient) return;
 
-    dappState.setState("uploading to ipfs")
-    dappState.setOn()
+    dappState.setState("uploading to ipfs");
+    dappState.setOn();
     let previewLink;
     console.log("preview file", previewStore.previewFile);
     let file = previewStore.previewFile;
@@ -125,7 +127,7 @@ const NFUploader = observer((props: Properties) => {
       console.log("preview uploaded: ", previewLink);
     }
 
-    let token_id = await getNftTokenAmount(signingClient);
+    let token_id = await getNftTokenAmount(signingClient, globalState);
     console.log("token_id", token_id);
 
     let contentLinkAxios = await uploadPinata();
@@ -146,17 +148,17 @@ const NFUploader = observer((props: Properties) => {
       preview: previewLink,
     });
 
-    console.log("Metadata:", metadata);
+    console.log("Metadata:", metadata, "tokenID:", token_id);
     const encodedMetadata = Buffer.from(metadata).toString("base64");
 
     if (!signingClient) {
       throw new Error(`Not valid value of signingClient: ${signingClient}`);
     }
-    dappState.setState("minting")
+    dappState.setState("minting");
     signingClient
       ?.execute(
         walletAddress,
-        PUBLIC_CW721_CONTRACT,
+        globalState.cw721,
         {
           mint: {
             token_id: token_id.toString(),
@@ -167,11 +169,11 @@ const NFUploader = observer((props: Properties) => {
         calculateFee(600_000, "20uconst")
       )
       .then((response: any) => {
-        dappState.setOff()
+        dappState.setOff();
         alert("Successfully minted!");
       })
       .catch((error: any) => {
-        dappState.setOff()
+        dappState.setOff();
         alert("Error during minted.");
         if (process.env.NODE_ENV === "development") {
           console.log(error);
