@@ -4,20 +4,25 @@ import queryMini from "../../services/query/queryMini";
 import WrapSell from "../WrapTrade/WrapSell";
 import styles from "./trade.module.sass";
 import { isMobile } from "react-device-detect";
-
-const CW721 = process.env.NEXT_PUBLIC_CW721 || "";
+import { useAtom } from 'jotai/react';
+import { globalStateAtom } from "../../jotai/activeCollection";
 
 const SellSection = () => {
   const { walletAddress, client } = useSigningClient();
   const [tokensObj, setTokensObj] = useState([]);
+  const [globalState, setGlobalState] = useAtom(globalStateAtom);
 
   useEffect(() => {
     if (!isMobile && walletAddress) {
       client
-        .queryContractSmart(CW721, { tokens: { owner: walletAddress } })
+        .queryContractSmart(globalState.cw721, {
+          tokens: { owner: walletAddress },
+        })
         .then((response) => {
           let tokens = response.tokens;
-          queryMini(client, tokens).then((o) => setTokensObj(o));
+          queryMini(globalState.cw721, client, tokens).then((o) =>
+            setTokensObj(o)
+          );
           console.log("got tokens ids:", tokens);
         });
     }

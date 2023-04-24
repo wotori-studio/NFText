@@ -1,40 +1,41 @@
 export async function findUserCollections(walletAddress, signingClient) {
-  console.log("find...");
-  let userCollectionArray = [];
-  // get all instances of 633 code with CW721
-  signingClient.getContracts(633).then((response) => {
-    response.map((address, i) => {
-      // get all detailed information of each address
-      signingClient.getContract(address).then((result) => {
-        if (result.admin == walletAddress) {
-          userCollectionArray.push(result.address);
-        }
-      });
-    });
-  });
-  console.log("current user own this collections: ", userCollectionArray);
+  const response = await signingClient.getContracts(633);
+  const userCollectionArray = [];
+
+  for (const address of response) {
+    const result = await signingClient.getContract(address);
+    if (result.admin == walletAddress) {
+      userCollectionArray.push(result.address);
+    }
+  }
+
   return userCollectionArray;
 }
 
 export async function findCollectionsData(collectionsAddresses, signingClient) {
-  let data = [];
-  console.log("find...", collectionsAddresses);
-  collectionsAddresses.map((address) => {
-    signingClient
-      .queryContractSmart(address, { contract_info: {} })
-      .then((result) => {
-        result["address"] = address;
-        data.push(result);
-      });
-  });
-  console.log(data);
+  const data = [];
+
+  for (const address of collectionsAddresses) {
+    const result = await signingClient.queryContractSmart(address, {
+      contract_info: {},
+    });
+    result["address"] = address;
+    data.push(result);
+  }
+
   return data;
 }
 
 export async function getCollectionDataHibrid(walletAddress, signingClient) {
-  let data = await findUserCollections(walletAddress, signingClient);
-  console.log(`!!!!FIND ALL CONTRACTS for ${walletAddress}:`, data);
-  let out = await findCollectionsData(data, signingClient);
-  console.log("GET COLLECTION DATA!", out);
-  return out;
+  // to make this work faster this could be done in one single thread with .then(... .then(...)) combining two functions in on
+  // check previous revision of this file, where there is no async realisation
+  const userCollections = await findUserCollections(
+    walletAddress,
+    signingClient
+  );
+  const collectionData = await findCollectionsData(
+    userCollections,
+    signingClient
+  );
+  return collectionData;
 }

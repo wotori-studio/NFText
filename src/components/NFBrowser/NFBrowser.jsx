@@ -16,10 +16,13 @@ import NFImage from "../NFImage/NFImage";
 import nftStore from "../../store/nftStore";
 import getNftTokenAmount from "../../services/tokenId";
 import query from "../../services/query/query";
+import { useAtom } from 'jotai/react';
+import { globalStateAtom } from "../../jotai/activeCollection";
 
 const NFBrowser = observer(() => {
   const { client } = useSigningClient();
   const [amount, setAmount] = useState();
+  const [globalState, setGlobalState] = useAtom(globalStateAtom);
   console.log("Browser client: ", client);
 
   useEffect(() => {
@@ -31,7 +34,7 @@ const NFBrowser = observer(() => {
 
     const queryNft = async (client) => {
       if (!client) return;
-      query(client, amount);
+      query(globalState.cw721, client, amount);
     };
 
     getAmount(client);

@@ -6,8 +6,8 @@ import ModelViewer from "../../src/components/ModelViewer";
 import NFImage from "../../src/components/NFImage/NFImage";
 import NFText from "../../src/components/NFText/NFText";
 import { Nft } from "../../src/models/Nft";
-
-const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_CW721 as string;
+import { useAtom } from 'jotai/react';
+import { globalStateAtom } from "../../src/jotai/activeCollection";
 
 const rpcEndpoint = process.env.NEXT_PUBLIC_CHAIN_RPC_ENDPOINT as string;
 
@@ -17,6 +17,7 @@ const NFTID = () => {
   const token_id = id?.toString();
   const [client, setClient] = useState<CosmWasmClient>();
   const [nft, setNft] = useState<Nft>();
+  const [globalState, setGlobalState] = useAtom(globalStateAtom);
 
   useEffect(() => {
     const getClient = async () => {
@@ -33,7 +34,7 @@ const NFTID = () => {
     if (token_id && client) {
       console.log("start query smart-contract");
       client
-        .queryContractSmart(PUBLIC_CW721_CONTRACT, {
+        .queryContractSmart(globalState.cw721, {
           all_nft_info: { token_id: token_id },
         })
         .then((meta) => {

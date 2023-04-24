@@ -198,7 +198,7 @@ export default function UserPage() {
       <button onClick={mintNFT}>mint</button>
       <button
         onClick={async () => {
-          let data = findUserCollections(walletAddress, signingClient);
+          let data = getCollectionDataHibrid(walletAddress, signingClient);
           setUserCollections(data);
         }}
       >

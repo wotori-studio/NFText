@@ -6,9 +6,10 @@ import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
 import styles from "./styles.module.sass";
 import dappState from "../../store/dappState";
+import { useAtom } from 'jotai/react';
+import { globalStateAtom } from "../../jotai/activeCollection";
 
 const CW20 = process.env.NEXT_PUBLIC_CW20 || "";
-const CW721 = process.env.NEXT_PUBLIC_CW721 || "";
 const MARKETPLACE = process.env.NEXT_PUBLIC_CW_MARKETPLACE || "";
 const MULTIPLIER = Number(process.env.NEXT_PUBLIC_MULTIPLIER) || 1;
 
@@ -16,6 +17,7 @@ const WrapSell = (props: any) => {
   const NFT = props.NFT;
   const { walletAddress, signingClient } = useSigningClient();
   const [price, setPrice] = useState(0);
+  const [globalState, setGlobalState] = useAtom(globalStateAtom);
 
   const handleSell = () => {
     dappState.setState("pushing to market");
@@ -30,7 +32,7 @@ const WrapSell = (props: any) => {
     signingClient
       ?.execute(
         walletAddress,
-        CW721,
+        globalState.cw721,
         {
           send_nft: {
             contract: MARKETPLACE,

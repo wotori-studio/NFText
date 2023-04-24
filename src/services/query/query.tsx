@@ -3,11 +3,13 @@ import { Nft } from "../../models/Nft";
 import dappState from "../../store/dappState";
 import nftStore from "../../store/nftStore";
 
-const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_CW721 as string;
-
-async function query(client: CosmWasmClient | null, children: any) {
+async function query(
+  cw721Contract: string,
+  client: CosmWasmClient | null,
+  children: any
+) {
   if (!client) return;
-  dappState.setStateAndOn("Query NFTs")
+  dappState.setStateAndOn("Query NFTs");
   console.log("start query nft.", children);
   if (typeof children === "number") {
     children = Array.from({ length: children - 1 }, (x, i) => i + 1);
@@ -17,7 +19,7 @@ async function query(client: CosmWasmClient | null, children: any) {
   const manyMetadata = [];
   for (const prop in children) {
     manyMetadata.push(
-      client.queryContractSmart(PUBLIC_CW721_CONTRACT, {
+      client.queryContractSmart(cw721Contract, {
         all_nft_info: { token_id: children[prop] + "" },
       })
     );
@@ -41,7 +43,7 @@ async function query(client: CosmWasmClient | null, children: any) {
           decodedMetadata.preview ||
           "https://dummyimage.com/600x400/1aeddf/ffffff&text=3D+file",
       };
-      dappState.setOff()
+      dappState.setOff();
       return newNFT;
     });
 

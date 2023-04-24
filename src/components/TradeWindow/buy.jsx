@@ -4,9 +4,10 @@ import queryMini from "../../services/query/queryMini";
 import dappState from "../../store/dappState";
 import WrapBuy from "../WrapTrade/WrapBuy";
 import style from "./trade.module.sass";
+import { useAtom } from 'jotai/react';
+import { globalStateAtom } from "../../jotai/activeCollection";
 
 const MARKETPLACE = process.env.NEXT_PUBLIC_CW_MARKETPLACE || "";
-const CW721 = process.env.NEXT_PUBLIC_CW721 || "";
 
 const BuySection = () => {
   const { client, walletAddress } = useSigningClient();
@@ -14,12 +15,13 @@ const BuySection = () => {
   const [priceList, setPriceList] = useState([]);
   const [marketIDs, setMarketIDs] = useState([]);
   const [seller, setSeller] = useState([]);
+  const [globalState, setGlobalState] = useAtom(globalStateAtom);
 
   //  Query tokens that user own. TODO: move to user profile component
   useEffect(() => {
     if (!walletAddress) return;
     client
-      .queryContractSmart(CW721, {
+      .queryContractSmart(globalState.cw721, {
         tokens: { owner: walletAddress },
       })
       .then((ownersTokens) => {
@@ -50,7 +52,9 @@ const BuySection = () => {
           setPriceList(prices.reverse());
           setMarketIDs(marketIDs.reverse());
           setSeller(sellerList.reverse());
-          queryMini(client, tokens).then((o) => setTokensObj(o));
+          queryMini(globalState.cw721, client, tokens).then((o) =>
+            setTokensObj(o)
+          );
           dappState.setOff();
         });
     }

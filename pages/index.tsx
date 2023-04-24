@@ -21,6 +21,8 @@ import { isMobile } from "react-device-detect";
 import { LoginHeader } from "../src/components/LoginHeader";
 import Select from "react-select";
 import { getCollectionDataHibrid } from "../src/utils/findCollections";
+import { useAtom } from 'jotai/react';
+import { globalStateAtom } from "../src/jotai/activeCollection";
 
 const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_CW721 as string;
 
@@ -53,13 +55,7 @@ const Main = observer(() => {
   const [collections, setCollections] = useState([
     { value: PUBLIC_CW721_CONTRACT, label: "Community" },
   ]);
-  // const options = [
-  //   {
-  //     value:
-  //       "archway12jnzwwdzpljgnpu7mnuv6sm83w62kthm888qwdmd60yruwf3fufsn75zhd",
-  //     label: "Community",
-  //   },
-  // ];
+  const [globalState, setGlobalState] = useAtom(globalStateAtom);
 
   useEffect(() => {
     connectWallet();
@@ -67,8 +63,32 @@ const Main = observer(() => {
 
   useEffect(() => {
     if (signingClient && walletAddress) {
-      let data = getCollectionDataHibrid(walletAddress, signingClient);
-      console.log(data);
+      const fetchData = async () => {
+        const data = await getCollectionDataHibrid(
+          walletAddress,
+          signingClient
+        );
+        console.log("GOT ALL COLLECTIONS DATA", data);
+
+        // Create an array of new collections
+        const newCollections = data.map((collection) => ({
+          value: collection.address,
+          label: collection.name,
+        }));
+
+        // Update the state with new collections
+        setCollections((prevState) => {
+          // Remove duplicates
+          const existingAddresses = new Set(prevState.map((col) => col.value));
+          const uniqueNewCollections = newCollections.filter(
+            (col) => !existingAddresses.has(col.value)
+          );
+
+          return [...prevState, ...uniqueNewCollections];
+        });
+      };
+
+      fetchData();
     }
   }, [signingClient, walletAddress]);
 
@@ -92,7 +112,19 @@ const Main = observer(() => {
                 contantine-2
               </a>
               <div className={`${globalStyles.onlineModes}`}></div>
-              <Select defaultValue={collections[0]} options={collections} />
+              <Select
+                defaultValue={collections[0]}
+                options={collections}
+                onChange={(selectedOption) => {
+                  if (selectedOption) {
+                    console.log(
+                      `Selected option label: ${selectedOption.value}`,
+                      `Selected option value: ${selectedOption.label}`
+                    );
+                    setGlobalState({ cw721: selectedOption.value });
+                  }
+                }}
+              />
               {!isMobile && walletAddress && <Wallet />}
               <div className={globalStyles.modes}>
                 <ModeToggle modes={modes} />
