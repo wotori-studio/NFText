@@ -6,8 +6,10 @@ import {
   findCollectionsData,
   getCollectionDataHibrid,
 } from "../../utils/findCollections";
-const CW721Factory =
-  "archway19nhk3a94lpvtwgp3z7fuz75jrkv2y5seuwrt883y9362jrz4w42qelsk6e"; // TODO: move to .env
+
+const CW721_CODE_ID = process.env.NEXT_PUBLIC_CW721_CODE_ID;
+const CW721Factory = process.env.NEXT_PUBLIC_CW_FACTORY;
+const MARKETPLACE = process.env.NEXT_PUBLIC_CW_MARKETPLACE;
 
 async function executeContract(
   client,
@@ -99,13 +101,13 @@ export default function UserPage() {
     console.log("instantiate new collection", signingClient);
     let newSmartContractData = {
       minter: walletAddress,
-      name: "Collection Name",
-      symbol: "Symbol URL",
+      name: "Akira27",
+      symbol: "Akira",
     };
     const base64Str = btoa(JSON.stringify(newSmartContractData));
     let instantiateMessage = {
       instantiate_stored_contract: {
-        code_id: 633,
+        code_id: Number(CW721_CODE_ID),
         admin: walletAddress,
         init_msg: base64Str,
         label: "test",
@@ -115,7 +117,7 @@ export default function UserPage() {
 
     executeContract(
       signingClient,
-      walletAddress,
+      walletAddress, // MARKETPLACE should be here if we want to trade the collections
       CW721Factory,
       instantiateMessage,
       undefined,
@@ -198,15 +200,18 @@ export default function UserPage() {
       <button onClick={mintNFT}>mint</button>
       <button
         onClick={async () => {
-          let data = getCollectionDataHibrid(walletAddress, signingClient);
+          let data = await findUserCollections(walletAddress, signingClient);
           setUserCollections(data);
+          console.log(data);
         }}
       >
         find
       </button>
       <button
-        onClick={() => {
-          findCollectionsData(userCollections, signingClient);
+        onClick={async () => {
+          console.log("load collections data");
+          let data = await findCollectionsData(userCollections, signingClient);
+          console.log(data);
         }}
       >
         load collections data

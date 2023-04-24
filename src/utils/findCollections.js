@@ -1,9 +1,12 @@
+const CW721_CODE_ID = process.env.NEXT_PUBLIC_CW721_CODE_ID;
+
 export async function findUserCollections(walletAddress, signingClient) {
-  const response = await signingClient.getContracts(633);
+  const response = await signingClient.getContracts(CW721_CODE_ID);
   const userCollectionArray = [];
 
   for (const address of response) {
     const result = await signingClient.getContract(address);
+    console.log(result);
     if (result.admin == walletAddress) {
       userCollectionArray.push(result.address);
     }
@@ -38,4 +41,20 @@ export async function getCollectionDataHibrid(walletAddress, signingClient) {
     signingClient
   );
   return collectionData;
+}
+
+export function getCollectionDataHibridV2(walletAddress, signingClient) {
+  // not used yet but could be more efficient
+  return signingClient.getContracts(CW721_CODE_ID).then((response) => {
+    const userCollections = response.filter(
+      (address) => signingClient.getContract(address).admin === walletAddress
+    );
+    return Promise.all(
+      userCollections.map((address) =>
+        signingClient
+          .queryContractSmart(address, { contract_info: {} })
+          .then((result) => ({ ...result, address }))
+      )
+    );
+  });
 }

@@ -21,7 +21,7 @@ import { isMobile } from "react-device-detect";
 import { LoginHeader } from "../src/components/LoginHeader";
 import Select from "react-select";
 import { getCollectionDataHibrid } from "../src/utils/findCollections";
-import { useAtom } from 'jotai/react';
+import { useAtom } from "jotai/react";
 import { globalStateAtom } from "../src/jotai/activeCollection";
 
 const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_CW721 as string;
@@ -121,7 +121,10 @@ const Main = observer(() => {
                       `Selected option label: ${selectedOption.value}`,
                       `Selected option value: ${selectedOption.label}`
                     );
-                    setGlobalState({ cw721: selectedOption.value });
+                    setGlobalState({
+                      cw721: selectedOption.value,
+                      collectionName: selectedOption.label,
+                    });
                   }
                 }}
               />
