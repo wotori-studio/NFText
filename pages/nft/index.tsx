@@ -4,9 +4,8 @@ import ModelViewer from "../../src/components/ModelViewer";
 import NFImage from "../../src/components/NFImage/NFImage";
 import NFText from "../../src/components/NFText/NFText";
 import { Nft } from "../../src/models/Nft";
-import { useAtom } from "jotai/react/useAtom";
+import { useAtom } from "jotai/react";
 import { globalStateAtom } from "../../src/jotai/activeCollection";
-
 
 const rpcEndpoint = process.env.NEXT_PUBLIC_CHAIN_RPC_ENDPOINT as string;
 

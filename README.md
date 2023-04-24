@@ -2,25 +2,25 @@
 <img src="https://ipfs.io/ipfs/QmWTvKbPeWDwNQMFgbmWzciq7NNcwsQcBgV5jLNNhPNwF6" style="width:200px" />
 
 ## Concept
-This project about collaboration between writers and artists in NFT creation.
-The goal is -  to allow all around the world participate in art and vitual world creation. Even If you can't draw, start from text, Imagine the character and mint the description as NFT. Then someone who good at painting and 3D will join your Idea and at the and you'll have a visualisation of text and group NFT that able to live in web 3.0 and virtual worlds...
+This project is about the collaboration between writers and artists in NFT creation. The goal is to allow people from all around the world to participate in art and virtual world creation. Even if you can't draw, you can start with text, imagine the character, and mint the description as an NFT. Then, someone who is good at painting and 3D will join your idea, and in the end, you'll have a visualization of text and a group of NFTs that can live in web 3.0 and virtual worlds.
 
 ## Features
 Current release:
-- interface for minting different types of assets (text, img and 3D)
-- .png, .jpg, gif, .glb support
-- all content stores in ipfs (InterPlanetary File System) using [pinata](https://www.pinata.cloud/)
-- mint NFT based on others
-- query parent & child NFTs in modal window (explore section)
-- exchange Torii to cw20 and back back with sliding window
-- sell & buy nfts for cw20 tokens
+- Interface for minting different types of assets (text, image, and 3D)
+- `.png`, `.jpg`, `.gif`, `.glb` support
+- All content is stored in IPFS (InterPlanetary File System) using [Pinata](https://www.pinata.cloud/)
+- Mint NFTs based on others
+- Query parent and child NFTs in a modal window (explore section)
+- Exchange Torii to CW20 tokens with a sliding window
+- Sell and buy NFTs for CW20 tokens
+- Mint NFT collections
   
 In progress:
-- mint project file token (blender, maya, zBrush, e.t.c.)
-- draw picture directly in browser (in progress)
-- integrate cw721 with metadata on-chain + royality
-- draw tree of nft based on each others
-- live bridge for streaming 3D content intro compiled game engines (crossplatform)
+- Mint project file tokens (Blender, Maya, zBrush, etc.)
+- Draw pictures directly in the browser (in progress)
+- Integrate CW721 with metadata on-chain + royalty
+- Draw a tree of NFTs based on each other
+- Live bridge for streaming 3D content into compiled game engines (cross-platform)
 
 ## Basic Interface
 ![image](https://i.ibb.co/6vTfFWq/image.png)
@@ -29,38 +29,31 @@ In progress:
 
 
 ### Smart Contracts
-All smart contracts used in NFText are in this [repository](https://github.com/wotori-studio/NFText-CosmWasm).
+Most smart contracts used in NFText are in this [repository](https://github.com/wotori-studio/NFText-CosmWasm).
 Basicaly this dApp builded with this CosmWasm smart contracts:
 - [cw20-bounding](https://github.com/CosmWasm/cw-tokens/tree/main/contracts/cw20-bonding)
 - [cw721-base](https://github.com/CosmWasm/cw-nfts/tree/test-resolver/contracts/cw721-base)
 - [cw-marketplace](https://github.com/wotori-studio/CW-Marketplace)
+- [instantiator](https://github.com/wotori/instantiator)
 
-#### Run this project
-- copy-paste `env.template` && rename It to `.env`
-- fullfill It
+#### To run this project:
 
-```sh
-% yarn install
-% yarn dev
-```
+0. Deploy all required smart contracts.
+1. Install any necessary dependencies.
+2. Copy and paste `env.template` and rename it to `.env`.
+3. Fill out the necessary fields in `.env`.
+4. Run the project.
 
-### Networks
+
+### Network
 #### Constantine
 ```
-{
-  "chain-id": "constantine-1",
-  "rpc": "https://rpc.constantine-1.archway.tech:443",
-  "rest-api": "https://api.constantine-1.archway.tech",
-  "currency-denom": "uconst",
-}
-```
-#### Torii
+NEXT_PUBLIC_CHAIN_ID=constantine-2
+NEXT_PUBLIC_CHAIN_NAME=constantine
+NEXT_PUBLIC_CHAIN_BECH32_PREFIX=archway
+NEXT_PUBLIC_CHAIN_RPC_ENDPOINT=https://rpc.constantine-2.archway.tech:443
+NEXT_PUBLIC_CHAIN_REST_ENDPOINT=https://api.constantine-2.archway.tech:443
+NEXT_PUBLIC_STAKING_DENOM=uconst
+NEXT_PUBLIC_FAUCET=https://faucet.constantine-2.archway.tech
 
-```
-{
-  "chain-id": "torii-1",
-  "rpc": "https://rpc.torii-1.archway.tech:443",
-  "rest-api": "https://api.torii-1.archway.tech:443",
-  "currency-denom": "utorii",
-}
 ```
