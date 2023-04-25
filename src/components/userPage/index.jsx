@@ -71,6 +71,16 @@ export default function UserPage() {
     },
   ]);
 
+  function instantiate() {
+    let newSmartContractData = {
+      minter: walletAddress,
+      name: "Akira27",
+      symbol: "Akira",
+    };
+    const base64Str = btoa(JSON.stringify(newSmartContractData));
+    signingClient.instantiate(walletAddress, Number(CW721_CODE_ID), base64Str);
+  }
+
   function instantiateCW721() {
     console.log("instantiate new collection", signingClient);
     let newSmartContractData = {
@@ -169,6 +179,7 @@ export default function UserPage() {
     >
       <p>txHash: {txHash}</p>
       <p>new contract address: {newContract}</p>
+      <button onClick={instantiate}>direct instantiate</button>
       <button onClick={instantiateCW721}>execute</button>
       <button onClick={getAddress}>address</button>
       <button onClick={mintNFT}>mint</button>

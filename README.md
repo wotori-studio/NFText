@@ -11,7 +11,7 @@ Current release:
 - All content is stored in IPFS (InterPlanetary File System) using [Pinata](https://www.pinata.cloud/)
 - Mint NFTs based on others
 - Query parent and child NFTs in a modal window (explore section)
-- Exchange Torii to CW20 tokens with a sliding window
+- Exchange Const to CW20 tokens with a sliding window
 - Sell and buy NFTs for CW20 tokens
 - Mint NFT collections
   
