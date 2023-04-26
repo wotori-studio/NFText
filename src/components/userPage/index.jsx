@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
+import executeContract from "../../utils/executeSmartContract";
+import { GasPrice } from "@cosmjs/stargate";
 import {
   findUserCollections,
   findCollectionsData,
@@ -78,7 +80,10 @@ export default function UserPage() {
       symbol: "Akira",
     };
     const base64Str = btoa(JSON.stringify(newSmartContractData));
-    signingClient.instantiate(walletAddress, Number(CW721_CODE_ID), base64Str);
+    signingClient.instantiate(walletAddress, Number(CW721_CODE_ID), base64Str, {
+      gasLimit: 300000,
+      gasPrice: GasPrice.fromString("0.02uconst"),
+    });
   }
 
   function instantiateCW721() {
