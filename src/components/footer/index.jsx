@@ -6,16 +6,25 @@ export default function RawFooter() {
       className="infoLine"
       style={{
         display: "flex",
-        justifyContent: "space-around",
+        justifyContent: "center",
         alignItems: "center",
         minHeight: "auto",
       }}
     >
-      {/* <div>
-        <a href="https://discord.gg/ZaQ8k3Sa" target="_blank">
-          Discord
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          marginRight: "50px",
+        }}
+      >
+        <a href="https://wotori.com" target="_blank">
+          Wotori Studio
         </a>
-      </div> */}
+        <p style={{ margin: 0 }}>{new Date().getFullYear()}</p>
+      </div>
       <div
         style={{
           display: "flex",
@@ -24,10 +33,9 @@ export default function RawFooter() {
           alignItems: "center",
         }}
       >
-        <a href="https://wotori.com" target="_blank">
-          Wotori Studio
+        <a href="https://t.me/+emOypt4PyeMxZGMy" target="_blank">
+          Telegram
         </a>
-        <p style={{ margin: 0 }}>{new Date().getFullYear()}</p>
         <a href="https://ekza.space/ppt/wotori-pitchdeck.pdf" target="_blank">
           about
         </a>
