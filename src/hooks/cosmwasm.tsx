@@ -1,6 +1,3 @@
-// this code taken from:
-// https://github.com/Ninja-Chain/flea-app
-
 import { useState } from "react";
 import {
   SigningCosmWasmClient,
@@ -8,6 +5,7 @@ import {
 } from "@cosmjs/cosmwasm-stargate";
 import { connectKeplr } from "../services/keplr";
 import { ISigningCosmWasmClientContext } from "./../models/ISigningCosmWasmClientContext";
+import { GasPrice } from "@cosmjs/stargate";
 
 const PUBLIC_RPC_ENDPOINT = process.env
   .NEXT_PUBLIC_CHAIN_RPC_ENDPOINT as string;
@@ -36,10 +34,14 @@ export const useSigningCosmWasmClient = (): ISigningCosmWasmClientContext => {
         PUBLIC_CHAIN_ID
       );
 
+      let gasPrice = GasPrice.fromString(
+        "0.002" + "uconst" // TODO: take from config chain.info.js
+      );
       setSigningClient(
         await SigningCosmWasmClient.connectWithSigner(
-          PUBLIC_RPC_ENDPOINT,
-          offlineSigner
+          PUBLIC_RPC_ENDPOINT, // TODO: take from config chain.info.js
+          offlineSigner,
+          { gasPrice: gasPrice }
         )
       );
 

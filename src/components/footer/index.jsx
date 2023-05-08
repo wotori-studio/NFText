@@ -1,5 +1,3 @@
-import { useSigningClient } from "../../context/cosmwasm";
-
 export default function RawFooter() {
   return (
     <div

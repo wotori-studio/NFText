@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useSigningClient } from "../../context/cosmwasm";
 import { calculateFee } from "@cosmjs/stargate";
 import executeContract from "../../utils/executeSmartContract";
-import { GasPrice } from "@cosmjs/stargate";
 import {
   findUserCollections,
   findCollectionsData,
@@ -76,14 +75,26 @@ export default function UserPage() {
   function instantiate() {
     let newSmartContractData = {
       minter: walletAddress,
-      name: "Akira27",
-      symbol: "Akira",
+      name: "DirectTest",
+      symbol: "DirectTest",
     };
+    console.log("instantiating...");
     const base64Str = btoa(JSON.stringify(newSmartContractData));
-    signingClient.instantiate(walletAddress, Number(CW721_CODE_ID), base64Str, {
-      gasLimit: 300000,
-      gasPrice: GasPrice.fromString("0.02uconst"),
-    });
+    signingClient
+      .instantiate(
+        walletAddress,
+        Number(CW721_CODE_ID),
+        newSmartContractData,
+        "My cool label",
+        calculateFee(600_000, "20uconst"),
+        {
+          memo: "Let's see if the memo is used",
+          funds: [],
+        }
+      )
+      .then((result) => {
+        alert("Successfully minted!", result);
+      });
   }
 
   function instantiateCW721() {
