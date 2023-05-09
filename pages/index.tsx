@@ -26,6 +26,7 @@ import { globalStateAtom } from "../src/jotai/activeCollection";
 import CollectionForm from "../src/components/CollectionForm";
 
 const PUBLIC_CW721_CONTRACT = process.env.NEXT_PUBLIC_CW721 as string;
+const DEBUG = process.env.NEXT_PUBLIC_APP_DEBUG === "true" || false;
 
 const Main = observer(() => {
   let mod = [];
@@ -99,7 +100,7 @@ const Main = observer(() => {
         userPageSetter={setUserPageOpen}
         userPageState={userPageOpen}
       />
-      {false ? ( //replace false with "userPageOpen" to load user interface
+      {DEBUG ? ( //replace false with "userPageOpen" to load user interface
         <UserPage />
       ) : (
         <>

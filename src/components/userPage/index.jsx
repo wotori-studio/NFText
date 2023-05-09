@@ -72,7 +72,7 @@ export default function UserPage() {
     },
   ]);
 
-  function instantiate() {
+  function directInstantiate() {
     let newSmartContractData = {
       minter: walletAddress,
       name: "DirectTest",
@@ -195,7 +195,7 @@ export default function UserPage() {
     >
       <p>txHash: {txHash}</p>
       <p>new contract address: {newContract}</p>
-      <button onClick={instantiate}>direct instantiate</button>
+      <button onClick={directInstantiate}>direct instantiate</button>
       <button onClick={instantiateCW721}>execute</button>
       <button onClick={getAddress}>address</button>
       <button onClick={mintNFT}>mint</button>

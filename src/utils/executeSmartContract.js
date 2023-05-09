@@ -1,6 +1,6 @@
 import { calculateFee } from "@cosmjs/stargate";
 
-export default async function executeContract(
+export async function executeContract(
   client,
   walletAddress,
   contractAddress,
