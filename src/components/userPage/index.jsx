@@ -8,6 +8,7 @@ import {
   getCollectionDataHibrid,
 } from "../../utils/findCollections";
 import { CollectionForm } from "../CollectionForm";
+import { instantiateContract } from "../../utils/instantiateSmartContract";
 
 const CW721_CODE_ID = process.env.NEXT_PUBLIC_CW721_CODE_ID;
 const CW721Factory = process.env.NEXT_PUBLIC_CW_FACTORY;
@@ -72,29 +73,38 @@ export default function UserPage() {
     },
   ]);
 
-  function directInstantiate() {
+  async function directInstantiate() {
     let newSmartContractData = {
       minter: walletAddress,
       name: "DirectTest",
       symbol: "DirectTest",
     };
     console.log("instantiating...");
-    const base64Str = btoa(JSON.stringify(newSmartContractData));
-    signingClient
-      .instantiate(
-        walletAddress,
-        Number(CW721_CODE_ID),
-        newSmartContractData,
-        "My cool label",
-        calculateFee(600_000, "20uconst"),
-        {
-          memo: "Let's see if the memo is used",
-          funds: [],
-        }
-      )
-      .then((result) => {
-        alert("Successfully minted!", result);
-      });
+    console.log("instantiating smart contract...", newSmartContractData);
+    let resp = await instantiateContract(
+      signingClient,
+      walletAddress,
+      CW721_CODE_ID,
+      newSmartContractData,
+      "NFT_CW721_CONTRACT",
+      (message) => console.log("callback", message),
+      (message) => console.log("callback", message)
+    );
+    // signingClient
+    //   .instantiate(
+    //     walletAddress,
+    //     Number(CW721_CODE_ID),
+    //     newSmartContractData,
+    //     "My cool label",
+    //     calculateFee(600_000, "20uconst"),
+    //     {
+    //       memo: "Let's see if the memo is used",
+    //       funds: [],
+    //     }
+    //   )
+    //   .then((result) => {
+    //     alert("Successfully minted!", result);
+    //   });
   }
 
   function instantiateCW721() {
@@ -177,6 +187,21 @@ export default function UserPage() {
     );
   }
 
+  async function searchInstantiated() {
+    let resp = await signingClient.searchTx({
+      sentFromOrTo: walletAddress,
+    });
+    // const queryRequest = {
+    //   tags: [
+    //     { key: "sender", value: "osmo1a8dq0wced6q29rppdug7yvk8ek0dsrqwypcjy8" },
+    //     { key: "action", value: "send" },
+    //   ],
+    // };
+
+    // let resp = await signingClient.searchTx(queryRequest);
+    console.log(resp);
+  }
+
   useEffect(() => {
     console.log("recieved signingClient");
   }, [signingClient]);
@@ -196,6 +221,7 @@ export default function UserPage() {
       <p>txHash: {txHash}</p>
       <p>new contract address: {newContract}</p>
       <button onClick={directInstantiate}>direct instantiate</button>
+      <button onClick={searchInstantiated}>search</button>
       <button onClick={instantiateCW721}>execute</button>
       <button onClick={getAddress}>address</button>
       <button onClick={mintNFT}>mint</button>

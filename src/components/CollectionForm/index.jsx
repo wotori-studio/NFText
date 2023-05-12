@@ -43,13 +43,12 @@ export default function CollectionForm() {
       symbol: collectionSymbol,
     };
     const base64Str = btoa(JSON.stringify(newSmartContractData));
-
     let instantiateMessage = {
       instantiate_stored_contract: {
         code_id: Number(CW721_CODE_ID),
         admin: walletAddress,
         init_msg: base64Str,
-        label: "NFText-user-collection",
+        label: "NFText-CW721-COLLECTION",
       },
     };
 
