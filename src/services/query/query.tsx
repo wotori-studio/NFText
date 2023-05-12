@@ -25,11 +25,20 @@ async function query(
     );
   }
 
+  console.log("Metadata:", manyMetadata);
+
   await Promise.all(manyMetadata).then((manyMetadata) => {
-    const NFTs: Nft[] = manyMetadata.map((metadata, index) => {
-      const decodedMetadata = JSON.parse(
-        Buffer.from(metadata.info.token_uri.slice(30), "base64").toString()
-      );
+    const NFTs: (Nft | null)[] = manyMetadata.map((metadata, index) => {
+      console.log("process metadata:", metadata);
+      let decodedMetadata = null;
+      try {
+        decodedMetadata = JSON.parse(
+          Buffer.from(metadata.info.token_uri.slice(30), "base64").toString()
+        );
+      } catch (error) {
+        console.error("Error while parsing metadata:", error);
+        return null;
+      }
       const newNFT: Nft = {
         id: decodedMetadata.id ? Number(decodedMetadata.id) : index + 1, // TODO: get real index
         creator: decodedMetadata.creator,
