@@ -57,7 +57,7 @@ export default function CollectionForm() {
     dappState.setOn();
     executeContract(
       signingClient,
-      walletAddress, // MARKETPLACE should be here if we want to trade the collections
+      walletAddress, // MARKETPLACE should be here if we want to trade the collections but then we got a problem with query by user
       CW721Factory,
       instantiateMessage,
       undefined,

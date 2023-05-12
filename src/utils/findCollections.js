@@ -8,6 +8,7 @@ export async function findUserCollections(walletAddress, signingClient) {
     const result = await signingClient.getContract(address);
     console.log(result);
     if (result.admin == walletAddress) {
+      // TODO: There may be a feature where the user can query the instantiated contract by him only, to reduce the response.
       userCollectionArray.push(result.address);
     }
   }
