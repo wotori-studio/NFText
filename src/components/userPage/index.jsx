@@ -7,6 +7,7 @@ import {
   findCollectionsData,
   getCollectionDataHibrid,
   getCollectionDataHibridV2,
+  getCollectionDataHibridV3,
 } from "../../utils/findCollections";
 import { CollectionForm } from "../CollectionForm";
 import { instantiateContract } from "../../utils/instantiateSmartContract";
@@ -263,6 +264,18 @@ export default function UserPage() {
         }}
       >
         search slow (hybrid-v2)
+      </button>
+      <button
+        onClick={async () => {
+          console.log("getting data");
+          let data = await getCollectionDataHibridV3(
+            walletAddress,
+            signingClient
+          );
+          console.log("recieved response:", data);
+        }}
+      >
+        search slow (hybrid-v3)
       </button>
 
       <div style={{ marginBottom: "20px" }}>

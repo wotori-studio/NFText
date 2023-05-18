@@ -47,13 +47,15 @@ export async function getCollectionDataHibrid(walletAddress, signingClient) {
 }
 
 export function getCollectionDataHibridV2(walletAddress, signingClient) {
+  /* The fasters function for parsing user collection at the moment of writing...
+   */
   let userContracts = [];
   return signingClient.getContracts(CW721_CODE_ID).then((response) => {
     const promises = response.map((address) => {
-      console.log("Parsing address", address);
+      // console.log("Parsing address", address);
       return signingClient.getContract(address).then((contractInfo) => {
         if (contractInfo.admin === walletAddress) {
-          console.log("Found user contract...");
+          // console.log("Found user contract...");
           userContracts.push(address);
         }
       });
@@ -68,4 +70,31 @@ export function getCollectionDataHibridV2(walletAddress, signingClient) {
       )
     );
   });
+}
+
+export async function getCollectionDataHibridV3(walletAddress, signingClient) {
+  /*
+  This refactored version of the function should (but actually not) be functionally equivalent 
+  to the original version (getCollectionDataHibridV2), but should be easier to read and modify, 
+  especially if you need to add additional logic or error handling in the future.
+  */
+  const userContracts = [];
+  const response = await signingClient.getContracts(CW721_CODE_ID);
+
+  for (const address of response) {
+    const contractInfo = await signingClient.getContract(address);
+    if (contractInfo.admin === walletAddress) {
+      userContracts.push(address);
+    }
+  }
+
+  const collectionData = await Promise.all(
+    userContracts.map((address) =>
+      signingClient
+        .queryContractSmart(address, { contract_info: {} })
+        .then((result) => ({ ...result, address }))
+    )
+  );
+
+  return collectionData;
 }
