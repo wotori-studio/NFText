@@ -1,14 +1,6 @@
 const withPlugins = require("next-compose-plugins");
 const optimizedImages = require("next-optimized-images");
-
-// module.exports = withPlugins([
-// [optimizedImages, {
-/* config for next-optimized-images */
-// }],
-
-// your other plugins here
-
-// ]);
+// const consoleLog = require("./plugins/consoleLog");
 
 // https://nextjs.org/docs/migrating/incremental-adoption#micro-frontends-with-monorepos-and-subdomains
 module.exports = {
@@ -22,4 +14,9 @@ module.exports = {
       ],
     };
   },
+
+  // babel: {
+  //   // this was an attemp to modify console.log
+  //   plugins: ["macros", [consoleLog]],
+  // },
 };

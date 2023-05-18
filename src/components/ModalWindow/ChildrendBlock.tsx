@@ -18,7 +18,7 @@ export default function ChildrenBlock(props: any) {
               .reverse()
               .map((mNFT) =>
                 nftStore.tree[NFT.id] ? (
-                  nftStore.tree[NFT.id].includes(mNFT.id) ? (
+                  mNFT && nftStore.tree[NFT.id].includes(mNFT.id) ? (
                     <>
                       {mNFT.type === "text" ? (
                         <NFText NFT={mNFT} />

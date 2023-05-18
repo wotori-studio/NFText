@@ -40,7 +40,7 @@ const WrapBuy = (props: any) => {
               msg: encodedMsg,
             },
           },
-          calculateFee(600_000, "20uconst")
+          calculateFee(600_000, "20uconst") // TODO: move to context object
         )
         .then((res) => {
           console.log(res);

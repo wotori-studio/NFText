@@ -58,7 +58,7 @@ const NFBrowser = observer(() => {
     <div className={styles.nftBrowser}>
       {nftStore.loadedNFT
         .slice(0)
-        .filter((NFT) => NFT.type === nftStore.typeNFT)
+        .filter((NFT) => (NFT ? NFT.type === nftStore.typeNFT : null))
         .reverse()
         .map((NFT) =>
           !ignoreList.includes(NFT.id) ? (

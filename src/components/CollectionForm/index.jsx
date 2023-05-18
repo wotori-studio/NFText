@@ -43,13 +43,12 @@ export default function CollectionForm() {
       symbol: collectionSymbol,
     };
     const base64Str = btoa(JSON.stringify(newSmartContractData));
-
     let instantiateMessage = {
       instantiate_stored_contract: {
         code_id: Number(CW721_CODE_ID),
         admin: walletAddress,
         init_msg: base64Str,
-        label: "NFText-user-collection",
+        label: "NFText-CW721-COLLECTION",
       },
     };
 
@@ -57,7 +56,7 @@ export default function CollectionForm() {
     dappState.setOn();
     executeContract(
       signingClient,
-      walletAddress, // MARKETPLACE should be here if we want to trade the collections
+      walletAddress, // MARKETPLACE should be here if we want to trade the collections but then we got a problem with query by user
       CW721Factory,
       instantiateMessage,
       undefined,

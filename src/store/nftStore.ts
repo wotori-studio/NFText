@@ -51,6 +51,10 @@ class NFTStore {
     for (const i in this.loadedNFT) {
       let curObj = this.loadedNFT[i];
 
+      if (curObj === null) {
+        continue; // continue the loop if curObj is null
+      }
+
       if (!treeProxy[curObj.parent]) {
         treeProxy[curObj.parent] = [];
       }
@@ -65,7 +69,7 @@ class NFTStore {
 
   public setTypeTrade(type: TypeTrade) {
     this.typeTrade = type;
-    console.log("update trade type to:", this.typeTrade)
+    console.log("update trade type to:", this.typeTrade);
   }
 }
 
