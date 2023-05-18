@@ -20,7 +20,10 @@ import { isMobile } from "react-device-detect";
 
 import { LoginHeader } from "../src/components/LoginHeader";
 import Select from "react-select";
-import { getCollectionDataHibrid } from "../src/utils/findCollections";
+import {
+  getCollectionDataHibrid,
+  getCollectionDataHibridV2,
+} from "../src/utils/findCollections";
 import { useAtom } from "jotai/react";
 import { globalStateAtom } from "../src/jotai/activeCollection";
 import CollectionForm from "../src/components/CollectionForm";
@@ -66,7 +69,7 @@ const Main = observer(() => {
   useEffect(() => {
     if (signingClient && walletAddress) {
       const fetchData = async () => {
-        const data = await getCollectionDataHibrid(
+        const data = await getCollectionDataHibridV2(
           walletAddress,
           signingClient
         );

@@ -6,6 +6,7 @@ import {
   findUserCollections,
   findCollectionsData,
   getCollectionDataHibrid,
+  getCollectionDataHibridV2,
 } from "../../utils/findCollections";
 import { CollectionForm } from "../CollectionForm";
 import { instantiateContract } from "../../utils/instantiateSmartContract";
@@ -221,7 +222,7 @@ export default function UserPage() {
       <p>txHash: {txHash}</p>
       <p>new contract address: {newContract}</p>
       <button onClick={directInstantiate}>direct instantiate</button>
-      <button onClick={searchInstantiated}>search</button>
+      <button onClick={searchInstantiated}>search optimized</button>
       <button onClick={instantiateCW721}>execute</button>
       <button onClick={getAddress}>address</button>
       <button onClick={mintNFT}>mint</button>
@@ -249,7 +250,19 @@ export default function UserPage() {
           getCollectionDataHibrid(walletAddress, signingClient);
         }}
       >
-        hybrid
+        search slow (hybrid)
+      </button>
+      <button
+        onClick={async () => {
+          console.log("getting data");
+          let data = await getCollectionDataHibridV2(
+            walletAddress,
+            signingClient
+          );
+          console.log("recieved response:", data);
+        }}
+      >
+        search slow (hybrid-v2)
       </button>
 
       <div style={{ marginBottom: "20px" }}>

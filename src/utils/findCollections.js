@@ -4,21 +4,21 @@ export async function findUserCollections(walletAddress, signingClient) {
   const response = await signingClient.getContracts(CW721_CODE_ID);
   const userCollectionArray = [];
 
-  console.log("paring all users contract instantiated with: ", CW721_CODE_ID);
+  console.log("parsing all users contract instantiated with: ", CW721_CODE_ID);
   for (const address of response) {
     const result = await signingClient.getContract(address);
     if (result.admin == walletAddress) {
-      console.log("found user`s contract: ", result);
-
       // TODO: There may be a feature where the user can query the instantiated contract by him only, to reduce the response.
       userCollectionArray.push(result.address);
     }
   }
+  console.log("found user`s contract: ", userCollectionArray);
 
   return userCollectionArray;
 }
 
 export async function findCollectionsData(collectionsAddresses, signingClient) {
+  console.log("fetching collection data");
   const data = [];
 
   for (const address of collectionsAddresses) {
@@ -28,7 +28,7 @@ export async function findCollectionsData(collectionsAddresses, signingClient) {
     result["address"] = address;
     data.push(result);
   }
-
+  console.log("recieved collection data", data);
   return data;
 }
 
@@ -47,16 +47,24 @@ export async function getCollectionDataHibrid(walletAddress, signingClient) {
 }
 
 export function getCollectionDataHibridV2(walletAddress, signingClient) {
-  // not used yet but could be more efficient
+  let userContracts = [];
   return signingClient.getContracts(CW721_CODE_ID).then((response) => {
-    const userCollections = response.filter(
-      (address) => signingClient.getContract(address).admin === walletAddress
-    );
-    return Promise.all(
-      userCollections.map((address) =>
-        signingClient
-          .queryContractSmart(address, { contract_info: {} })
-          .then((result) => ({ ...result, address }))
+    const promises = response.map((address) => {
+      console.log("Parsing address", address);
+      return signingClient.getContract(address).then((contractInfo) => {
+        if (contractInfo.admin === walletAddress) {
+          console.log("Found user contract...");
+          userContracts.push(address);
+        }
+      });
+    });
+    return Promise.all(promises).then(() =>
+      Promise.all(
+        userContracts.map((address) =>
+          signingClient
+            .queryContractSmart(address, { contract_info: {} })
+            .then((result) => ({ ...result, address }))
+        )
       )
     );
   });
