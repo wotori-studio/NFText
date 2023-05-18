@@ -20,10 +20,7 @@ import { isMobile } from "react-device-detect";
 
 import { LoginHeader } from "../src/components/LoginHeader";
 import Select from "react-select";
-import {
-  getCollectionDataHibrid,
-  getCollectionDataHibridV2,
-} from "../src/utils/findCollections";
+import { getCollectionDataHibridV2 } from "../src/utils/findCollections";
 import { useAtom } from "jotai/react";
 import { globalStateAtom } from "../src/jotai/activeCollection";
 import CollectionForm from "../src/components/CollectionForm";
@@ -76,7 +73,8 @@ const Main = observer(() => {
         console.log("GOT ALL COLLECTIONS DATA", data);
 
         // Create an array of new collections
-        const newCollections = data.map((collection) => ({
+        const newCollections = data.map((collection: any) => ({
+          //TODO: add proper type
           value: collection.address,
           label: collection.name,
         }));
@@ -86,7 +84,7 @@ const Main = observer(() => {
           // Remove duplicates
           const existingAddresses = new Set(prevState.map((col) => col.value));
           const uniqueNewCollections = newCollections.filter(
-            (col) => !existingAddresses.has(col.value)
+            (col: any) => !existingAddresses.has(col.value)
           );
 
           return [...prevState, ...uniqueNewCollections];
