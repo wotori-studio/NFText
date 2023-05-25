@@ -3635,6 +3635,11 @@ react-is@^18.2.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
+react-keplr@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-keplr/-/react-keplr-1.0.1.tgz#7e1ab9f3ba03743b817c11ee4cd22249bc6cc99d"
+  integrity sha512-pivQlYmKLxeWubvrCxxUFVZMP+Jl/ftA0/BePpiGPJCNqXs9Sd/K2T5yZJgINRzOU44OgUZEn5elvA4NFyfsoA==
+
 react-merge-refs@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-1.1.0.tgz#73d88b892c6c68cbb7a66e0800faa374f4c38b06"

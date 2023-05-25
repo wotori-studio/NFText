@@ -1,7 +1,7 @@
 import NFImage from "../NFImage/NFImage";
 import NFText from "../NFText/NFText";
 import globalStyles from "../../globalStyles/styles.module.sass";
-import { useSigningClient } from "../../context/cosmwasm";
+import { useSigningClient } from "react-keplr";
 import { calculateFee } from "@cosmjs/stargate";
 import styles from "./styles.module.sass";
 import { isMobile } from "react-device-detect";

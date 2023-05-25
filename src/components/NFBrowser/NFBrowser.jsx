@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 
 // Contexts
-import { useSigningClient } from "../../context/cosmwasm";
+import { useSigningClient } from "react-keplr";
 
 // Components
 import NFText from "../NFText/NFText";

@@ -11,7 +11,7 @@ import ModeToggle, { Mode } from "../src/components/ModeToggle/ModeToggle";
 import RawFooter from "../src/components/footer";
 
 // Contexts
-import { useSigningClient } from "../src/context/cosmwasm";
+import { useSigningClient } from "react-keplr";
 
 // Stores
 import nftStore from "../src/store/nftStore";

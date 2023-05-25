@@ -1,6 +1,6 @@
 import { calculateFee } from "@cosmjs/stargate";
 import { useState, useEffect } from "react";
-import { useSigningClient } from "../../context/cosmwasm";
+import { useSigningClient } from "react-keplr";
 import { convertMicroDenomToDenom } from "../../services/converter";
 import dappState from "../../store/dappState";
 

@@ -1,4 +1,5 @@
-import { useSigningClient } from "../../context/cosmwasm";
+// import { useSigningClient } from "../../context/cosmwasm";
+import { useSigningClient } from "react-keplr";
 
 export function LoginHeader({ userPageSetter, userPageState }) {
   const { walletAddress, connectWallet, signingClient, disconnect, client } =
