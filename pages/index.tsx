@@ -107,7 +107,22 @@ const Main = observer(() => {
         <>
           <div className={globalStyles.app}>
             <div className={globalStyles.mainBlock}>
-              <h1>NFText</h1> testnet:{" "}
+              <img
+                className="side-b side-open"
+                src="logo/CustomStar.svg"
+                alt="Shinig star - the NFText logo"
+                style={{ width: "10em" }}
+              />
+              {/* <h1 className="fontAudio">NFText</h1> */}
+              <h1></h1>
+              <img
+                className="side-b side-open"
+                src="logo/nftext.svg"
+                alt="Shinig star - the NFText logo"
+                style={{ width: "10em" }}
+              />
+              <h1> </h1>
+              testnet:{" "}
               <a
                 href="https://docs.archway.io/resources/networks"
                 target="_blank"
