@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSigningClient } from "../../context/cosmwasm";
+import { useSigningClient } from "react-keplr";
 import queryMini from "../../services/query/queryMini";
 import WrapSell from "../WrapTrade/WrapSell";
 import styles from "./trade.module.sass";

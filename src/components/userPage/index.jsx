@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSigningClient } from "../../context/cosmwasm";
+import { useSigningClient } from "react-keplr";
 import { calculateFee } from "@cosmjs/stargate";
 import executeContract from "../../utils/executeSmartContract";
 import {

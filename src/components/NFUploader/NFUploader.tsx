@@ -11,7 +11,7 @@ import { calculateFee } from "@cosmjs/stargate";
 import SceneWithModel from "./../SceneWithModel/SceneWithModel";
 
 // Contexts
-import { useSigningClient } from "../../context/cosmwasm";
+import { useSigningClient } from "react-keplr";;
 
 // Services
 import nftService from "./../../services/nftService";

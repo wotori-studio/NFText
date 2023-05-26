@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Styles.module.css";
 import { executeContract } from "../../utils/executeSmartContract";
-import { useSigningClient } from "../../context/cosmwasm";
+import { useSigningClient } from "react-keplr";
 import { globalStateAtom } from "../../jotai/activeCollection";
 import { useAtom } from "jotai/react";
 import dappState from "../../store/dappState";

@@ -2,11 +2,11 @@ import NFImage from "../NFImage/NFImage";
 import NFText from "../NFText/NFText";
 import globalStyles from "../../globalStyles/styles.module.sass";
 import { useState } from "react";
-import { useSigningClient } from "../../context/cosmwasm";
+import { useSigningClient } from "react-keplr";
 import { calculateFee } from "@cosmjs/stargate";
 import styles from "./styles.module.sass";
 import dappState from "../../store/dappState";
-import { useAtom } from 'jotai/react';
+import { useAtom } from "jotai/react";
 import { globalStateAtom } from "../../jotai/activeCollection";
 
 const CW20 = process.env.NEXT_PUBLIC_CW20 || "";

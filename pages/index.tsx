@@ -11,7 +11,7 @@ import ModeToggle, { Mode } from "../src/components/ModeToggle/ModeToggle";
 import RawFooter from "../src/components/footer";
 
 // Contexts
-import { useSigningClient } from "../src/context/cosmwasm";
+import { useSigningClient } from "react-keplr";
 
 // Stores
 import nftStore from "../src/store/nftStore";
@@ -51,7 +51,7 @@ const Main = observer(() => {
     },
   ];
   const [modes, setModes] = useState<Mode[]>(mod);
-  const { walletAddress, connectWallet, signingClient, disconnect, client } =
+  const { walletAddress, connectWallet, signingClient, client } =
     useSigningClient();
   const [userPageOpen, setUserPageOpen] = useState(false);
   const [collections, setCollections] = useState([
@@ -60,16 +60,15 @@ const Main = observer(() => {
   const [globalState, setGlobalState] = useAtom(globalStateAtom);
 
   useEffect(() => {
-    connectWallet();
-  }, []);
+    if (connectWallet) {
+      connectWallet();
+    }
+  }, [client]);
 
   useEffect(() => {
     if (signingClient && walletAddress) {
       const fetchData = async () => {
-        const data = await getCollectionDataHibridV2(
-          walletAddress,
-          signingClient
-        );
+        const data = await getCollectionDataHibridV2(walletAddress, client);
         console.log("GOT ALL COLLECTIONS DATA", data);
 
         // Create an array of new collections

@@ -14,7 +14,7 @@ import TradeWindow from "../TradeWindow";
 // Stores
 import nftStore from "./../../store/nftStore";
 import { isMobile } from "react-device-detect";
-import { useSigningClient } from "../../context/cosmwasm";
+import { useSigningClient } from "react-keplr";
 
 const ModeSelector = observer(() => {
   const { signingClient } = useSigningClient();

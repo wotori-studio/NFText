@@ -1,15 +1,15 @@
 // https://docs.keplr.app/api/suggest-chain.html
+import { NetworkConfig } from "react-keplr";
+const DENOM_MINI = process.env.NEXT_PUBLIC_STAKING_DENOM || "";
+const DENOM = DENOM_MINI?.substring(1).toUpperCase() || "";
+const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID || "";
+const CHAIN_NAME = process.env.NEXT_PUBLIC_CHAIN_NAME || "";
+const RPC = process.env.NEXT_PUBLIC_CHAIN_RPC_ENDPOINT || "";
+const REST = process.env.NEXT_PUBLIC_CHAIN_REST_ENDPOINT || "";
+const BECH32 = process.env.NEXT_PUBLIC_CHAIN_BECH32_PREFIX || "";
+const NEXT_PUBLIC_FAUCET = process.env.NEXT_PUBLIC_FAUCET || "";
 
-const DENOM_MINI = process.env.NEXT_PUBLIC_STAKING_DENOM;
-const DENOM = DENOM_MINI?.substring(1).toUpperCase();
-const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID;
-const CHAIN_NAME = process.env.NEXT_PUBLIC_CHAIN_NAME;
-const RPC = process.env.NEXT_PUBLIC_CHAIN_RPC_ENDPOINT;
-const REST = process.env.NEXT_PUBLIC_CHAIN_REST_ENDPOINT;
-const BECH32 = process.env.NEXT_PUBLIC_CHAIN_BECH32_PREFIX;
-const NEXT_PUBLIC_FAUCET = process.env.NEXT_PUBLIC_FAUCET;
-
-const ToriiInfo = {
+const chainInfo: NetworkConfig = {
   chainId: CHAIN_ID,
   chainName: CHAIN_NAME,
   rpc: RPC,
@@ -56,4 +56,4 @@ const ToriiInfo = {
   features: ["cosmwasm"],
 };
 
-export default ToriiInfo;
+export default chainInfo;

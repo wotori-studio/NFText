@@ -29,6 +29,7 @@
     "react": "^18.1.0",
     "react-device-detect": "^2.2.2",
     "react-dom": "^18.1.0",
+    "react-keplr": "^1.0.11",
     "react-painter": "^0.4.0",
     "react-select": "^5.7.2",
     "sass": "^1.51.0",
@@ -45,7 +46,7 @@
   },
   "devDependencies": {
     "@types/node-sass": "^4.11.2",
-    "@types/react": "^18.0.9",
+    "@types/react": "^18.2.7",
     "@types/react-dom": "^18.0.4",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "typescript": "^4.6.4"
