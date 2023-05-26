@@ -1,7 +1,7 @@
 import Head from "next/head";
 import SayHi from "../src/components/SayHi";
 import { SigningCosmWasmProvider } from "react-keplr";
-import chainInfo from "../chain.info";
+import chainInfo from "../src/chainInfo";
 
 import Loading from "../src/components/Loading";
 import "../styles.sass";

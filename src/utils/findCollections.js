@@ -46,14 +46,14 @@ export async function getCollectionDataHibrid(walletAddress, signingClient) {
   return collectionData;
 }
 
-export function getCollectionDataHibridV2(walletAddress, signingClient) {
+export function getCollectionDataHibridV2(walletAddress, client) {
   /* The fasters function for parsing user collection at the moment of writing...
    */
   let userContracts = [];
-  return signingClient.getContracts(CW721_CODE_ID).then((response) => {
+  return client.getContracts(CW721_CODE_ID).then((response) => {
     const promises = response.map((address) => {
       // console.log("Parsing address", address);
-      return signingClient.getContract(address).then((contractInfo) => {
+      return client.getContract(address).then((contractInfo) => {
         if (contractInfo.admin === walletAddress) {
           // console.log("Found user contract...");
           userContracts.push(address);
@@ -63,7 +63,7 @@ export function getCollectionDataHibridV2(walletAddress, signingClient) {
     return Promise.all(promises).then(() =>
       Promise.all(
         userContracts.map((address) =>
-          signingClient
+          client
             .queryContractSmart(address, { contract_info: {} })
             .then((result) => ({ ...result, address }))
         )
