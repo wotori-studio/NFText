@@ -51,7 +51,7 @@ const WrapBuy = (props: any) => {
           dappState.setOff();
           // alert(`Error! ${error.message}`);
           alert(
-            `Error! Probably you don't have enough cw20 tokens. You can exchange Torii to CW20 in sliding window with arrow on the left side.`
+            `Error! Probably you don't have enough cw20 tokens. You can exchange wrapped tokens to original network tokens in sliding window with arrow on the left side.`
           );
           console.log("Error signingClient?.execute(): ", error);
         });

@@ -63,7 +63,7 @@ const Main = observer(() => {
     if (connectWallet) {
       connectWallet();
     }
-  }, [client]);
+  }, []);
   
   useEffect(() => {
     if (client && walletAddress) {
