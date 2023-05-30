@@ -64,9 +64,9 @@ const Main = observer(() => {
       connectWallet();
     }
   }, [client]);
-
+  
   useEffect(() => {
-    if (signingClient && walletAddress) {
+    if (client && walletAddress) {
       const fetchData = async () => {
         const data = await getCollectionDataHibridV2(walletAddress, client);
         console.log("GOT ALL COLLECTIONS DATA", data);
@@ -92,7 +92,7 @@ const Main = observer(() => {
 
       fetchData();
     }
-  }, [signingClient, walletAddress, globalState]);
+  }, [client, walletAddress, globalState]);
 
   return (
     <>
