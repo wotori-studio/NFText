@@ -40,7 +40,7 @@ const WrapBuy = (props: any) => {
               msg: encodedMsg,
             },
           },
-          calculateFee(600_000, "20uconst") // TODO: move to context object
+          "auto" // TODO: move to context object
         )
         .then((res) => {
           console.log(res);
@@ -77,7 +77,7 @@ const WrapBuy = (props: any) => {
               offering_id: MARKET_ID,
             },
           },
-          calculateFee(600_000, "20uconst")
+          "auto"
         )
         .then(() => {
           alert("Withdaw success!");

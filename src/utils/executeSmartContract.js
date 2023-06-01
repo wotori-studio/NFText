@@ -15,7 +15,7 @@ export async function executeContract(
       walletAddress,
       contractAddress,
       executeMsg,
-      calculateFee(600_000, "20uconst"),
+      "auto",
       memo,
       coins
     );

@@ -621,6 +621,14 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@keplr-wallet/types@^0.11.63":
+  version "0.11.64"
+  resolved "https://registry.yarnpkg.com/@keplr-wallet/types/-/types-0.11.64.tgz#5a308c8c019b4e18f894e0f35f0904b60134d605"
+  integrity sha512-GgzeLDHHfZFyne3O7UIfFHj/uYqVbxAZI31RbBwt460OBbvwQzjrlZwvJW3vieWRAgxKSITjzEDBl2WneFTQdQ==
+  dependencies:
+    axios "^0.27.2"
+    long "^4.0.0"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -3644,10 +3652,10 @@ react-is@^18.2.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
-react-keplr@^1.0.11:
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/react-keplr/-/react-keplr-1.0.11.tgz#085a07c4510216e0710b6fcf79d99f678427a3b8"
-  integrity sha512-Et9p/hVewIX+Gq6R3+6n7wjcxe8KxzWmEh1WNuRRarcJsj8ILkraKukeCUlUDmGYy84PB90Uw3Kq//0Oq/QygA==
+react-keplr@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/react-keplr/-/react-keplr-1.0.12.tgz#f014a5a5cc11c61e2dbfb17c8d1c00fb6ad6ec6b"
+  integrity sha512-mN/L/2WhlDoul4NAIymduWwhUY2XAm8K4dPIXKurloDr3hSXQ9alEZMfm0pQxqciqoafd93m4XrT4Te+pMVjVQ==
 
 react-merge-refs@^1.1.0:
   version "1.1.0"

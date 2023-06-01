@@ -11,7 +11,7 @@ import { calculateFee } from "@cosmjs/stargate";
 import SceneWithModel from "./../SceneWithModel/SceneWithModel";
 
 // Contexts
-import { useSigningClient } from "react-keplr";;
+import { useSigningClient } from "react-keplr";
 
 // Services
 import nftService from "./../../services/nftService";
@@ -27,7 +27,6 @@ import dappState from "../../store/dappState";
 import { globalState } from "mobx/dist/internal";
 import { useAtom } from "jotai/react";
 import { globalStateAtom } from "../../jotai/activeCollection";
-
 
 interface Properties {
   modalMode: string | null;
@@ -166,7 +165,7 @@ const NFUploader = observer((props: Properties) => {
             token_uri: `data:application/json;base64, ${encodedMetadata}`,
           },
         },
-        calculateFee(600_000, "20uconst")
+        "auto"
       )
       .then((response: any) => {
         dappState.setOff();

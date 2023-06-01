@@ -5,9 +5,9 @@ import { convertMicroDenomToDenom } from "../../services/converter";
 import dappState from "../../store/dappState";
 
 const CW20 = process.env.NEXT_PUBLIC_CW20;
-const STAKING_DENOM = process.env.NEXT_PUBLIC_STAKING_DENOM;
-const FAUCET = process.env.NEXT_PUBLIC_FAUCET;
+const DENOM = process.env.NEXT_PUBLIC_DENOM;
 const MULTIPLIER = Number(process.env.NEXT_PUBLIC_MULTIPLIER) || 1;
+const DIVIDER = Number(process.env.NEXT_PUBLIC_DIVIDER) || 1;
 
 export default function Wallet() {
   const { walletAddress, signingClient } = useSigningClient();
@@ -22,11 +22,11 @@ export default function Wallet() {
     if (!signingClient || walletAddress.length === 0) return;
 
     signingClient
-      .getBalance(walletAddress, STAKING_DENOM)
+      .getBalance(walletAddress, DENOM)
       .then((response) => {
         console.log("Native balance:", response);
         const { amount, denom } = response;
-        setNativeBalance(`${convertMicroDenomToDenom(amount)}`);
+        setNativeBalance(`${convertMicroDenomToDenom(amount).toFixed(4)}`);
       })
       .catch((error) => {
         alert(`Error! ${error.message}`);
@@ -38,8 +38,11 @@ export default function Wallet() {
         balance: { address: walletAddress },
       })
       .then((response) => {
-        console.log("Wrapped balance:", response);
-        setWrappedBalance((Number(response.balance) / MULTIPLIER).toString());
+        // let balance = Number(response.balance) * (MULTIPLIER).toFixed(4)
+        let balance = (Number(response.balance) / MULTIPLIER)
+        console.log("Wrapped balance original:", response.balance);
+        console.log("Wrapped balance converted:", balance);
+        setWrappedBalance(balance);
       })
       .catch((error) => {
         alert(`Error! ${error.message}`);
@@ -51,22 +54,22 @@ export default function Wallet() {
   }, [signingClient, walletAddress, trigger]);
 
   const handleToriiToWrap = () => {
-    dappState.setState("Converting Const to CW20");
+    dappState.setState("Converting NATIVE to CW20");
     dappState.setOn();
-    console.log("Converting Const to Wrapped token:", input1);
+    console.log("Converting NATIVE to Wrapped token:", input1);
+    let sendCoin = {
+      amount: (Number(input1) * MULTIPLIER).toString(),
+      denom: DENOM,
+    };
+    console.log("send coin config:", sendCoin);
     signingClient
       ?.execute(
         walletAddress,
         CW20,
         { buy: {} },
-        calculateFee(600_000, "0uconst"),
+        "auto",
         undefined, //memo
-        [
-          {
-            amount: (Number(input1) * MULTIPLIER).toString(),
-            denom: "uconst",
-          },
-        ]
+        [sendCoin]
       )
       .then((response) => {
         console.log(response);
@@ -77,21 +80,24 @@ export default function Wallet() {
       })
       .catch((error) => {
         dappState.setOff();
+        console.log(error);
       });
   };
 
   const handleWrapToTorii = () => {
-    dappState.setState("Converting CW20 to Const");
+    dappState.setState("Converting CW20 to NATIVE");
     dappState.setOn();
-    console.log("Converting Wrapped token to Const:", input2);
+    console.log("Converting Wrapped token to NATIVE:", input2);
+    let burnConf = {burn: { amount: (input2 * (MULTIPLIER) ).toString() }}
+    console.log("burnConf conf: ", burnConf)
     signingClient
       ?.execute(
         walletAddress,
         CW20,
         {
-          burn: { amount: (input2 * MULTIPLIER).toString() },
+          burnConf
         },
-        calculateFee(600_000, "0uconst")
+        "auto"
       )
       .then((response) => {
         dappState.setOff();
@@ -100,8 +106,9 @@ export default function Wallet() {
         alert("Successfully unwrapped token!");
         setTrigger(Math.random());
       })
-      .catch(() => {
+      .catch((e) => {
         dappState.setOff();
+        console.log(e);
       });
   };
 

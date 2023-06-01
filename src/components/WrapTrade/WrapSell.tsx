@@ -40,7 +40,7 @@ const WrapSell = (props: any) => {
             msg: encodedMsg,
           },
         },
-        calculateFee(600_000, "20uconst")
+        "auto"
       )
       .then((res) => {
         console.log(res);
